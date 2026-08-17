@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FantaLab · Rose</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+  :root{
+    --ink:#10161d;
+    --panel:#19212b;
+    --panel-2:#1f2833;
+    --line:#2b3542;
+    --text:#e7edf3;
+    --muted:#8b9aaa;
+    --rosa:#f2a9b5;          /* accento: la carta della Gazzetta */
+    --ok:#6ee7a8;
+    --ko:#ff8272;
+    --display:"Barlow Condensed", system-ui, sans-serif;
+    --body:"IBM Plex Sans", system-ui, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:32px 20px 64px;
+  }
+  .wrap{width:100%;max-width:520px}
+
+  /* ---------- intestazione ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--rosa);
+    margin:0 0 6px;
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(38px,9vw,54px);
+    line-height:.94;
+    letter-spacing:-.01em;
+    margin:0 0 14px;
+    text-transform:uppercase;
+  }
+  .sub{color:var(--muted);margin:0 0 26px;max-width:42ch}
+
+  /* ---------- striscia quote reparto ---------- */
+  .quote{
+    display:flex;
+    border:1px solid var(--line);
+    border-radius:3px;
+    overflow:hidden;
+    margin:0 0 30px;
+  }
+  .quote div{
+    flex:1;
+    padding:9px 4px 8px;
+    text-align:center;
+    border-right:1px solid var(--line);
+    background:var(--panel);
+  }
+  .quote div:last-child{border-right:0}
+  .quote b{
+    display:block;
+    font-family:var(--display);
+    font-size:26px;
+    font-weight:600;
+    line-height:1;
+  }
+  .quote span{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.18em;
+    color:var(--muted);
+  }
+
+  /* ---------- pannelli ---------- */
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:22px;
+    margin-bottom:16px;
+  }
+  .card h2{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 16px;
+    font-weight:500;
+  }
+
+  label{
+    display:block;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:7px;
+  }
+  input{
+    width:100%;
+    padding:12px 13px;
+    background:var(--ink);
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--text);
+    font-family:var(--body);
+    font-size:16px;
+  }
+  input:focus{outline:2px solid var(--rosa);outline-offset:1px;border-color:transparent}
+
+  button{
+    font-family:var(--display);
+    font-size:17px;
+    font-weight:600;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    padding:12px 20px;
+    border:0;
+    border-radius:3px;
+    background:var(--rosa);
+    color:#16111a;
+    cursor:pointer;
+    transition:filter .15s ease;
+  }
+  button:hover:not(:disabled){filter:brightness(1.08)}
+  button:disabled{opacity:.5;cursor:default}
+  button.ghost{
+    background:transparent;
+    color:var(--muted);
+    border:1px solid var(--line);
+  }
+  button.ghost:hover:not(:disabled){color:var(--text)}
+  .full{width:100%;margin-top:16px}
+
+  /* ---------- messaggi ---------- */
+  .msg{
+    margin-top:14px;
+    padding:11px 13px;
+    border-radius:3px;
+    font-size:14px;
+    border-left:3px solid var(--line);
+    background:var(--panel-2);
+  }
+  .msg.ok{border-left-color:var(--ok)}
+  .msg.err{border-left-color:var(--ko)}
+  .msg:empty{display:none}
+
+  /* ---------- righe diagnostica ---------- */
+  .riga{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:14px;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .riga:last-of-type{border-bottom:0}
+  .riga span{color:var(--muted);font-size:14px}
+  .riga b{font-family:var(--mono);font-size:14px;font-weight:500}
+  .riga b.ok{color:var(--ok)}
+  .riga b.ko{color:var(--ko)}
+
+  .badge{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:2px;
+    background:var(--rosa);
+    color:#16111a;
+    vertical-align:middle;
+    margin-left:8px;
+  }
+  .barra{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .nascosto{display:none}
+  .fade{animation:sali .4s ease both}
+  @keyframes sali{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.fade{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ ACCESSO ============ -->
+  <section id="schermata-login" class="nascosto fade">
+    <p class="eyebrow">FantaLab Manager</p>
+    <h1>Le tue<br>rose</h1>
+    <p class="sub">Analisi di plusvalenza e rendimento per fascia di prezzo. Accesso su invito.</p>
+
+    <div class="quote">
+      <div><b>3</b><span>POR</span></div>
+      <div><b>8</b><span>DIF</span></div>
+      <div><b>8</b><span>CEN</span></div>
+      <div><b>6</b><span>ATT</span></div>
+    </div>
+
+    <div class="card">
+      <h2>Entra</h2>
+      <label for="email">La tua email</label>
+      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="nome@esempio.it">
+      <button id="btn-entra" class="full">Mandami il link</button>
+      <div id="msg-login" class="msg"></div>
+    </div>
+  </section>
+
+  <!-- ============ DENTRO ============ -->
+  <section id="schermata-app" class="nascosto fade">
+    <p class="eyebrow">FantaLab Manager</p>
+    <h1 id="saluto">Ciao</h1>
+    <p class="sub" id="chi"></p>
+
+    <div class="card">
+      <h2>Verifica impianto</h2>
+      <div class="riga"><span>Giocatori in archivio</span><b id="n-giocatori">…</b></div>
+      <div class="riga"><span>Rose che puoi vedere</span><b id="n-rose">…</b></div>
+      <div class="riga"><span>Inviti che puoi vedere</span><b id="n-inviti">…</b></div>
+      <div class="riga"><span>Scrittura su archivio giocatori</span><b id="test-scrittura">non provata</b></div>
+      <div class="barra">
+        <button id="btn-test" class="ghost">Prova a scrivere</button>
+        <button id="btn-esci" class="ghost">Esci</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   CONFIGURAZIONE — sostituisci le due righe qui sotto
+   con i valori presi da Supabase › Project Settings › API
+   ============================================================ */
+const SUPABASE_URL      = 'https://vlmswsueouohjkfgteia.supabase.co/';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsbXN3c3Vlb3VvaGprZmd0ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NjQ2MTMsImV4cCI6MjEwMjU0MDYxM30.WbwjbwiOkgSrnTuelQ089xqVI_YiNPYqdDnZLQGrHpU';
+/* ========================================================== */
+
+const $ = id => document.getElementById(id);
+const schermataLogin = $('schermata-login');
+const schermataApp   = $('schermata-app');
+
+let sb = null;
+
+function messaggio(testo, tipo){
+  const el = $('msg-login');
+  el.textContent = testo;
+  el.className = 'msg' + (tipo ? ' ' + tipo : '');
+}
+
+function mostraSolo(sezione){
+  schermataLogin.classList.toggle('nascosto', sezione !== 'login');
+  schermataApp.classList.toggle('nascosto', sezione !== 'app');
+}
+
+/* ---------- avvio ---------- */
+async function avvia(){
+  if (SUPABASE_URL.startsWith('INCOLLA') || SUPABASE_ANON_KEY.startsWith('INCOLLA')){
+    mostraSolo('login');
+    messaggio('Configurazione incompleta: le due righe in cima al file contengono ancora i segnaposto.', 'err');
+    $('btn-entra').disabled = true;
+    return;
+  }
+
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const { data:{ session } } = await sb.auth.getSession();
+  await disegna(session);
+
+  sb.auth.onAuthStateChange((_evento, nuovaSessione) => { disegna(nuovaSessione); });
+}
+
+async function disegna(session){
+  if (!session){ mostraSolo('login'); return; }
+  mostraSolo('app');
+  await caricaStato(session);
+}
+
+/* ---------- invio del link ---------- */
+async function chiediLink(){
+  const email = $('email').value.trim();
+  if (!email){ return messaggio('Scrivi la tua email per ricevere il link.', 'err'); }
+
+  const btn = $('btn-entra');
+  btn.disabled = true;
+  messaggio('Invio in corso…');
+
+  const ritorno = window.location.origin + window.location.pathname;
+  const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: ritorno } });
+
+  btn.disabled = false;
+
+  if (!error){
+    return messaggio('Fatto. Controlla la posta e apri il link: torni su questa pagina già dentro.', 'ok');
+  }
+
+  const t = (error.message || '').toLowerCase();
+  if (t.includes('database error') || error.status === 500){
+    messaggio('Questa email non è fra gli invitati. Chiedi a chi gestisce il tool di aggiungerla.', 'err');
+  } else if (t.includes('rate') || error.status === 429){
+    messaggio('Troppi invii ravvicinati. Aspetta qualche minuto e riprova.', 'err');
+  } else {
+    messaggio(error.message, 'err');
+  }
+}
+
+/* ---------- stato e diagnostica ---------- */
+async function caricaStato(session){
+  const { data: profilo } = await sb
+    .from('profili').select('nome, is_admin')
+    .eq('id', session.user.id).maybeSingle();
+
+  const nome = (profilo && profilo.nome) || session.user.email.split('@')[0];
+  $('saluto').textContent = nome;
+  $('chi').innerHTML = session.user.email +
+    (profilo && profilo.is_admin ? '<span class="badge">Amministratore</span>' : '');
+
+  const conta = async tabella => {
+    const { count, error } = await sb.from(tabella).select('*', { count:'exact', head:true });
+    return error ? '—' : count;
+  };
+
+  $('n-giocatori').textContent = await conta('giocatori');
+  $('n-rose').textContent      = await conta('rose');
+  $('n-inviti').textContent    = await conta('inviti');
+}
+
+async function provaScrittura(){
+  const esito = $('test-scrittura');
+  const btn = $('btn-test');
+  btn.disabled = true;
+  esito.textContent = 'in corso…';
+  esito.className = '';
+
+  const finto = { id: 999999, nome: 'PROVA', ruolo: 'P', squadra: 'PROVA', quotazione: 1 };
+  const { error } = await sb.from('giocatori').upsert(finto);
+
+  if (error){
+    esito.textContent = 'negata dal database';
+    esito.className = 'ko';
+  } else {
+    await sb.from('giocatori').delete().eq('id', 999999);
+    esito.textContent = 'consentita';
+    esito.className = 'ok';
+  }
+  btn.disabled = false;
+}
+
+$('btn-entra').addEventListener('click', chiediLink);
+$('email').addEventListener('keydown', e => { if (e.key === 'Enter') chiediLink(); });
+$('btn-test').addEventListener('click', provaScrittura);
+$('btn-esci').addEventListener('click', async () => { await sb.auth.signOut(); });
+
+avvia();
+</script>
+</body>
+</html>
