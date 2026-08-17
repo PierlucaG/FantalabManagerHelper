@@ -12,190 +12,76 @@
 
 <style>
   :root{
-    --ink:#10161d;
-    --panel:#19212b;
-    --panel-2:#1f2833;
-    --line:#2b3542;
-    --text:#e7edf3;
-    --muted:#8b9aaa;
-    --rosa:#f2a9b5;          /* accento: la carta della Gazzetta */
-    --ok:#6ee7a8;
-    --ko:#ff8272;
-    --display:"Barlow Condensed", system-ui, sans-serif;
-    --body:"IBM Plex Sans", system-ui, sans-serif;
-    --mono:"IBM Plex Mono", ui-monospace, monospace;
+    --ink:#10161d; --panel:#19212b; --panel-2:#1f2833; --line:#2b3542;
+    --text:#e7edf3; --muted:#8b9aaa; --rosa:#f2a9b5; --ok:#6ee7a8; --ko:#ff8272;
+    --display:"Barlow Condensed",system-ui,sans-serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
-    background:var(--ink);
-    color:var(--text);
-    font-family:var(--body);
-    font-size:15px;
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-    min-height:100vh;
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:32px 20px 64px;
+    background:var(--ink); color:var(--text); font-family:var(--body);
+    font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; align-items:flex-start; justify-content:center;
+    padding:32px 20px 80px;
   }
-  .wrap{width:100%;max-width:520px}
+  .wrap{width:100%;max-width:600px}
 
-  /* ---------- intestazione ---------- */
-  .eyebrow{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:.22em;
-    text-transform:uppercase;
-    color:var(--rosa);
-    margin:0 0 6px;
-  }
-  h1{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:clamp(38px,9vw,54px);
-    line-height:.94;
-    letter-spacing:-.01em;
-    margin:0 0 14px;
-    text-transform:uppercase;
-  }
-  .sub{color:var(--muted);margin:0 0 26px;max-width:42ch}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--rosa);margin:0 0 6px}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,9vw,54px);
+    line-height:.94;letter-spacing:-.01em;margin:0 0 14px;text-transform:uppercase}
+  .sub{color:var(--muted);margin:0 0 26px;max-width:44ch}
 
-  /* ---------- striscia quote reparto ---------- */
-  .quote{
-    display:flex;
-    border:1px solid var(--line);
-    border-radius:3px;
-    overflow:hidden;
-    margin:0 0 30px;
-  }
-  .quote div{
-    flex:1;
-    padding:9px 4px 8px;
-    text-align:center;
-    border-right:1px solid var(--line);
-    background:var(--panel);
-  }
+  .quote{display:flex;border:1px solid var(--line);border-radius:3px;
+    overflow:hidden;margin:0 0 30px}
+  .quote div{flex:1;padding:9px 4px 8px;text-align:center;
+    border-right:1px solid var(--line);background:var(--panel)}
   .quote div:last-child{border-right:0}
-  .quote b{
-    display:block;
-    font-family:var(--display);
-    font-size:26px;
-    font-weight:600;
-    line-height:1;
-  }
-  .quote span{
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:.18em;
-    color:var(--muted);
-  }
+  .quote b{display:block;font-family:var(--display);font-size:26px;font-weight:600;line-height:1}
+  .quote span{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)}
 
-  /* ---------- pannelli ---------- */
-  .card{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:4px;
-    padding:22px;
-    margin-bottom:16px;
-  }
-  .card h2{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin:0 0 16px;
-    font-weight:500;
-  }
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:4px;
+    padding:22px;margin-bottom:16px}
+  .card h2{font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 16px;font-weight:500}
+  .card p.nota{color:var(--muted);font-size:13px;margin:0 0 14px}
+  code{font-family:var(--mono);font-size:12px;background:var(--ink);
+    padding:1px 5px;border-radius:2px}
 
-  label{
-    display:block;
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin-bottom:7px;
-  }
-  input{
-    width:100%;
-    padding:12px 13px;
-    background:var(--ink);
-    border:1px solid var(--line);
-    border-radius:3px;
-    color:var(--text);
-    font-family:var(--body);
-    font-size:16px;
-  }
-  input:focus{outline:2px solid var(--rosa);outline-offset:1px;border-color:transparent}
+  label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  input,textarea{width:100%;padding:12px 13px;background:var(--ink);
+    border:1px solid var(--line);border-radius:3px;color:var(--text);
+    font-family:var(--body);font-size:16px}
+  textarea{font-family:var(--mono);font-size:12px;min-height:110px;resize:vertical}
+  input:focus,textarea:focus{outline:2px solid var(--rosa);outline-offset:1px;border-color:transparent}
 
-  button{
-    font-family:var(--display);
-    font-size:17px;
-    font-weight:600;
-    letter-spacing:.03em;
-    text-transform:uppercase;
-    padding:12px 20px;
-    border:0;
-    border-radius:3px;
-    background:var(--rosa);
-    color:#16111a;
-    cursor:pointer;
-    transition:filter .15s ease;
-  }
+  button{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:.03em;
+    text-transform:uppercase;padding:12px 20px;border:0;border-radius:3px;
+    background:var(--rosa);color:#16111a;cursor:pointer;transition:filter .15s ease}
   button:hover:not(:disabled){filter:brightness(1.08)}
   button:disabled{opacity:.5;cursor:default}
-  button.ghost{
-    background:transparent;
-    color:var(--muted);
-    border:1px solid var(--line);
-  }
+  button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
   button.ghost:hover:not(:disabled){color:var(--text)}
   .full{width:100%;margin-top:16px}
 
-  /* ---------- messaggi ---------- */
-  .msg{
-    margin-top:14px;
-    padding:11px 13px;
-    border-radius:3px;
-    font-size:14px;
-    border-left:3px solid var(--line);
-    background:var(--panel-2);
-  }
+  .msg{margin-top:14px;padding:11px 13px;border-radius:3px;font-size:14px;
+    border-left:3px solid var(--line);background:var(--panel-2)}
   .msg.ok{border-left-color:var(--ok)}
   .msg.err{border-left-color:var(--ko)}
   .msg:empty{display:none}
 
-  /* ---------- righe diagnostica ---------- */
-  .riga{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    gap:14px;
-    padding:10px 0;
-    border-bottom:1px solid var(--line);
-  }
+  .riga{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+    padding:10px 0;border-bottom:1px solid var(--line)}
   .riga:last-of-type{border-bottom:0}
   .riga span{color:var(--muted);font-size:14px}
   .riga b{font-family:var(--mono);font-size:14px;font-weight:500}
-  .riga b.ok{color:var(--ok)}
-  .riga b.ko{color:var(--ko)}
 
-  .badge{
-    display:inline-block;
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    padding:3px 9px;
-    border-radius:2px;
-    background:var(--rosa);
-    color:#16111a;
-    vertical-align:middle;
-    margin-left:8px;
-  }
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+    text-transform:uppercase;padding:3px 9px;border-radius:2px;background:var(--rosa);
+    color:#16111a;vertical-align:middle;margin-left:8px}
   .barra{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
   .nascosto{display:none}
   .fade{animation:sali .4s ease both}
@@ -211,14 +97,12 @@
     <p class="eyebrow">FantaLab Manager</p>
     <h1>Le tue<br>rose</h1>
     <p class="sub">Analisi di plusvalenza e rendimento per fascia di prezzo. Accesso su invito.</p>
-
     <div class="quote">
       <div><b>3</b><span>POR</span></div>
       <div><b>8</b><span>DIF</span></div>
       <div><b>8</b><span>CEN</span></div>
       <div><b>6</b><span>ATT</span></div>
     </div>
-
     <div class="card">
       <h2>Entra</h2>
       <label for="email">La tua email</label>
@@ -235,15 +119,38 @@
     <p class="sub" id="chi"></p>
 
     <div class="card">
-      <h2>Verifica impianto</h2>
-      <div class="riga"><span>Giocatori in archivio</span><b id="n-giocatori">…</b></div>
-      <div class="riga"><span>Rose che puoi vedere</span><b id="n-rose">…</b></div>
-      <div class="riga"><span>Inviti che puoi vedere</span><b id="n-inviti">…</b></div>
-      <div class="riga"><span>Scrittura su archivio giocatori</span><b id="test-scrittura">non provata</b></div>
-      <div class="barra">
-        <button id="btn-test" class="ghost">Prova a scrivere</button>
-        <button id="btn-esci" class="ghost">Esci</button>
+      <h2>Archivio</h2>
+      <div class="riga"><span>Giocatori a listone</span><b id="n-giocatori">…</b></div>
+      <div class="riga"><span>Con prezzo rilevato</span><b id="n-prezzi">…</b></div>
+      <div class="riga"><span>Ultimo aggiornamento</span><b id="ultimo">…</b></div>
+    </div>
+
+    <!-- ---- solo admin ---- -->
+    <div id="pannello-admin" class="nascosto">
+
+      <div class="card">
+        <h2>Anagrafica e statistiche</h2>
+        <p class="nota">Scarica i giocatori a listone da FantaLab: nomi, squadre, ruoli,
+          quotazioni, media voto e fantamedia. Aggiorna quelli già presenti senza toccare le rose.</p>
+        <button id="btn-anagrafica">Aggiorna anagrafica</button>
+        <div id="msg-anagrafica" class="msg"></div>
       </div>
+
+      <div class="card">
+        <h2>Prezzi Manager</h2>
+        <p class="nota">Da FantaLab, strumenti sviluppatore, scheda Network: copia il corpo della
+          risposta di <code>/v2/prices</code> e incollalo qui. Vengono registrati solo i prezzi
+          cambiati, così lo storico resta leggibile.</p>
+        <label for="json-prezzi">JSON dei prezzi</label>
+        <textarea id="json-prezzi" placeholder='{"season_id": 17, "prices": { ... } }'></textarea>
+        <button id="btn-prezzi" class="full">Registra prezzi</button>
+        <div id="msg-prezzi" class="msg"></div>
+      </div>
+
+    </div>
+
+    <div class="barra">
+      <button id="btn-esci" class="ghost">Esci</button>
     </div>
   </section>
 
@@ -252,125 +159,246 @@
 <script>
 /* ============================================================
    CONFIGURAZIONE — sostituisci le due righe qui sotto
-   con i valori presi da Supabase › Project Settings › API
    ============================================================ */
-const SUPABASE_URL      = 'https://vlmswsueouohjkfgteia.supabase.co/';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsbXN3c3Vlb3VvaGprZmd0ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NjQ2MTMsImV4cCI6MjEwMjU0MDYxM30.WbwjbwiOkgSrnTuelQ089xqVI_YiNPYqdDnZLQGrHpU';
+const SUPABASE_URL      = 'INCOLLA_QUI_IL_PROJECT_URL';
+const SUPABASE_ANON_KEY = 'INCOLLA_QUI_LA_CHIAVE_PUBBLICA';
 /* ========================================================== */
 
+const STATISTICHE = ['fmv','mv','presenze','gol_fatti','assist','amm','esp',
+                     'quotazione','quotazione_mantra','xfmv','fallback_price'];
+
+const API_ANAGRAFICA =
+  'https://api-cdn.falsesoftware.com/v2/players/list' +
+  '?leagues=serie_a&limit=1000&season=s_26_27' +
+  '&mv_fmv_season_fallback=true&sort_stat=fmv&sort_order=desc' +
+  '&stats=' + STATISTICHE.join(',');
+
 const $ = id => document.getElementById(id);
-const schermataLogin = $('schermata-login');
-const schermataApp   = $('schermata-app');
+let sb = null, sonoAdmin = false;
 
-let sb = null;
-
-function messaggio(testo, tipo){
-  const el = $('msg-login');
+function msg(dove, testo, tipo){
+  const el = $(dove);
   el.textContent = testo;
   el.className = 'msg' + (tipo ? ' ' + tipo : '');
 }
-
 function mostraSolo(sezione){
-  schermataLogin.classList.toggle('nascosto', sezione !== 'login');
-  schermataApp.classList.toggle('nascosto', sezione !== 'app');
+  $('schermata-login').classList.toggle('nascosto', sezione !== 'login');
+  $('schermata-app').classList.toggle('nascosto', sezione !== 'app');
 }
 
-/* ---------- avvio ---------- */
+/* ---------------- avvio ---------------- */
 async function avvia(){
   if (SUPABASE_URL.startsWith('INCOLLA') || SUPABASE_ANON_KEY.startsWith('INCOLLA')){
     mostraSolo('login');
-    messaggio('Configurazione incompleta: le due righe in cima al file contengono ancora i segnaposto.', 'err');
+    msg('msg-login','Configurazione incompleta: le due righe in cima al file contengono ancora i segnaposto.','err');
     $('btn-entra').disabled = true;
     return;
   }
-
   sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
   const { data:{ session } } = await sb.auth.getSession();
   await disegna(session);
-
-  sb.auth.onAuthStateChange((_evento, nuovaSessione) => { disegna(nuovaSessione); });
+  sb.auth.onAuthStateChange((_e, s) => disegna(s));
 }
 
 async function disegna(session){
   if (!session){ mostraSolo('login'); return; }
   mostraSolo('app');
-  await caricaStato(session);
+
+  const { data: profilo } = await sb.from('profili')
+    .select('nome, is_admin').eq('id', session.user.id).maybeSingle();
+
+  sonoAdmin = !!(profilo && profilo.is_admin);
+  $('saluto').textContent = (profilo && profilo.nome) || session.user.email.split('@')[0];
+  $('chi').innerHTML = session.user.email + (sonoAdmin ? '<span class="badge">Amministratore</span>' : '');
+  $('pannello-admin').classList.toggle('nascosto', !sonoAdmin);
+
+  await aggiornaStato();
 }
 
-/* ---------- invio del link ---------- */
-async function chiediLink(){
-  const email = $('email').value.trim();
-  if (!email){ return messaggio('Scrivi la tua email per ricevere il link.', 'err'); }
-
-  const btn = $('btn-entra');
-  btn.disabled = true;
-  messaggio('Invio in corso…');
-
-  const ritorno = window.location.origin + window.location.pathname;
-  const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: ritorno } });
-
-  btn.disabled = false;
-
-  if (!error){
-    return messaggio('Fatto. Controlla la posta e apri il link: torni su questa pagina già dentro.', 'ok');
-  }
-
-  const t = (error.message || '').toLowerCase();
-  if (t.includes('database error') || error.status === 500){
-    messaggio('Questa email non è fra gli invitati. Chiedi a chi gestisce il tool di aggiungerla.', 'err');
-  } else if (t.includes('rate') || error.status === 429){
-    messaggio('Troppi invii ravvicinati. Aspetta qualche minuto e riprova.', 'err');
-  } else {
-    messaggio(error.message, 'err');
-  }
-}
-
-/* ---------- stato e diagnostica ---------- */
-async function caricaStato(session){
-  const { data: profilo } = await sb
-    .from('profili').select('nome, is_admin')
-    .eq('id', session.user.id).maybeSingle();
-
-  const nome = (profilo && profilo.nome) || session.user.email.split('@')[0];
-  $('saluto').textContent = nome;
-  $('chi').innerHTML = session.user.email +
-    (profilo && profilo.is_admin ? '<span class="badge">Amministratore</span>' : '');
-
-  const conta = async tabella => {
-    const { count, error } = await sb.from(tabella).select('*', { count:'exact', head:true });
+async function aggiornaStato(){
+  const conta = async (tab, filtro) => {
+    let q = sb.from(tab).select('*', { count:'exact', head:true });
+    if (filtro) q = filtro(q);
+    const { count, error } = await q;
     return error ? '—' : count;
   };
+  $('n-giocatori').textContent = await conta('giocatori', q => q.eq('in_listone', true));
+  $('n-prezzi').textContent    = await conta('prezzi_correnti');
 
-  $('n-giocatori').textContent = await conta('giocatori');
-  $('n-rose').textContent      = await conta('rose');
-  $('n-inviti').textContent    = await conta('inviti');
+  const { data } = await sb.from('giocatori')
+    .select('aggiornato_il').order('aggiornato_il', { ascending:false }).limit(1).maybeSingle();
+  $('ultimo').textContent = data
+    ? new Date(data.aggiornato_il).toLocaleString('it-IT', { dateStyle:'short', timeStyle:'short' })
+    : 'mai';
 }
 
-async function provaScrittura(){
-  const esito = $('test-scrittura');
-  const btn = $('btn-test');
+/* ---------------- accesso ---------------- */
+async function chiediLink(){
+  const email = $('email').value.trim();
+  if (!email) return msg('msg-login','Scrivi la tua email per ricevere il link.','err');
+
+  $('btn-entra').disabled = true;
+  msg('msg-login','Invio in corso…');
+  const ritorno = window.location.origin + window.location.pathname;
+  const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: ritorno } });
+  $('btn-entra').disabled = false;
+
+  if (!error) return msg('msg-login','Fatto. Controlla la posta e apri il link: torni su questa pagina già dentro.','ok');
+
+  const t = (error.message || '').toLowerCase();
+  if (t.includes('database error') || error.status === 500)
+    msg('msg-login','Questa email non è fra gli invitati. Chiedi a chi gestisce il tool di aggiungerla.','err');
+  else if (t.includes('rate') || error.status === 429)
+    msg('msg-login','Troppi invii ravvicinati. Aspetta qualche minuto e riprova.','err');
+  else
+    msg('msg-login', error.message, 'err');
+}
+
+/* ---------------- anagrafica ---------------- */
+function mappaGiocatore(p){
+  const s = p.stats || {};
+  const num = v => (v === undefined || v === null) ? null : v;
+  return {
+    id:                p.player_id,
+    fantacalcio_id:    num(p.fantacalcio_id),
+    sportsmonks_id:    num(p.sportsmonks_id),
+    nome:              p.name,
+    nome_completo:     p.full_name ? p.full_name.trim() : null,
+    squadra:           p.team_name  || null,
+    squadra_sigla:     p.team_short || null,
+    immagine:          p.player_image || null,
+    ruolo:             p.role || null,
+    ruoli_mantra:      p.mantra_roles || [],
+    quotazione:        num(s.quotazione),
+    quotazione_mantra: num(s.quotazione_mantra),
+    prezzo_base:       num(s.fallback_price),
+    presenze:          num((p.presenze !== null && p.presenze !== undefined) ? p.presenze : s.presenze),
+    media_voto:        num(s.mv),
+    fantamedia:        num(s.fmv),
+    fantamedia_attesa: num(s.xfmv),
+    gol:               num(s.gol_fatti),
+    assist:            num(s.assist),
+    ammonizioni:       num(s.amm),
+    espulsioni:        num(s.esp),
+    in_listone:        p.is_in_listone !== false,
+    aggiornato_il:     new Date().toISOString()
+  };
+}
+
+async function aggiornaAnagrafica(){
+  const btn = $('btn-anagrafica');
   btn.disabled = true;
-  esito.textContent = 'in corso…';
-  esito.className = '';
+  msg('msg-anagrafica','Scarico da FantaLab…');
 
-  const finto = { id: 999999, nome: 'PROVA', ruolo: 'P', squadra: 'PROVA', quotazione: 1 };
-  const { error } = await sb.from('giocatori').upsert(finto);
+  try{
+    const risposta = await fetch(API_ANAGRAFICA);
+    if (!risposta.ok) throw new Error('FantaLab ha risposto ' + risposta.status);
+    const dati = await risposta.json();
+    const lista = dati.players || [];
+    if (!lista.length) throw new Error('Risposta vuota: nessun giocatore ricevuto.');
 
-  if (error){
-    esito.textContent = 'negata dal database';
-    esito.className = 'ko';
-  } else {
-    await sb.from('giocatori').delete().eq('id', 999999);
-    esito.textContent = 'consentita';
-    esito.className = 'ok';
+    const righe = lista.map(mappaGiocatore);
+    const blocco = 200;
+    let scritti = 0;
+
+    for (let i = 0; i < righe.length; i += blocco){
+      const pezzo = righe.slice(i, i + blocco);
+      const { error } = await sb.from('giocatori').upsert(pezzo, { onConflict:'id' });
+      if (error) throw error;
+      scritti += pezzo.length;
+      msg('msg-anagrafica', `Salvataggio… ${scritti} di ${righe.length}`);
+    }
+
+    const conStat = righe.filter(r => r.fantamedia !== null).length;
+    msg('msg-anagrafica',
+      `${scritti} giocatori aggiornati, ${conStat} con fantamedia disponibile.`, 'ok');
+    await aggiornaStato();
+
+  }catch(e){
+    msg('msg-anagrafica','Non riuscito: ' + (e.message || e), 'err');
+  }finally{
+    btn.disabled = false;
   }
-  btn.disabled = false;
 }
 
+/* ---------------- prezzi ---------------- */
+function estraiPrezzi(testo){
+  const d = JSON.parse(testo);
+
+  // formato /v2/prices  →  { season_id, prices: { uuid: { price, prev } } }
+  if (d && d.prices && !Array.isArray(d.prices)){
+    return Object.entries(d.prices)
+      .map(([id, v]) => ({ id, prezzo: Number(v && v.price) }))
+      .filter(p => Number.isFinite(p.prezzo));
+  }
+  // formato get-new-prices  →  [ { player_id, price, in_listone } ]
+  if (Array.isArray(d)){
+    return d.map(v => ({ id: v.player_id, prezzo: Number(v.price) }))
+            .filter(p => p.id && Number.isFinite(p.prezzo));
+  }
+  throw new Error('Formato non riconosciuto. Serve la risposta di /v2/prices per intero.');
+}
+
+async function registraPrezzi(){
+  const btn = $('btn-prezzi');
+  const testo = $('json-prezzi').value.trim();
+  if (!testo) return msg('msg-prezzi','Incolla prima il JSON dei prezzi.','err');
+
+  btn.disabled = true;
+  msg('msg-prezzi','Leggo il JSON…');
+
+  try{
+    const prezzi = estraiPrezzi(testo);
+    if (!prezzi.length) throw new Error('Nessun prezzo trovato nel testo incollato.');
+
+    // solo giocatori presenti in archivio (vincolo di integrità)
+    const { data: gio, error: e1 } = await sb.from('giocatori').select('id');
+    if (e1) throw e1;
+    const noti = new Set((gio || []).map(g => g.id));
+
+    // prezzi già registrati, per scrivere solo le variazioni
+    const { data: correnti, error: e2 } = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
+    if (e2) throw e2;
+    const attuale = new Map((correnti || []).map(r => [r.giocatore_id, Number(r.prezzo)]));
+
+    const ignorati  = prezzi.filter(p => !noti.has(p.id)).length;
+    const candidati = prezzi.filter(p =>  noti.has(p.id));
+    const nuovi     = candidati.filter(p => attuale.get(p.id) !== p.prezzo);
+
+    if (!nuovi.length){
+      msg('msg-prezzi', `Nessuna variazione: i ${candidati.length} prezzi coincidono con l'ultimo rilevamento.`, 'ok');
+      return;
+    }
+
+    const righe = nuovi.map(p => ({ giocatore_id: p.id, prezzo: p.prezzo }));
+    const blocco = 200;
+    for (let i = 0; i < righe.length; i += blocco){
+      const { error } = await sb.from('prezzi_manager').insert(righe.slice(i, i + blocco));
+      if (error) throw error;
+      msg('msg-prezzi', `Salvataggio… ${Math.min(i + blocco, righe.length)} di ${righe.length}`);
+    }
+
+    let esito = `${righe.length} prezzi registrati, ${candidati.length - righe.length} invariati.`;
+    if (ignorati) esito += ` ${ignorati} ignorati perché fuori listone.`;
+    msg('msg-prezzi', esito, 'ok');
+    $('json-prezzi').value = '';
+    await aggiornaStato();
+
+  }catch(e){
+    const t = (e.message || String(e));
+    msg('msg-prezzi', t.toLowerCase().includes('json')
+      ? 'Il testo incollato non è JSON valido. Copia di nuovo la risposta per intero.'
+      : 'Non riuscito: ' + t, 'err');
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+/* ---------------- collegamenti ---------------- */
 $('btn-entra').addEventListener('click', chiediLink);
 $('email').addEventListener('keydown', e => { if (e.key === 'Enter') chiediLink(); });
-$('btn-test').addEventListener('click', provaScrittura);
+$('btn-anagrafica').addEventListener('click', aggiornaAnagrafica);
+$('btn-prezzi').addEventListener('click', registraPrezzi);
 $('btn-esci').addEventListener('click', async () => { await sb.auth.signOut(); });
 
 avvia();
