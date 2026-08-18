@@ -13,7 +13,8 @@
 <style>
   :root{
     --ink:#10161d; --panel:#19212b; --panel-2:#1f2833; --line:#2b3542;
-    --text:#e7edf3; --muted:#8b9aaa; --rosa:#f2a9b5; --ok:#6ee7a8; --ko:#ff8272;
+    --text:#e7edf3; --muted:#8b9aaa; --rosa:#f2a9b5;
+    --ok:#6ee7a8; --ko:#ff8272; --warn:#ffd166;
     --display:"Barlow Condensed",system-ui,sans-serif;
     --body:"IBM Plex Sans",system-ui,sans-serif;
     --mono:"IBM Plex Mono",ui-monospace,monospace;
@@ -24,48 +25,44 @@
     background:var(--ink); color:var(--text); font-family:var(--body);
     font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
     min-height:100vh; display:flex; align-items:flex-start; justify-content:center;
-    padding:32px 20px 80px;
+    padding:32px 18px 90px;
   }
-  .wrap{width:100%;max-width:600px}
+  .wrap{width:100%;max-width:760px}
 
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--rosa);margin:0 0 6px}
-  h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,9vw,54px);
-    line-height:.94;letter-spacing:-.01em;margin:0 0 14px;text-transform:uppercase}
-  .sub{color:var(--muted);margin:0 0 26px;max-width:44ch}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(36px,8vw,52px);
+    line-height:.94;letter-spacing:-.01em;margin:0 0 12px;text-transform:uppercase}
+  .sub{color:var(--muted);margin:0 0 24px;max-width:46ch}
 
-  .quote{display:flex;border:1px solid var(--line);border-radius:3px;
-    overflow:hidden;margin:0 0 30px}
-  .quote div{flex:1;padding:9px 4px 8px;text-align:center;
-    border-right:1px solid var(--line);background:var(--panel)}
+  .quote{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:0 0 28px}
+  .quote div{flex:1;padding:9px 4px 8px;text-align:center;border-right:1px solid var(--line);background:var(--panel)}
   .quote div:last-child{border-right:0}
   .quote b{display:block;font-family:var(--display);font-size:26px;font-weight:600;line-height:1}
   .quote span{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)}
 
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:4px;
-    padding:22px;margin-bottom:16px}
-  .card h2{font-family:var(--mono);font-size:11px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--muted);margin:0 0 16px;font-weight:500}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px;margin-bottom:16px}
+  .card h2{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 16px;font-weight:500}
   .card p.nota{color:var(--muted);font-size:13px;margin:0 0 14px}
-  code{font-family:var(--mono);font-size:12px;background:var(--ink);
-    padding:1px 5px;border-radius:2px}
+  code{font-family:var(--mono);font-size:12px;background:var(--ink);padding:1px 5px;border-radius:2px}
 
   label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
     text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-  input,textarea{width:100%;padding:12px 13px;background:var(--ink);
+  input,textarea,select{width:100%;padding:11px 12px;background:var(--ink);
     border:1px solid var(--line);border-radius:3px;color:var(--text);
     font-family:var(--body);font-size:16px}
-  textarea{font-family:var(--mono);font-size:12px;min-height:110px;resize:vertical}
-  input:focus,textarea:focus{outline:2px solid var(--rosa);outline-offset:1px;border-color:transparent}
+  textarea{font-family:var(--mono);font-size:12px;min-height:100px;resize:vertical}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--rosa);outline-offset:1px;border-color:transparent}
 
   button{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:.03em;
-    text-transform:uppercase;padding:12px 20px;border:0;border-radius:3px;
+    text-transform:uppercase;padding:11px 18px;border:0;border-radius:3px;
     background:var(--rosa);color:#16111a;cursor:pointer;transition:filter .15s ease}
   button:hover:not(:disabled){filter:brightness(1.08)}
   button:disabled{opacity:.5;cursor:default}
   button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
   button.ghost:hover:not(:disabled){color:var(--text)}
-  .full{width:100%;margin-top:16px}
+  .full{width:100%;margin-top:14px}
 
   .msg{margin-top:14px;padding:11px 13px;border-radius:3px;font-size:14px;
     border-left:3px solid var(--line);background:var(--panel-2)}
@@ -74,7 +71,7 @@
   .msg:empty{display:none}
 
   .riga{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
-    padding:10px 0;border-bottom:1px solid var(--line)}
+    padding:9px 0;border-bottom:1px solid var(--line)}
   .riga:last-of-type{border-bottom:0}
   .riga span{color:var(--muted);font-size:14px}
   .riga b{font-family:var(--mono);font-size:14px;font-weight:500}
@@ -84,24 +81,82 @@
     color:#16111a;vertical-align:middle;margin-left:8px}
   .barra{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
   .nascosto{display:none}
-  .fade{animation:sali .4s ease both}
-  @keyframes sali{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){.fade{animation:none}}
+
+  /* ---- schede ---- */
+  .schede{display:flex;gap:8px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .schede button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);
+    border-radius:0;padding:9px 2px;margin-right:16px;font-size:16px}
+  .schede button.attiva{color:var(--text);border-bottom-color:var(--rosa)}
+
+  /* ---- sommario ---- */
+  .sommario{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:4px;
+    overflow:hidden;margin-bottom:16px}
+  .sommario div{background:var(--panel);padding:13px 10px;text-align:center}
+  .sommario b{display:block;font-family:var(--display);font-size:27px;font-weight:600;line-height:1.05}
+  .sommario span{font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted)}
+  @media (max-width:520px){.sommario{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---- controlli analisi ---- */
+  .controlli{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:520px){.controlli{grid-template-columns:1fr}}
+
+  /* ---- reparti e righe rosa ---- */
+  .reparto{margin-top:22px}
+  .reparto-testa{display:flex;justify-content:space-between;align-items:baseline;
+    padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:4px}
+  .reparto-testa h3{font-family:var(--display);font-size:22px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.04em;margin:0}
+  .reparto-testa em{font-family:var(--mono);font-size:12px;font-style:normal;color:var(--muted)}
+  .reparto-testa em.manca{color:var(--warn)}
+
+  .g{display:grid;grid-template-columns:1fr auto;gap:4px 12px;
+    padding:11px 0;border-bottom:1px solid var(--line);align-items:center}
+  .g:last-child{border-bottom:0}
+  .g .nome{font-weight:600}
+  .g .nome small{font-weight:400;color:var(--muted);font-family:var(--mono);
+    font-size:11px;letter-spacing:.06em;margin-left:7px}
+  .g .dati{grid-column:1;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .g .dati b{color:var(--text);font-weight:500}
+  .g .dati .su{color:var(--ok)} .g .dati .giu{color:var(--ko)}
+  .g .destra{grid-row:1/3;grid-column:2;display:flex;align-items:center;gap:8px}
+  .g input.pagato{width:74px;padding:6px 8px;font-family:var(--mono);font-size:13px;text-align:right}
+  .g .x{background:none;border:0;color:var(--muted);font-size:19px;cursor:pointer;
+    padding:2px 5px;font-family:var(--body);text-transform:none}
+  .g .x:hover{color:var(--ko)}
+
+  .verdetto{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.13em;
+    text-transform:uppercase;padding:3px 7px;border-radius:2px;white-space:nowrap}
+  .v-tieni{background:rgba(110,231,168,.16);color:var(--ok)}
+  .v-vendi{background:rgba(255,209,102,.16);color:var(--warn)}
+  .v-riscatto{background:rgba(242,169,181,.16);color:var(--rosa)}
+  .v-zavorra{background:rgba(255,130,114,.16);color:var(--ko)}
+  .v-nd{background:var(--panel-2);color:var(--muted)}
+
+  /* ---- ricerca ---- */
+  .cerca{position:relative}
+  .risultati{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);
+    background:var(--panel-2);border:1px solid var(--line);border-radius:3px;
+    max-height:270px;overflow:auto}
+  .risultati div{padding:9px 12px;cursor:pointer;font-size:14px;
+    display:flex;justify-content:space-between;gap:10px}
+  .risultati div:hover,.risultati div.sel{background:var(--panel)}
+  .risultati small{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .vuoto{text-align:center;color:var(--muted);padding:26px 0;font-size:14px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <!-- ============ ACCESSO ============ -->
-  <section id="schermata-login" class="nascosto fade">
+  <section id="schermata-login" class="nascosto">
     <p class="eyebrow">FantaLab Manager</p>
     <h1>Le tue<br>rose</h1>
     <p class="sub">Analisi di plusvalenza e rendimento per fascia di prezzo. Accesso su invito.</p>
     <div class="quote">
-      <div><b>3</b><span>POR</span></div>
-      <div><b>8</b><span>DIF</span></div>
-      <div><b>8</b><span>CEN</span></div>
-      <div><b>6</b><span>ATT</span></div>
+      <div><b>3</b><span>POR</span></div><div><b>8</b><span>DIF</span></div>
+      <div><b>8</b><span>CEN</span></div><div><b>6</b><span>ATT</span></div>
     </div>
     <div class="card">
       <h2>Entra</h2>
@@ -113,34 +168,95 @@
   </section>
 
   <!-- ============ DENTRO ============ -->
-  <section id="schermata-app" class="nascosto fade">
+  <section id="schermata-app" class="nascosto">
     <p class="eyebrow">FantaLab Manager</p>
     <h1 id="saluto">Ciao</h1>
     <p class="sub" id="chi"></p>
 
-    <div class="card">
-      <h2>Archivio</h2>
-      <div class="riga"><span>Giocatori a listone</span><b id="n-giocatori">…</b></div>
-      <div class="riga"><span>Con prezzo rilevato</span><b id="n-prezzi">…</b></div>
-      <div class="riga"><span>Ultimo aggiornamento</span><b id="ultimo">…</b></div>
+    <div class="schede">
+      <button id="tab-rosa" class="attiva">La mia rosa</button>
+      <button id="tab-admin" class="nascosto">Archivio</button>
     </div>
 
-    <!-- ---- solo admin ---- -->
-    <div id="pannello-admin" class="nascosto">
+    <!-- ---------- ROSA ---------- -->
+    <div id="vista-rosa">
+
+      <div class="sommario">
+        <div><b id="s-speso">—</b><span>Speso</span></div>
+        <div><b id="s-valore">—</b><span>Valore ora</span></div>
+        <div><b id="s-plus">—</b><span>Plusvalenza</span></div>
+        <div><b id="s-sotto">—</b><span>Sotto mediana</span></div>
+      </div>
+
+      <div class="card">
+        <h2>Aggiungi giocatore</h2>
+        <div class="cerca">
+          <input id="cerca" type="text" autocomplete="off" placeholder="Scrivi un cognome…">
+          <div id="risultati" class="risultati nascosto"></div>
+        </div>
+        <div id="msg-rosa" class="msg"></div>
+      </div>
+
+      <div class="card">
+        <h2>Parametri analisi</h2>
+        <div class="controlli">
+          <div>
+            <label for="banda">Ampiezza fascia</label>
+            <select id="banda">
+              <option value="10">± 10% del prezzo</option>
+              <option value="20" selected>± 20% del prezzo</option>
+              <option value="30">± 30% del prezzo</option>
+              <option value="50">± 50% del prezzo</option>
+            </select>
+          </div>
+          <div>
+            <label for="metrica">Metrica di rendimento</label>
+            <select id="metrica">
+              <option value="fantamedia" selected>Fantamedia</option>
+              <option value="media_voto">Media voto</option>
+              <option value="fantamedia_attesa">Fantamedia attesa</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="reparti"></div>
+
+      <div class="card" style="margin-top:22px">
+        <h2>Importa rosa da FantaLab</h2>
+        <p class="nota">Da FantaLab, strumenti sviluppatore, scheda Network: copia il corpo della
+          risposta che contiene la tua rosa e incollalo qui. Il lettore riconosce i giocatori dagli
+          identificativi; se non trova i prezzi pagati, li completi a mano nella tabella.</p>
+        <label for="json-rosa">JSON della rosa</label>
+        <textarea id="json-rosa" placeholder="{ … }"></textarea>
+        <button id="btn-importa" class="full">Importa</button>
+        <div id="msg-importa" class="msg"></div>
+      </div>
+
+    </div>
+
+    <!-- ---------- ADMIN ---------- -->
+    <div id="vista-admin" class="nascosto">
+
+      <div class="card">
+        <h2>Stato archivio</h2>
+        <div class="riga"><span>Giocatori a listone</span><b id="n-giocatori">…</b></div>
+        <div class="riga"><span>Con prezzo rilevato</span><b id="n-prezzi">…</b></div>
+        <div class="riga"><span>Ultimo aggiornamento</span><b id="ultimo">…</b></div>
+      </div>
 
       <div class="card">
         <h2>Anagrafica e statistiche</h2>
-        <p class="nota">Scarica i giocatori a listone da FantaLab: nomi, squadre, ruoli,
-          quotazioni, media voto e fantamedia. Aggiorna quelli già presenti senza toccare le rose.</p>
+        <p class="nota">Scarica i giocatori a listone da FantaLab: nomi, squadre, ruoli, quotazioni,
+          media voto e fantamedia. Aggiorna quelli già presenti senza toccare le rose.</p>
         <button id="btn-anagrafica">Aggiorna anagrafica</button>
         <div id="msg-anagrafica" class="msg"></div>
       </div>
 
       <div class="card">
         <h2>Prezzi Manager</h2>
-        <p class="nota">Da FantaLab, strumenti sviluppatore, scheda Network: copia il corpo della
-          risposta di <code>/v2/prices</code> e incollalo qui. Vengono registrati solo i prezzi
-          cambiati, così lo storico resta leggibile.</p>
+        <p class="nota">Copia il corpo della risposta di <code>/v2/prices</code> e incollalo qui.
+          Vengono registrati solo i prezzi cambiati.</p>
         <label for="json-prezzi">JSON dei prezzi</label>
         <textarea id="json-prezzi" placeholder='{"season_id": 17, "prices": { ... } }'></textarea>
         <button id="btn-prezzi" class="full">Registra prezzi</button>
@@ -149,9 +265,7 @@
 
     </div>
 
-    <div class="barra">
-      <button id="btn-esci" class="ghost">Esci</button>
-    </div>
+    <div class="barra"><button id="btn-esci" class="ghost">Esci</button></div>
   </section>
 
 </div>
@@ -160,13 +274,16 @@
 /* ============================================================
    CONFIGURAZIONE — sostituisci le due righe qui sotto
    ============================================================ */
-const SUPABASE_URL      = 'https://vlmswsueouohjkfgteia.supabase.co';
+const SUPABASE_URL      = 'https://vlmswsueouohjkfgteia.supabase.co/rest/v1/';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsbXN3c3Vlb3VvaGprZmd0ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NjQ2MTMsImV4cCI6MjEwMjU0MDYxM30.WbwjbwiOkgSrnTuelQ089xqVI_YiNPYqdDnZLQGrHpU';
 /* ========================================================== */
 
+const QUOTE   = { P:3, D:8, C:8, A:6 };
+const REPARTI = [['P','Portieri'],['D','Difensori'],['C','Centrocampisti'],['A','Attaccanti']];
+const MIN_FASCIA = 3;   // peer minimi perché la mediana abbia senso
+
 const STATISTICHE = ['fmv','mv','presenze','gol_fatti','assist','amm','esp',
                      'quotazione','quotazione_mantra','xfmv','fallback_price'];
-
 const API_ANAGRAFICA =
   'https://api-cdn.falsesoftware.com/v2/players/list' +
   '?leagues=serie_a&limit=1000&season=s_26_27' +
@@ -175,24 +292,32 @@ const API_ANAGRAFICA =
 
 const $ = id => document.getElementById(id);
 let sb = null, sonoAdmin = false;
+let GIOCATORI = new Map();   // uuid -> anagrafica + prezzo
+let ROSA_ID = null;
+let ROSA = new Map();        // uuid -> prezzo_pagato
 
+/* ---------------- utilità ---------------- */
 function msg(dove, testo, tipo){
-  const el = $(dove);
-  el.textContent = testo;
+  const el = $(dove); el.textContent = testo;
   el.className = 'msg' + (tipo ? ' ' + tipo : '');
 }
-function mostraSolo(sezione){
-  $('schermata-login').classList.toggle('nascosto', sezione !== 'login');
-  $('schermata-app').classList.toggle('nascosto', sezione !== 'app');
+function mostraSolo(sez){
+  $('schermata-login').classList.toggle('nascosto', sez !== 'login');
+  $('schermata-app').classList.toggle('nascosto', sez !== 'app');
 }
+function mediana(v){
+  if (!v.length) return null;
+  const a = [...v].sort((x,y) => x - y), m = a.length >> 1;
+  return a.length % 2 ? a[m] : (a[m-1] + a[m]) / 2;
+}
+const num = v => (v === null || v === undefined || v === '') ? null : Number(v);
 
 /* ---------------- avvio ---------------- */
 async function avvia(){
   if (SUPABASE_URL.startsWith('INCOLLA') || SUPABASE_ANON_KEY.startsWith('INCOLLA')){
     mostraSolo('login');
     msg('msg-login','Configurazione incompleta: le due righe in cima al file contengono ancora i segnaposto.','err');
-    $('btn-entra').disabled = true;
-    return;
+    $('btn-entra').disabled = true; return;
   }
   sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const { data:{ session } } = await sb.auth.getSession();
@@ -210,11 +335,319 @@ async function disegna(session){
   sonoAdmin = !!(profilo && profilo.is_admin);
   $('saluto').textContent = (profilo && profilo.nome) || session.user.email.split('@')[0];
   $('chi').innerHTML = session.user.email + (sonoAdmin ? '<span class="badge">Amministratore</span>' : '');
-  $('pannello-admin').classList.toggle('nascosto', !sonoAdmin);
+  $('tab-admin').classList.toggle('nascosto', !sonoAdmin);
 
-  await aggiornaStato();
+  await caricaArchivio();
+  await caricaRosa(session);
+  disegnaRosa();
+  if (sonoAdmin) aggiornaStato();
 }
 
+/* ---------------- caricamento dati ---------------- */
+async function caricaArchivio(){
+  const { data: gio }  = await sb.from('giocatori').select('*').eq('in_listone', true);
+  const { data: prz }  = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
+  const prezzi = new Map((prz || []).map(r => [r.giocatore_id, Number(r.prezzo)]));
+
+  GIOCATORI = new Map();
+  (gio || []).forEach(g => {
+    GIOCATORI.set(g.id, Object.assign({}, g, {
+      prezzo: prezzi.has(g.id) ? prezzi.get(g.id) : num(g.prezzo_base)
+    }));
+  });
+}
+
+async function caricaRosa(session){
+  let { data: rosa } = await sb.from('rose').select('id').maybeSingle();
+  if (!rosa){
+    const { data: creata, error } = await sb.from('rose')
+      .insert({ user_id: session.user.id }).select('id').single();
+    if (error){ msg('msg-rosa','Non riesco a creare la rosa: ' + error.message,'err'); return; }
+    rosa = creata;
+  }
+  ROSA_ID = rosa.id;
+
+  const { data: righe } = await sb.from('rose_giocatori')
+    .select('giocatore_id, prezzo_pagato').eq('rosa_id', ROSA_ID);
+  ROSA = new Map((righe || []).map(r => [r.giocatore_id, Number(r.prezzo_pagato)]));
+}
+
+/* ---------------- analisi ---------------- */
+function analizza(id){
+  const g = GIOCATORI.get(id);
+  if (!g) return null;
+
+  const metrica  = $('metrica').value;
+  const banda    = Number($('banda').value) / 100;
+  const pagato   = ROSA.get(id);
+  const prezzo   = g.prezzo;
+  const mio      = num(g[metrica]);
+
+  const r = { g, pagato, prezzo, mio, delta:null, deltaPerc:null,
+              medianaFascia:null, peer:0, verdetto:'nd', etichetta:'dati assenti' };
+
+  if (prezzo !== null && pagato !== null && !Number.isNaN(pagato)){
+    r.delta = prezzo - pagato;
+    r.deltaPerc = pagato > 0 ? (r.delta / pagato) * 100 : null;
+  }
+
+  if (prezzo !== null){
+    const lo = prezzo * (1 - banda), hi = prezzo * (1 + banda);
+    const vicini = [];
+    GIOCATORI.forEach(o => {
+      if (o.ruolo !== g.ruolo) return;
+      if (o.prezzo === null || o.prezzo < lo || o.prezzo > hi) return;
+      const v = num(o[metrica]);
+      if (v !== null) vicini.push(v);
+    });
+    r.peer = vicini.length;
+    if (vicini.length >= MIN_FASCIA) r.medianaFascia = mediana(vicini);
+  }
+
+  if (r.delta !== null && r.mio !== null && r.medianaFascia !== null){
+    const sopra = r.mio >= r.medianaFascia, guadagno = r.delta >= 0;
+    if (guadagno && sopra)        { r.verdetto='tieni';    r.etichetta='tieni'; }
+    else if (guadagno && !sopra)  { r.verdetto='vendi';    r.etichetta="vendi sull'onda"; }
+    else if (!guadagno && sopra)  { r.verdetto='riscatto'; r.etichetta='riscatto'; }
+    else                          { r.verdetto='zavorra';  r.etichetta='zavorra'; }
+  } else if (r.mio === null){
+    r.etichetta = 'senza rendimento';
+  } else if (r.medianaFascia === null){
+    r.etichetta = 'fascia troppo esigua';
+  } else if (r.pagato === null){
+    r.etichetta = 'manca il pagato';
+  }
+  return r;
+}
+
+/* ---------------- disegno rosa ---------------- */
+function disegnaRosa(){
+  const cont = $('reparti');
+  cont.innerHTML = '';
+
+  if (!ROSA.size){
+    cont.innerHTML = '<div class="vuoto">Nessun giocatore in rosa. Cercane uno qui sopra, oppure importa la rosa da FantaLab.</div>';
+    aggiornaSommario([]);
+    return;
+  }
+
+  const tutte = [];
+  REPARTI.forEach(([sigla, titolo]) => {
+    const ids = [...ROSA.keys()].filter(id => {
+      const g = GIOCATORI.get(id); return g && g.ruolo === sigla;
+    });
+    if (!ids.length && !QUOTE[sigla]) return;
+
+    const analisi = ids.map(analizza).filter(Boolean)
+      .sort((a,b) => (b.prezzo || 0) - (a.prezzo || 0));
+    tutte.push(...analisi);
+
+    const box = document.createElement('div');
+    box.className = 'reparto';
+    const manca = analisi.length < QUOTE[sigla];
+    box.innerHTML =
+      `<div class="reparto-testa"><h3>${titolo}</h3>
+         <em class="${manca ? 'manca' : ''}">${analisi.length} / ${QUOTE[sigla]}</em></div>`;
+
+    analisi.forEach(r => box.appendChild(rigaGiocatore(r)));
+    cont.appendChild(box);
+  });
+
+  aggiornaSommario(tutte);
+}
+
+function rigaGiocatore(r){
+  const el = document.createElement('div');
+  el.className = 'g';
+
+  const segno = v => v > 0 ? '+' : '';
+  const cls   = v => v > 0 ? 'su' : (v < 0 ? 'giu' : '');
+
+  const prezzoTxt = r.prezzo !== null ? r.prezzo : '—';
+  const deltaTxt  = r.delta !== null
+    ? `<span class="${cls(r.delta)}">${segno(r.delta)}${r.delta}` +
+      (r.deltaPerc !== null ? ` (${segno(r.deltaPerc)}${r.deltaPerc.toFixed(0)}%)` : '') + '</span>'
+    : '—';
+  const rendTxt = (r.mio !== null)
+    ? `${r.mio.toFixed(2)}` + (r.medianaFascia !== null
+        ? ` vs <b>${r.medianaFascia.toFixed(2)}</b> di fascia (${r.peer})` : ' · fascia n.d.')
+    : 'rendimento n.d.';
+
+  el.innerHTML = `
+    <div class="nome">${r.g.nome}<small>${r.g.squadra_sigla || ''}</small></div>
+    <div class="dati">pagato <b>${r.pagato ?? '—'}</b> → ora <b>${prezzoTxt}</b> · ${deltaTxt} · ${rendTxt}</div>
+    <div class="destra">
+      <span class="verdetto v-${r.verdetto}">${r.etichetta}</span>
+      <input class="pagato" type="number" min="0" step="1" value="${r.pagato ?? ''}" title="Prezzo pagato">
+      <button class="x" title="Rimuovi">×</button>
+    </div>`;
+
+  el.querySelector('input.pagato').addEventListener('change', e => {
+    salvaPagato(r.g.id, e.target.value);
+  });
+  el.querySelector('button.x').addEventListener('click', () => rimuovi(r.g.id));
+  return el;
+}
+
+function aggiornaSommario(analisi){
+  const speso  = analisi.reduce((s,r) => s + (r.pagato || 0), 0);
+  const valore = analisi.reduce((s,r) => s + (r.prezzo || 0), 0);
+  const plus   = valore - speso;
+  const sotto  = analisi.filter(r => r.mio !== null && r.medianaFascia !== null && r.mio < r.medianaFascia).length;
+
+  $('s-speso').textContent  = speso || '—';
+  $('s-valore').textContent = valore || '—';
+  $('s-plus').textContent   = analisi.length ? (plus > 0 ? '+' : '') + plus : '—';
+  $('s-plus').style.color   = plus > 0 ? 'var(--ok)' : (plus < 0 ? 'var(--ko)' : '');
+  $('s-sotto').textContent  = analisi.length ? sotto : '—';
+}
+
+/* ---------------- modifiche rosa ---------------- */
+async function aggiungi(id){
+  if (ROSA.has(id)) return msg('msg-rosa','Quel giocatore è già in rosa.','err');
+  const { error } = await sb.from('rose_giocatori')
+    .insert({ rosa_id: ROSA_ID, giocatore_id: id, prezzo_pagato: 0 });
+  if (error) return msg('msg-rosa','Non riuscito: ' + error.message,'err');
+  ROSA.set(id, 0);
+  msg('msg-rosa', `${GIOCATORI.get(id).nome} aggiunto. Scrivi il prezzo pagato nella riga.`, 'ok');
+  disegnaRosa();
+}
+
+async function rimuovi(id){
+  const { error } = await sb.from('rose_giocatori').delete()
+    .eq('rosa_id', ROSA_ID).eq('giocatore_id', id);
+  if (error) return msg('msg-rosa','Non riuscito: ' + error.message,'err');
+  ROSA.delete(id);
+  msg('msg-rosa','');
+  disegnaRosa();
+}
+
+async function salvaPagato(id, valore){
+  const v = Number(valore);
+  if (!Number.isFinite(v) || v < 0) return;
+  const { error } = await sb.from('rose_giocatori').update({ prezzo_pagato: v })
+    .eq('rosa_id', ROSA_ID).eq('giocatore_id', id);
+  if (error) return msg('msg-rosa','Non riuscito: ' + error.message,'err');
+  ROSA.set(id, v);
+  disegnaRosa();
+}
+
+/* ---------------- ricerca ---------------- */
+let selIdx = -1, ultimi = [];
+function cerca(){
+  const q = $('cerca').value.trim().toLowerCase();
+  const box = $('risultati');
+  if (q.length < 2){ box.classList.add('nascosto'); return; }
+
+  ultimi = [...GIOCATORI.values()]
+    .filter(g => !ROSA.has(g.id))
+    .filter(g => (g.nome || '').toLowerCase().includes(q) ||
+                 (g.nome_completo || '').toLowerCase().includes(q))
+    .sort((a,b) => (b.prezzo || 0) - (a.prezzo || 0))
+    .slice(0, 12);
+
+  if (!ultimi.length){
+    box.innerHTML = '<div style="color:var(--muted)">Nessun giocatore trovato.</div>';
+    box.classList.remove('nascosto'); return;
+  }
+  selIdx = -1;
+  box.innerHTML = ultimi.map((g,i) =>
+    `<div data-i="${i}"><span>${g.nome} <small>${g.ruolo || '?'} · ${g.squadra_sigla || ''}</small></span>
+     <small>${g.prezzo !== null ? g.prezzo + ' cr' : 's.p.'}</small></div>`).join('');
+  box.classList.remove('nascosto');
+  box.querySelectorAll('div[data-i]').forEach(d =>
+    d.addEventListener('click', () => scegli(Number(d.dataset.i))));
+}
+
+function scegli(i){
+  const g = ultimi[i]; if (!g) return;
+  $('cerca').value = '';
+  $('risultati').classList.add('nascosto');
+  aggiungi(g.id);
+}
+
+/* ---------------- import rosa (lettore tollerante) ---------------- */
+const RE_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const RE_PREZZO = /(price|prezzo|cost|paid|pagato|value|amount|acquisto|bid)/i;
+
+function raccogli(nodo, out, chiave){
+  if (nodo === null || typeof nodo !== 'object') return;
+
+  if (Array.isArray(nodo)){ nodo.forEach(v => raccogli(v, out, null)); return; }
+
+  // oggetto: cerca un uuid fra i valori, oppure eredita la chiave-uuid del padre
+  let uuid = (chiave && RE_UUID.test(chiave)) ? chiave : null;
+  let prezzo = null;
+
+  for (const [k, v] of Object.entries(nodo)){
+    if (!uuid && typeof v === 'string' && RE_UUID.test(v) && GIOCATORI.has(v)) uuid = v;
+    if (prezzo === null && typeof v === 'number' && RE_PREZZO.test(k)) prezzo = v;
+  }
+  if (uuid && GIOCATORI.has(uuid)) out.set(uuid, prezzo);
+
+  for (const [k, v] of Object.entries(nodo)) raccogli(v, out, k);
+}
+
+async function importaRosa(){
+  const testo = $('json-rosa').value.trim();
+  if (!testo) return msg('msg-importa','Incolla prima il JSON.','err');
+
+  $('btn-importa').disabled = true;
+  try{
+    const dati = JSON.parse(testo);
+    const trovati = new Map();
+    raccogli(dati, trovati, null);
+
+    if (!trovati.size) throw new Error('Nessun giocatore riconosciuto. Assicurati di aver copiato la risposta per intero.');
+
+    const nuovi = [...trovati.entries()].filter(([id]) => !ROSA.has(id));
+    if (!nuovi.length){
+      msg('msg-importa', `Riconosciuti ${trovati.size} giocatori, tutti già in rosa.`, 'ok');
+      return;
+    }
+
+    const righe = nuovi.map(([id, prezzo]) => ({
+      rosa_id: ROSA_ID, giocatore_id: id, prezzo_pagato: Number.isFinite(prezzo) ? prezzo : 0
+    }));
+    const { error } = await sb.from('rose_giocatori').insert(righe);
+    if (error) throw error;
+
+    nuovi.forEach(([id, p]) => ROSA.set(id, Number.isFinite(p) ? p : 0));
+    const conPrezzo = nuovi.filter(([,p]) => Number.isFinite(p)).length;
+    msg('msg-importa',
+      `${nuovi.length} giocatori aggiunti, ${conPrezzo} con prezzo pagato riconosciuto.` +
+      (conPrezzo < nuovi.length ? ' Gli altri sono a zero: completali nella tabella.' : ''), 'ok');
+    $('json-rosa').value = '';
+    disegnaRosa();
+
+  }catch(e){
+    const t = e.message || String(e);
+    msg('msg-importa', t.toLowerCase().includes('json')
+      ? 'Il testo incollato non è JSON valido.' : 'Non riuscito: ' + t, 'err');
+  }finally{
+    $('btn-importa').disabled = false;
+  }
+}
+
+/* ---------------- accesso ---------------- */
+async function chiediLink(){
+  const email = $('email').value.trim();
+  if (!email) return msg('msg-login','Scrivi la tua email per ricevere il link.','err');
+  $('btn-entra').disabled = true;
+  msg('msg-login','Invio in corso…');
+  const ritorno = window.location.origin + window.location.pathname;
+  const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: ritorno } });
+  $('btn-entra').disabled = false;
+  if (!error) return msg('msg-login','Fatto. Controlla la posta e apri il link: torni su questa pagina già dentro.','ok');
+  const t = (error.message || '').toLowerCase();
+  if (t.includes('database error') || error.status === 500)
+    msg('msg-login','Questa email non è fra gli invitati. Chiedi a chi gestisce il tool di aggiungerla.','err');
+  else if (t.includes('rate') || error.status === 429)
+    msg('msg-login','Troppi invii ravvicinati. Aspetta qualche minuto e riprova.','err');
+  else msg('msg-login', error.message, 'err');
+}
+
+/* ---------------- admin ---------------- */
 async function aggiornaStato(){
   const conta = async (tab, filtro) => {
     let q = sb.from(tab).select('*', { count:'exact', head:true });
@@ -224,83 +657,43 @@ async function aggiornaStato(){
   };
   $('n-giocatori').textContent = await conta('giocatori', q => q.eq('in_listone', true));
   $('n-prezzi').textContent    = await conta('prezzi_correnti');
-
   const { data } = await sb.from('giocatori')
     .select('aggiornato_il').order('aggiornato_il', { ascending:false }).limit(1).maybeSingle();
   $('ultimo').textContent = data
-    ? new Date(data.aggiornato_il).toLocaleString('it-IT', { dateStyle:'short', timeStyle:'short' })
+    ? new Date(data.aggiornato_il).toLocaleString('it-IT',{ dateStyle:'short', timeStyle:'short' })
     : 'mai';
 }
 
-/* ---------------- accesso ---------------- */
-async function chiediLink(){
-  const email = $('email').value.trim();
-  if (!email) return msg('msg-login','Scrivi la tua email per ricevere il link.','err');
-
-  $('btn-entra').disabled = true;
-  msg('msg-login','Invio in corso…');
-  const ritorno = window.location.origin + window.location.pathname;
-  const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: ritorno } });
-  $('btn-entra').disabled = false;
-
-  if (!error) return msg('msg-login','Fatto. Controlla la posta e apri il link: torni su questa pagina già dentro.','ok');
-
-  const t = (error.message || '').toLowerCase();
-  if (t.includes('database error') || error.status === 500)
-    msg('msg-login','Questa email non è fra gli invitati. Chiedi a chi gestisce il tool di aggiungerla.','err');
-  else if (t.includes('rate') || error.status === 429)
-    msg('msg-login','Troppi invii ravvicinati. Aspetta qualche minuto e riprova.','err');
-  else
-    msg('msg-login', error.message, 'err');
-}
-
-/* ---------------- anagrafica ---------------- */
 function mappaGiocatore(p){
   const s = p.stats || {};
-  const num = v => (v === undefined || v === null) ? null : v;
   return {
-    id:                p.player_id,
-    fantacalcio_id:    num(p.fantacalcio_id),
-    sportsmonks_id:    num(p.sportsmonks_id),
-    nome:              p.name,
-    nome_completo:     p.full_name ? p.full_name.trim() : null,
-    squadra:           p.team_name  || null,
-    squadra_sigla:     p.team_short || null,
-    immagine:          p.player_image || null,
-    ruolo:             p.role || null,
-    ruoli_mantra:      p.mantra_roles || [],
-    quotazione:        num(s.quotazione),
-    quotazione_mantra: num(s.quotazione_mantra),
-    prezzo_base:       num(s.fallback_price),
-    presenze:          num((p.presenze !== null && p.presenze !== undefined) ? p.presenze : s.presenze),
-    media_voto:        num(s.mv),
-    fantamedia:        num(s.fmv),
-    fantamedia_attesa: num(s.xfmv),
-    gol:               num(s.gol_fatti),
-    assist:            num(s.assist),
-    ammonizioni:       num(s.amm),
-    espulsioni:        num(s.esp),
-    in_listone:        p.is_in_listone !== false,
-    aggiornato_il:     new Date().toISOString()
+    id: p.player_id,
+    fantacalcio_id: num(p.fantacalcio_id), sportsmonks_id: num(p.sportsmonks_id),
+    nome: p.name, nome_completo: p.full_name ? p.full_name.trim() : null,
+    squadra: p.team_name || null, squadra_sigla: p.team_short || null,
+    immagine: p.player_image || null,
+    ruolo: p.role || null, ruoli_mantra: p.mantra_roles || [],
+    quotazione: num(s.quotazione), quotazione_mantra: num(s.quotazione_mantra),
+    prezzo_base: num(s.fallback_price),
+    presenze: num((p.presenze !== null && p.presenze !== undefined) ? p.presenze : s.presenze),
+    media_voto: num(s.mv), fantamedia: num(s.fmv), fantamedia_attesa: num(s.xfmv),
+    gol: num(s.gol_fatti), assist: num(s.assist),
+    ammonizioni: num(s.amm), espulsioni: num(s.esp),
+    in_listone: p.is_in_listone !== false,
+    aggiornato_il: new Date().toISOString()
   };
 }
 
 async function aggiornaAnagrafica(){
-  const btn = $('btn-anagrafica');
-  btn.disabled = true;
+  const btn = $('btn-anagrafica'); btn.disabled = true;
   msg('msg-anagrafica','Scarico da FantaLab…');
-
   try{
     const risposta = await fetch(API_ANAGRAFICA);
     if (!risposta.ok) throw new Error('FantaLab ha risposto ' + risposta.status);
-    const dati = await risposta.json();
-    const lista = dati.players || [];
+    const lista = (await risposta.json()).players || [];
     if (!lista.length) throw new Error('Risposta vuota: nessun giocatore ricevuto.');
 
-    const righe = lista.map(mappaGiocatore);
-    const blocco = 200;
-    let scritti = 0;
-
+    const righe = lista.map(mappaGiocatore), blocco = 200; let scritti = 0;
     for (let i = 0; i < righe.length; i += blocco){
       const pezzo = righe.slice(i, i + blocco);
       const { error } = await sb.from('giocatori').upsert(pezzo, { onConflict:'id' });
@@ -308,30 +701,21 @@ async function aggiornaAnagrafica(){
       scritti += pezzo.length;
       msg('msg-anagrafica', `Salvataggio… ${scritti} di ${righe.length}`);
     }
-
     const conStat = righe.filter(r => r.fantamedia !== null).length;
-    msg('msg-anagrafica',
-      `${scritti} giocatori aggiornati, ${conStat} con fantamedia disponibile.`, 'ok');
-    await aggiornaStato();
-
+    msg('msg-anagrafica', `${scritti} giocatori aggiornati, ${conStat} con fantamedia disponibile.`, 'ok');
+    await caricaArchivio(); disegnaRosa(); aggiornaStato();
   }catch(e){
-    msg('msg-anagrafica','Non riuscito: ' + (e.message || e), 'err');
-  }finally{
-    btn.disabled = false;
-  }
+    msg('msg-anagrafica','Non riuscito: ' + (e.message || e),'err');
+  }finally{ btn.disabled = false; }
 }
 
-/* ---------------- prezzi ---------------- */
 function estraiPrezzi(testo){
   const d = JSON.parse(testo);
-
-  // formato /v2/prices  →  { season_id, prices: { uuid: { price, prev } } }
   if (d && d.prices && !Array.isArray(d.prices)){
     return Object.entries(d.prices)
       .map(([id, v]) => ({ id, prezzo: Number(v && v.price) }))
       .filter(p => Number.isFinite(p.prezzo));
   }
-  // formato get-new-prices  →  [ { player_id, price, in_listone } ]
   if (Array.isArray(d)){
     return d.map(v => ({ id: v.player_id, prezzo: Number(v.price) }))
             .filter(p => p.id && Number.isFinite(p.prezzo));
@@ -343,20 +727,15 @@ async function registraPrezzi(){
   const btn = $('btn-prezzi');
   const testo = $('json-prezzi').value.trim();
   if (!testo) return msg('msg-prezzi','Incolla prima il JSON dei prezzi.','err');
-
-  btn.disabled = true;
-  msg('msg-prezzi','Leggo il JSON…');
-
+  btn.disabled = true; msg('msg-prezzi','Leggo il JSON…');
   try{
     const prezzi = estraiPrezzi(testo);
     if (!prezzi.length) throw new Error('Nessun prezzo trovato nel testo incollato.');
 
-    // solo giocatori presenti in archivio (vincolo di integrità)
     const { data: gio, error: e1 } = await sb.from('giocatori').select('id');
     if (e1) throw e1;
     const noti = new Set((gio || []).map(g => g.id));
 
-    // prezzi già registrati, per scrivere solo le variazioni
     const { data: correnti, error: e2 } = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
     if (e2) throw e2;
     const attuale = new Map((correnti || []).map(r => [r.giocatore_id, Number(r.prezzo)]));
@@ -366,37 +745,61 @@ async function registraPrezzi(){
     const nuovi     = candidati.filter(p => attuale.get(p.id) !== p.prezzo);
 
     if (!nuovi.length){
-      msg('msg-prezzi', `Nessuna variazione: i ${candidati.length} prezzi coincidono con l'ultimo rilevamento.`, 'ok');
+      msg('msg-prezzi', `Nessuna variazione: i ${candidati.length} prezzi coincidono con l'ultimo rilevamento.`,'ok');
       return;
     }
-
-    const righe = nuovi.map(p => ({ giocatore_id: p.id, prezzo: p.prezzo }));
-    const blocco = 200;
+    const righe = nuovi.map(p => ({ giocatore_id: p.id, prezzo: p.prezzo })), blocco = 200;
     for (let i = 0; i < righe.length; i += blocco){
       const { error } = await sb.from('prezzi_manager').insert(righe.slice(i, i + blocco));
       if (error) throw error;
       msg('msg-prezzi', `Salvataggio… ${Math.min(i + blocco, righe.length)} di ${righe.length}`);
     }
-
     let esito = `${righe.length} prezzi registrati, ${candidati.length - righe.length} invariati.`;
     if (ignorati) esito += ` ${ignorati} ignorati perché fuori listone.`;
     msg('msg-prezzi', esito, 'ok');
     $('json-prezzi').value = '';
-    await aggiornaStato();
-
+    await caricaArchivio(); disegnaRosa(); aggiornaStato();
   }catch(e){
-    const t = (e.message || String(e));
+    const t = e.message || String(e);
     msg('msg-prezzi', t.toLowerCase().includes('json')
       ? 'Il testo incollato non è JSON valido. Copia di nuovo la risposta per intero.'
       : 'Non riuscito: ' + t, 'err');
-  }finally{
-    btn.disabled = false;
-  }
+  }finally{ btn.disabled = false; }
 }
 
 /* ---------------- collegamenti ---------------- */
 $('btn-entra').addEventListener('click', chiediLink);
 $('email').addEventListener('keydown', e => { if (e.key === 'Enter') chiediLink(); });
+
+$('cerca').addEventListener('input', cerca);
+$('cerca').addEventListener('keydown', e => {
+  const box = $('risultati');
+  if (box.classList.contains('nascosto')) return;
+  const voci = [...box.querySelectorAll('div[data-i]')];
+  if (e.key === 'ArrowDown'){ e.preventDefault(); selIdx = Math.min(selIdx + 1, voci.length - 1); }
+  else if (e.key === 'ArrowUp'){ e.preventDefault(); selIdx = Math.max(selIdx - 1, 0); }
+  else if (e.key === 'Enter'){ e.preventDefault(); scegli(selIdx >= 0 ? selIdx : 0); return; }
+  else if (e.key === 'Escape'){ box.classList.add('nascosto'); return; }
+  else return;
+  voci.forEach((v,i) => v.classList.toggle('sel', i === selIdx));
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.cerca')) $('risultati').classList.add('nascosto');
+});
+
+$('banda').addEventListener('change', disegnaRosa);
+$('metrica').addEventListener('change', disegnaRosa);
+$('btn-importa').addEventListener('click', importaRosa);
+
+$('tab-rosa').addEventListener('click', () => {
+  $('tab-rosa').classList.add('attiva'); $('tab-admin').classList.remove('attiva');
+  $('vista-rosa').classList.remove('nascosto'); $('vista-admin').classList.add('nascosto');
+});
+$('tab-admin').addEventListener('click', () => {
+  $('tab-admin').classList.add('attiva'); $('tab-rosa').classList.remove('attiva');
+  $('vista-admin').classList.remove('nascosto'); $('vista-rosa').classList.add('nascosto');
+});
+
 $('btn-anagrafica').addEventListener('click', aggiornaAnagrafica);
 $('btn-prezzi').addEventListener('click', registraPrezzi);
 $('btn-esci').addEventListener('click', async () => { await sb.auth.signOut(); });
