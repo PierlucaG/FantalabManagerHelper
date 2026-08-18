@@ -2,7 +2,9 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10161d">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>FantaLab · Rose</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,43 +23,48 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
   body{
     background:var(--ink); color:var(--text); font-family:var(--body);
     font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
     min-height:100vh; display:flex; align-items:flex-start; justify-content:center;
     padding:32px 18px 90px;
+    padding-left:max(18px, env(safe-area-inset-left));
+    padding-right:max(18px, env(safe-area-inset-right));
   }
   .wrap{width:100%;max-width:760px}
 
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--rosa);margin:0 0 6px}
-  h1{font-family:var(--display);font-weight:700;font-size:clamp(36px,8vw,52px);
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,10vw,52px);
     line-height:.94;letter-spacing:-.01em;margin:0 0 12px;text-transform:uppercase}
-  .sub{color:var(--muted);margin:0 0 24px;max-width:46ch}
+  .sub{color:var(--muted);margin:0 0 24px;max-width:46ch;font-size:14px}
 
-  .quote{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:0 0 28px}
+  .quote{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:0 0 26px}
   .quote div{flex:1;padding:9px 4px 8px;text-align:center;border-right:1px solid var(--line);background:var(--panel)}
   .quote div:last-child{border-right:0}
-  .quote b{display:block;font-family:var(--display);font-size:26px;font-weight:600;line-height:1}
-  .quote span{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)}
+  .quote b{display:block;font-family:var(--display);font-size:25px;font-weight:600;line-height:1}
+  .quote span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--muted)}
 
   .card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px;margin-bottom:16px}
   .card h2{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
     color:var(--muted);margin:0 0 16px;font-weight:500}
   .card p.nota{color:var(--muted);font-size:13px;margin:0 0 14px}
-  code{font-family:var(--mono);font-size:12px;background:var(--ink);padding:1px 5px;border-radius:2px}
+  code{font-family:var(--mono);font-size:12px;background:var(--ink);padding:1px 5px;border-radius:2px;
+    word-break:break-all}
 
   label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
     text-transform:uppercase;color:var(--muted);margin-bottom:7px}
   input,textarea,select{width:100%;padding:11px 12px;background:var(--ink);
     border:1px solid var(--line);border-radius:3px;color:var(--text);
     font-family:var(--body);font-size:16px}
-  textarea{font-family:var(--mono);font-size:12px;min-height:100px;resize:vertical}
+  textarea{font-family:var(--mono);font-size:13px;min-height:100px;resize:vertical}
   input:focus,textarea:focus,select:focus{outline:2px solid var(--rosa);outline-offset:1px;border-color:transparent}
 
   button{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:.03em;
     text-transform:uppercase;padding:11px 18px;border:0;border-radius:3px;
-    background:var(--rosa);color:#16111a;cursor:pointer;transition:filter .15s ease}
+    background:var(--rosa);color:#16111a;cursor:pointer;transition:filter .15s ease;
+    min-height:44px}
   button:hover:not(:disabled){filter:brightness(1.08)}
   button:disabled{opacity:.5;cursor:default}
   button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
@@ -83,51 +90,53 @@
   .nascosto{display:none}
 
   /* ---- schede ---- */
-  .schede{display:flex;gap:8px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+  .schede{display:flex;gap:20px;margin:0 0 18px;border-bottom:1px solid var(--line)}
   .schede button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);
-    border-radius:0;padding:9px 2px;margin-right:16px;font-size:16px}
+    border-radius:0;padding:9px 2px;font-size:16px;min-height:0}
   .schede button.attiva{color:var(--text);border-bottom-color:var(--rosa)}
 
   /* ---- sommario ---- */
   .sommario{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
     background:var(--line);border:1px solid var(--line);border-radius:4px;
     overflow:hidden;margin-bottom:16px}
-  .sommario div{background:var(--panel);padding:13px 10px;text-align:center}
-  .sommario b{display:block;font-family:var(--display);font-size:27px;font-weight:600;line-height:1.05}
-  .sommario span{font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  .sommario div{background:var(--panel);padding:13px 8px;text-align:center}
+  .sommario b{display:block;font-family:var(--display);font-size:26px;font-weight:600;line-height:1.05}
+  .sommario span{font-family:var(--mono);font-size:9px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--muted)}
-  @media (max-width:520px){.sommario{grid-template-columns:repeat(2,1fr)}}
 
-  /* ---- controlli analisi ---- */
+  /* ---- controlli ---- */
   .controlli{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  @media (max-width:520px){.controlli{grid-template-columns:1fr}}
 
-  /* ---- reparti e righe rosa ---- */
+  /* ---- reparti ---- */
   .reparto{margin-top:22px}
   .reparto-testa{display:flex;justify-content:space-between;align-items:baseline;
-    padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:4px}
-  .reparto-testa h3{font-family:var(--display);font-size:22px;font-weight:600;
+    padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:2px}
+  .reparto-testa h3{font-family:var(--display);font-size:21px;font-weight:600;
     text-transform:uppercase;letter-spacing:.04em;margin:0}
   .reparto-testa em{font-family:var(--mono);font-size:12px;font-style:normal;color:var(--muted)}
   .reparto-testa em.manca{color:var(--warn)}
 
-  .g{display:grid;grid-template-columns:1fr auto;gap:4px 12px;
-    padding:11px 0;border-bottom:1px solid var(--line);align-items:center}
+  /* ---- riga giocatore ---- */
+  .g{display:grid;gap:5px 10px;padding:12px 0;border-bottom:1px solid var(--line);
+     grid-template-columns:1fr auto auto auto;
+     grid-template-areas:"nome verd pagato x" "dati verd pagato x";
+     align-items:center}
   .g:last-child{border-bottom:0}
-  .g .nome{font-weight:600}
+  .g .nome{grid-area:nome;font-weight:600;line-height:1.25}
   .g .nome small{font-weight:400;color:var(--muted);font-family:var(--mono);
     font-size:11px;letter-spacing:.06em;margin-left:7px}
-  .g .dati{grid-column:1;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .g .dati{grid-area:dati;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.5}
   .g .dati b{color:var(--text);font-weight:500}
   .g .dati .su{color:var(--ok)} .g .dati .giu{color:var(--ko)}
-  .g .destra{grid-row:1/3;grid-column:2;display:flex;align-items:center;gap:8px}
-  .g input.pagato{width:74px;padding:6px 8px;font-family:var(--mono);font-size:13px;text-align:right}
-  .g .x{background:none;border:0;color:var(--muted);font-size:19px;cursor:pointer;
-    padding:2px 5px;font-family:var(--body);text-transform:none}
+  .g .verdetto{grid-area:verd;justify-self:end}
+  .g input.pagato{grid-area:pagato;width:72px;padding:8px;font-family:var(--mono);
+    font-size:14px;text-align:right}
+  .g .x{grid-area:x;background:none;border:0;color:var(--muted);font-size:20px;cursor:pointer;
+    padding:0 4px;font-family:var(--body);text-transform:none;min-height:36px;line-height:1}
   .g .x:hover{color:var(--ko)}
 
-  .verdetto{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.13em;
-    text-transform:uppercase;padding:3px 7px;border-radius:2px;white-space:nowrap}
+  .verdetto{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+    text-transform:uppercase;padding:4px 7px;border-radius:2px;white-space:nowrap}
   .v-tieni{background:rgba(110,231,168,.16);color:var(--ok)}
   .v-vendi{background:rgba(255,209,102,.16);color:var(--warn)}
   .v-riscatto{background:rgba(242,169,181,.16);color:var(--rosa)}
@@ -138,12 +147,52 @@
   .cerca{position:relative}
   .risultati{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);
     background:var(--panel-2);border:1px solid var(--line);border-radius:3px;
-    max-height:270px;overflow:auto}
-  .risultati div{padding:9px 12px;cursor:pointer;font-size:14px;
-    display:flex;justify-content:space-between;gap:10px}
+    max-height:260px;overflow:auto;-webkit-overflow-scrolling:touch}
+  .risultati div{padding:11px 12px;cursor:pointer;font-size:14px;
+    display:flex;justify-content:space-between;gap:10px;align-items:center}
   .risultati div:hover,.risultati div.sel{background:var(--panel)}
   .risultati small{font-family:var(--mono);font-size:11px;color:var(--muted)}
-  .vuoto{text-align:center;color:var(--muted);padding:26px 0;font-size:14px}
+  .vuoto{text-align:center;color:var(--muted);padding:26px 4px;font-size:14px;line-height:1.6}
+
+  /* ---- inviti ---- */
+  .invita{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+  .spunta{display:flex;align-items:center;gap:8px;margin:12px 0 0;
+    font-size:13px;color:var(--muted);cursor:pointer}
+  .spunta input{width:17px;height:17px;padding:0;accent-color:var(--rosa);flex:0 0 auto}
+  .inv{display:grid;grid-template-columns:1fr auto auto;gap:4px 10px;align-items:center;
+    padding:11px 0;border-bottom:1px solid var(--line)}
+  .inv:last-child{border-bottom:0}
+  .inv .mail{font-size:14px;word-break:break-all;line-height:1.3}
+  .inv .stato{font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;padding:3px 7px;border-radius:2px;white-space:nowrap}
+  .stato.dentro{background:rgba(110,231,168,.16);color:var(--ok)}
+  .stato.attesa{background:var(--panel-2);color:var(--muted)}
+  .inv .x{background:none;border:0;color:var(--muted);font-size:20px;cursor:pointer;
+    padding:0 4px;text-transform:none;font-family:var(--body);min-height:36px;line-height:1}
+  .inv .x:hover{color:var(--ko)}
+
+  /* ============ SMARTPHONE ============ */
+  @media (max-width:620px){
+    body{padding:22px 14px 70px;
+      padding-left:max(14px, env(safe-area-inset-left));
+      padding-right:max(14px, env(safe-area-inset-right))}
+    .card{padding:16px}
+    .sub{margin-bottom:20px}
+    .sommario{grid-template-columns:repeat(2,1fr)}
+    .sommario b{font-size:24px}
+    .controlli{grid-template-columns:1fr}
+    .invita{grid-template-columns:1fr}
+    .card > button:not(.x){width:100%}
+    textarea{font-size:16px}
+
+    /* riga giocatore su tre livelli */
+    .g{grid-template-columns:1fr auto;
+       grid-template-areas:"nome x" "dati dati" "verd pagato";
+       gap:7px 10px;padding:14px 0}
+    .g .verdetto{justify-self:start}
+    .g input.pagato{width:84px}
+    .g .x{align-self:start}
+  }
 </style>
 </head>
 <body>
@@ -175,7 +224,7 @@
 
     <div class="schede">
       <button id="tab-rosa" class="attiva">La mia rosa</button>
-      <button id="tab-admin" class="nascosto">Archivio</button>
+      <button id="tab-admin" class="nascosto">Gestione</button>
     </div>
 
     <!-- ---------- ROSA ---------- -->
@@ -191,7 +240,8 @@
       <div class="card">
         <h2>Aggiungi giocatore</h2>
         <div class="cerca">
-          <input id="cerca" type="text" autocomplete="off" placeholder="Scrivi un cognome…">
+          <input id="cerca" type="text" autocomplete="off" autocapitalize="off"
+                 autocorrect="off" spellcheck="false" placeholder="Scrivi un cognome…">
           <div id="risultati" class="risultati nascosto"></div>
         </div>
         <div id="msg-rosa" class="msg"></div>
@@ -225,8 +275,7 @@
       <div class="card" style="margin-top:22px">
         <h2>Importa rosa da FantaLab</h2>
         <p class="nota">Da FantaLab, strumenti sviluppatore, scheda Network: copia il corpo della
-          risposta che contiene la tua rosa e incollalo qui. Il lettore riconosce i giocatori dagli
-          identificativi; se non trova i prezzi pagati, li completi a mano nella tabella.</p>
+          risposta che contiene la tua rosa e incollalo qui.</p>
         <label for="json-rosa">JSON della rosa</label>
         <textarea id="json-rosa" placeholder="{ … }"></textarea>
         <button id="btn-importa" class="full">Importa</button>
@@ -235,8 +284,26 @@
 
     </div>
 
-    <!-- ---------- ADMIN ---------- -->
+    <!-- ---------- GESTIONE ---------- -->
     <div id="vista-admin" class="nascosto">
+
+      <div class="card">
+        <h2>Inviti</h2>
+        <p class="nota">Chi non è in questo elenco non può registrarsi: il database rifiuta
+          l'accesso prima ancora che l'account esista.</p>
+        <div class="invita">
+          <div>
+            <label for="nuovo-invito">Email da invitare</label>
+            <input id="nuovo-invito" type="email" inputmode="email" autocapitalize="off"
+                   autocorrect="off" spellcheck="false" placeholder="amico@esempio.it">
+          </div>
+          <button id="btn-invita">Invita</button>
+        </div>
+        <label class="spunta"><input id="invito-admin" type="checkbox"> Anche amministratore</label>
+        <div id="msg-invito" class="msg"></div>
+        <div id="elenco-inviti" style="margin-top:16px"></div>
+        <button id="btn-link" class="ghost full">Copia il link del sito</button>
+      </div>
 
       <div class="card">
         <h2>Stato archivio</h2>
@@ -272,7 +339,8 @@
 
 <script>
 /* ============================================================
-   CONFIGURAZIONE — sostituisci le due righe qui sotto
+   CONFIGURAZIONE — sostituisci le due righe qui sotto.
+   L'indirizzo finisce con .co e basta: niente /rest/v1/
    ============================================================ */
 const SUPABASE_URL      = 'https://vlmswsueouohjkfgteia.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsbXN3c3Vlb3VvaGprZmd0ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NjQ2MTMsImV4cCI6MjEwMjU0MDYxM30.WbwjbwiOkgSrnTuelQ089xqVI_YiNPYqdDnZLQGrHpU';
@@ -280,7 +348,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const QUOTE   = { P:3, D:8, C:8, A:6 };
 const REPARTI = [['P','Portieri'],['D','Difensori'],['C','Centrocampisti'],['A','Attaccanti']];
-const MIN_FASCIA = 3;   // peer minimi perché la mediana abbia senso
+const MIN_FASCIA = 3;
 
 const STATISTICHE = ['fmv','mv','presenze','gol_fatti','assist','amm','esp',
                      'quotazione','quotazione_mantra','xfmv','fallback_price'];
@@ -292,9 +360,7 @@ const API_ANAGRAFICA =
 
 const $ = id => document.getElementById(id);
 let sb = null, sonoAdmin = false;
-let GIOCATORI = new Map();   // uuid -> anagrafica + prezzo
-let ROSA_ID = null;
-let ROSA = new Map();        // uuid -> prezzo_pagato
+let GIOCATORI = new Map(), ROSA_ID = null, ROSA = new Map();
 
 /* ---------------- utilità ---------------- */
 function msg(dove, testo, tipo){
@@ -311,6 +377,8 @@ function mediana(v){
   return a.length % 2 ? a[m] : (a[m-1] + a[m]) / 2;
 }
 const num = v => (v === null || v === undefined || v === '') ? null : Number(v);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 /* ---------------- avvio ---------------- */
 async function avvia(){
@@ -334,27 +402,24 @@ async function disegna(session){
 
   sonoAdmin = !!(profilo && profilo.is_admin);
   $('saluto').textContent = (profilo && profilo.nome) || session.user.email.split('@')[0];
-  $('chi').innerHTML = session.user.email + (sonoAdmin ? '<span class="badge">Amministratore</span>' : '');
+  $('chi').innerHTML = esc(session.user.email) + (sonoAdmin ? '<span class="badge">Amministratore</span>' : '');
   $('tab-admin').classList.toggle('nascosto', !sonoAdmin);
 
   await caricaArchivio();
   await caricaRosa(session);
   disegnaRosa();
-  if (sonoAdmin) aggiornaStato();
+  if (sonoAdmin){ aggiornaStato(); caricaInviti(); }
 }
 
-/* ---------------- caricamento dati ---------------- */
+/* ---------------- dati ---------------- */
 async function caricaArchivio(){
-  const { data: gio }  = await sb.from('giocatori').select('*').eq('in_listone', true);
-  const { data: prz }  = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
+  const { data: gio } = await sb.from('giocatori').select('*').eq('in_listone', true);
+  const { data: prz } = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
   const prezzi = new Map((prz || []).map(r => [r.giocatore_id, Number(r.prezzo)]));
-
   GIOCATORI = new Map();
-  (gio || []).forEach(g => {
-    GIOCATORI.set(g.id, Object.assign({}, g, {
-      prezzo: prezzi.has(g.id) ? prezzi.get(g.id) : num(g.prezzo_base)
-    }));
-  });
+  (gio || []).forEach(g => GIOCATORI.set(g.id, Object.assign({}, g, {
+    prezzo: prezzi.has(g.id) ? prezzi.get(g.id) : num(g.prezzo_base)
+  })));
 }
 
 async function caricaRosa(session){
@@ -366,7 +431,6 @@ async function caricaRosa(session){
     rosa = creata;
   }
   ROSA_ID = rosa.id;
-
   const { data: righe } = await sb.from('rose_giocatori')
     .select('giocatore_id, prezzo_pagato').eq('rosa_id', ROSA_ID);
   ROSA = new Map((righe || []).map(r => [r.giocatore_id, Number(r.prezzo_pagato)]));
@@ -376,12 +440,8 @@ async function caricaRosa(session){
 function analizza(id){
   const g = GIOCATORI.get(id);
   if (!g) return null;
-
-  const metrica  = $('metrica').value;
-  const banda    = Number($('banda').value) / 100;
-  const pagato   = ROSA.get(id);
-  const prezzo   = g.prezzo;
-  const mio      = num(g[metrica]);
+  const metrica = $('metrica').value, banda = Number($('banda').value) / 100;
+  const pagato = ROSA.get(id), prezzo = g.prezzo, mio = num(g[metrica]);
 
   const r = { g, pagato, prezzo, mio, delta:null, deltaPerc:null,
               medianaFascia:null, peer:0, verdetto:'nd', etichetta:'dati assenti' };
@@ -390,54 +450,40 @@ function analizza(id){
     r.delta = prezzo - pagato;
     r.deltaPerc = pagato > 0 ? (r.delta / pagato) * 100 : null;
   }
-
   if (prezzo !== null){
-    const lo = prezzo * (1 - banda), hi = prezzo * (1 + banda);
-    const vicini = [];
+    const lo = prezzo * (1 - banda), hi = prezzo * (1 + banda), vicini = [];
     GIOCATORI.forEach(o => {
       if (o.ruolo !== g.ruolo) return;
       if (o.prezzo === null || o.prezzo < lo || o.prezzo > hi) return;
-      const v = num(o[metrica]);
-      if (v !== null) vicini.push(v);
+      const v = num(o[metrica]); if (v !== null) vicini.push(v);
     });
     r.peer = vicini.length;
     if (vicini.length >= MIN_FASCIA) r.medianaFascia = mediana(vicini);
   }
-
   if (r.delta !== null && r.mio !== null && r.medianaFascia !== null){
     const sopra = r.mio >= r.medianaFascia, guadagno = r.delta >= 0;
-    if (guadagno && sopra)        { r.verdetto='tieni';    r.etichetta='tieni'; }
-    else if (guadagno && !sopra)  { r.verdetto='vendi';    r.etichetta="vendi sull'onda"; }
-    else if (!guadagno && sopra)  { r.verdetto='riscatto'; r.etichetta='riscatto'; }
-    else                          { r.verdetto='zavorra';  r.etichetta='zavorra'; }
-  } else if (r.mio === null){
-    r.etichetta = 'senza rendimento';
-  } else if (r.medianaFascia === null){
-    r.etichetta = 'fascia troppo esigua';
-  } else if (r.pagato === null){
-    r.etichetta = 'manca il pagato';
-  }
+    if (guadagno && sopra)       { r.verdetto='tieni';    r.etichetta='tieni'; }
+    else if (guadagno)           { r.verdetto='vendi';    r.etichetta="vendi sull'onda"; }
+    else if (sopra)              { r.verdetto='riscatto'; r.etichetta='riscatto'; }
+    else                         { r.verdetto='zavorra';  r.etichetta='zavorra'; }
+  } else if (r.mio === null)            r.etichetta = 'senza rendimento';
+  else if (r.medianaFascia === null)    r.etichetta = 'fascia esigua';
+  else if (r.pagato === null)           r.etichetta = 'manca il pagato';
   return r;
 }
 
-/* ---------------- disegno rosa ---------------- */
+/* ---------------- disegno ---------------- */
 function disegnaRosa(){
-  const cont = $('reparti');
-  cont.innerHTML = '';
-
+  const cont = $('reparti'); cont.innerHTML = '';
   if (!ROSA.size){
-    cont.innerHTML = '<div class="vuoto">Nessun giocatore in rosa. Cercane uno qui sopra, oppure importa la rosa da FantaLab.</div>';
-    aggiornaSommario([]);
-    return;
+    cont.innerHTML = '<div class="vuoto">Nessun giocatore in rosa.<br>Cercane uno qui sopra, oppure importa la rosa da FantaLab.</div>';
+    aggiornaSommario([]); return;
   }
-
   const tutte = [];
   REPARTI.forEach(([sigla, titolo]) => {
     const ids = [...ROSA.keys()].filter(id => {
       const g = GIOCATORI.get(id); return g && g.ruolo === sigla;
     });
-    if (!ids.length && !QUOTE[sigla]) return;
-
     const analisi = ids.map(analizza).filter(Boolean)
       .sort((a,b) => (b.prezzo || 0) - (a.prezzo || 0));
     tutte.push(...analisi);
@@ -445,61 +491,51 @@ function disegnaRosa(){
     const box = document.createElement('div');
     box.className = 'reparto';
     const manca = analisi.length < QUOTE[sigla];
-    box.innerHTML =
-      `<div class="reparto-testa"><h3>${titolo}</h3>
-         <em class="${manca ? 'manca' : ''}">${analisi.length} / ${QUOTE[sigla]}</em></div>`;
-
+    box.innerHTML = `<div class="reparto-testa"><h3>${titolo}</h3>
+      <em class="${manca ? 'manca' : ''}">${analisi.length} / ${QUOTE[sigla]}</em></div>`;
     analisi.forEach(r => box.appendChild(rigaGiocatore(r)));
     cont.appendChild(box);
   });
-
   aggiornaSommario(tutte);
 }
 
 function rigaGiocatore(r){
-  const el = document.createElement('div');
-  el.className = 'g';
+  const el = document.createElement('div'); el.className = 'g';
+  const seg = v => v > 0 ? '+' : '';
+  const cls = v => v > 0 ? 'su' : (v < 0 ? 'giu' : '');
 
-  const segno = v => v > 0 ? '+' : '';
-  const cls   = v => v > 0 ? 'su' : (v < 0 ? 'giu' : '');
-
-  const prezzoTxt = r.prezzo !== null ? r.prezzo : '—';
-  const deltaTxt  = r.delta !== null
-    ? `<span class="${cls(r.delta)}">${segno(r.delta)}${r.delta}` +
-      (r.deltaPerc !== null ? ` (${segno(r.deltaPerc)}${r.deltaPerc.toFixed(0)}%)` : '') + '</span>'
+  const deltaTxt = r.delta !== null
+    ? `<span class="${cls(r.delta)}">${seg(r.delta)}${r.delta}` +
+      (r.deltaPerc !== null ? ` (${seg(r.deltaPerc)}${r.deltaPerc.toFixed(0)}%)` : '') + '</span>'
     : '—';
-  const rendTxt = (r.mio !== null)
+  const rendTxt = r.mio !== null
     ? `${r.mio.toFixed(2)}` + (r.medianaFascia !== null
-        ? ` vs <b>${r.medianaFascia.toFixed(2)}</b> di fascia (${r.peer})` : ' · fascia n.d.')
+        ? ` vs <b>${r.medianaFascia.toFixed(2)}</b> fascia (${r.peer})` : ' · fascia n.d.')
     : 'rendimento n.d.';
 
   el.innerHTML = `
-    <div class="nome">${r.g.nome}<small>${r.g.squadra_sigla || ''}</small></div>
-    <div class="dati">pagato <b>${r.pagato ?? '—'}</b> → ora <b>${prezzoTxt}</b> · ${deltaTxt} · ${rendTxt}</div>
-    <div class="destra">
-      <span class="verdetto v-${r.verdetto}">${r.etichetta}</span>
-      <input class="pagato" type="number" min="0" step="1" value="${r.pagato ?? ''}" title="Prezzo pagato">
-      <button class="x" title="Rimuovi">×</button>
-    </div>`;
+    <div class="nome">${esc(r.g.nome)}<small>${esc(r.g.squadra_sigla || '')}</small></div>
+    <div class="dati">${r.pagato ?? '—'} → <b>${r.prezzo ?? '—'}</b> · ${deltaTxt} · ${rendTxt}</div>
+    <span class="verdetto v-${r.verdetto}">${r.etichetta}</span>
+    <input class="pagato" type="number" inputmode="numeric" min="0" step="1"
+           value="${r.pagato ?? ''}" aria-label="Prezzo pagato">
+    <button class="x" aria-label="Rimuovi">×</button>`;
 
-  el.querySelector('input.pagato').addEventListener('change', e => {
-    salvaPagato(r.g.id, e.target.value);
-  });
+  el.querySelector('input.pagato').addEventListener('change', e => salvaPagato(r.g.id, e.target.value));
   el.querySelector('button.x').addEventListener('click', () => rimuovi(r.g.id));
   return el;
 }
 
-function aggiornaSommario(analisi){
-  const speso  = analisi.reduce((s,r) => s + (r.pagato || 0), 0);
-  const valore = analisi.reduce((s,r) => s + (r.prezzo || 0), 0);
+function aggiornaSommario(a){
+  const speso  = a.reduce((s,r) => s + (r.pagato || 0), 0);
+  const valore = a.reduce((s,r) => s + (r.prezzo || 0), 0);
   const plus   = valore - speso;
-  const sotto  = analisi.filter(r => r.mio !== null && r.medianaFascia !== null && r.mio < r.medianaFascia).length;
-
+  const sotto  = a.filter(r => r.mio !== null && r.medianaFascia !== null && r.mio < r.medianaFascia).length;
   $('s-speso').textContent  = speso || '—';
   $('s-valore').textContent = valore || '—';
-  $('s-plus').textContent   = analisi.length ? (plus > 0 ? '+' : '') + plus : '—';
+  $('s-plus').textContent   = a.length ? (plus > 0 ? '+' : '') + plus : '—';
   $('s-plus').style.color   = plus > 0 ? 'var(--ok)' : (plus < 0 ? 'var(--ko)' : '');
-  $('s-sotto').textContent  = analisi.length ? sotto : '—';
+  $('s-sotto').textContent  = a.length ? sotto : '—';
 }
 
 /* ---------------- modifiche rosa ---------------- */
@@ -512,39 +548,31 @@ async function aggiungi(id){
   msg('msg-rosa', `${GIOCATORI.get(id).nome} aggiunto. Scrivi il prezzo pagato nella riga.`, 'ok');
   disegnaRosa();
 }
-
 async function rimuovi(id){
   const { error } = await sb.from('rose_giocatori').delete()
     .eq('rosa_id', ROSA_ID).eq('giocatore_id', id);
   if (error) return msg('msg-rosa','Non riuscito: ' + error.message,'err');
-  ROSA.delete(id);
-  msg('msg-rosa','');
-  disegnaRosa();
+  ROSA.delete(id); msg('msg-rosa',''); disegnaRosa();
 }
-
 async function salvaPagato(id, valore){
   const v = Number(valore);
   if (!Number.isFinite(v) || v < 0) return;
   const { error } = await sb.from('rose_giocatori').update({ prezzo_pagato: v })
     .eq('rosa_id', ROSA_ID).eq('giocatore_id', id);
   if (error) return msg('msg-rosa','Non riuscito: ' + error.message,'err');
-  ROSA.set(id, v);
-  disegnaRosa();
+  ROSA.set(id, v); disegnaRosa();
 }
 
 /* ---------------- ricerca ---------------- */
 let selIdx = -1, ultimi = [];
 function cerca(){
-  const q = $('cerca').value.trim().toLowerCase();
-  const box = $('risultati');
+  const q = $('cerca').value.trim().toLowerCase(), box = $('risultati');
   if (q.length < 2){ box.classList.add('nascosto'); return; }
-
   ultimi = [...GIOCATORI.values()]
     .filter(g => !ROSA.has(g.id))
     .filter(g => (g.nome || '').toLowerCase().includes(q) ||
                  (g.nome_completo || '').toLowerCase().includes(q))
-    .sort((a,b) => (b.prezzo || 0) - (a.prezzo || 0))
-    .slice(0, 12);
+    .sort((a,b) => (b.prezzo || 0) - (a.prezzo || 0)).slice(0, 12);
 
   if (!ultimi.length){
     box.innerHTML = '<div style="color:var(--muted)">Nessun giocatore trovato.</div>';
@@ -552,80 +580,125 @@ function cerca(){
   }
   selIdx = -1;
   box.innerHTML = ultimi.map((g,i) =>
-    `<div data-i="${i}"><span>${g.nome} <small>${g.ruolo || '?'} · ${g.squadra_sigla || ''}</small></span>
+    `<div data-i="${i}"><span>${esc(g.nome)} <small>${esc(g.ruolo || '?')} · ${esc(g.squadra_sigla || '')}</small></span>
      <small>${g.prezzo !== null ? g.prezzo + ' cr' : 's.p.'}</small></div>`).join('');
   box.classList.remove('nascosto');
   box.querySelectorAll('div[data-i]').forEach(d =>
     d.addEventListener('click', () => scegli(Number(d.dataset.i))));
 }
-
 function scegli(i){
   const g = ultimi[i]; if (!g) return;
-  $('cerca').value = '';
+  $('cerca').value = ''; $('cerca').blur();
   $('risultati').classList.add('nascosto');
   aggiungi(g.id);
 }
 
-/* ---------------- import rosa (lettore tollerante) ---------------- */
+/* ---------------- import rosa ---------------- */
 const RE_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const RE_PREZZO = /(price|prezzo|cost|paid|pagato|value|amount|acquisto|bid)/i;
 
 function raccogli(nodo, out, chiave){
   if (nodo === null || typeof nodo !== 'object') return;
-
   if (Array.isArray(nodo)){ nodo.forEach(v => raccogli(v, out, null)); return; }
-
-  // oggetto: cerca un uuid fra i valori, oppure eredita la chiave-uuid del padre
-  let uuid = (chiave && RE_UUID.test(chiave)) ? chiave : null;
-  let prezzo = null;
-
+  let uuid = (chiave && RE_UUID.test(chiave)) ? chiave : null, prezzo = null;
   for (const [k, v] of Object.entries(nodo)){
     if (!uuid && typeof v === 'string' && RE_UUID.test(v) && GIOCATORI.has(v)) uuid = v;
     if (prezzo === null && typeof v === 'number' && RE_PREZZO.test(k)) prezzo = v;
   }
   if (uuid && GIOCATORI.has(uuid)) out.set(uuid, prezzo);
-
   for (const [k, v] of Object.entries(nodo)) raccogli(v, out, k);
 }
 
 async function importaRosa(){
   const testo = $('json-rosa').value.trim();
   if (!testo) return msg('msg-importa','Incolla prima il JSON.','err');
-
   $('btn-importa').disabled = true;
   try{
-    const dati = JSON.parse(testo);
     const trovati = new Map();
-    raccogli(dati, trovati, null);
-
+    raccogli(JSON.parse(testo), trovati, null);
     if (!trovati.size) throw new Error('Nessun giocatore riconosciuto. Assicurati di aver copiato la risposta per intero.');
 
     const nuovi = [...trovati.entries()].filter(([id]) => !ROSA.has(id));
     if (!nuovi.length){
-      msg('msg-importa', `Riconosciuti ${trovati.size} giocatori, tutti già in rosa.`, 'ok');
-      return;
+      msg('msg-importa', `Riconosciuti ${trovati.size} giocatori, tutti già in rosa.`, 'ok'); return;
     }
-
-    const righe = nuovi.map(([id, prezzo]) => ({
-      rosa_id: ROSA_ID, giocatore_id: id, prezzo_pagato: Number.isFinite(prezzo) ? prezzo : 0
-    }));
+    const righe = nuovi.map(([id, p]) => ({
+      rosa_id: ROSA_ID, giocatore_id: id, prezzo_pagato: Number.isFinite(p) ? p : 0 }));
     const { error } = await sb.from('rose_giocatori').insert(righe);
     if (error) throw error;
 
     nuovi.forEach(([id, p]) => ROSA.set(id, Number.isFinite(p) ? p : 0));
     const conPrezzo = nuovi.filter(([,p]) => Number.isFinite(p)).length;
-    msg('msg-importa',
-      `${nuovi.length} giocatori aggiunti, ${conPrezzo} con prezzo pagato riconosciuto.` +
+    msg('msg-importa', `${nuovi.length} giocatori aggiunti, ${conPrezzo} con prezzo pagato riconosciuto.` +
       (conPrezzo < nuovi.length ? ' Gli altri sono a zero: completali nella tabella.' : ''), 'ok');
-    $('json-rosa').value = '';
-    disegnaRosa();
-
+    $('json-rosa').value = ''; disegnaRosa();
   }catch(e){
     const t = e.message || String(e);
     msg('msg-importa', t.toLowerCase().includes('json')
       ? 'Il testo incollato non è JSON valido.' : 'Non riuscito: ' + t, 'err');
-  }finally{
-    $('btn-importa').disabled = false;
+  }finally{ $('btn-importa').disabled = false; }
+}
+
+/* ---------------- inviti ---------------- */
+async function caricaInviti(){
+  const el = $('elenco-inviti');
+  const { data: inviti, error } = await sb.from('inviti')
+    .select('email, is_admin, creato_il').order('creato_il');
+  if (error){ el.innerHTML = ''; return; }
+
+  const { data: profili } = await sb.from('profili').select('email');
+  const dentro = new Set((profili || []).map(p => (p.email || '').toLowerCase()));
+
+  if (!inviti.length){ el.innerHTML = '<div class="vuoto">Nessun invito ancora.</div>'; return; }
+
+  el.innerHTML = '';
+  inviti.forEach(i => {
+    const r = document.createElement('div'); r.className = 'inv';
+    const attivo = dentro.has((i.email || '').toLowerCase());
+    r.innerHTML = `
+      <div class="mail">${esc(i.email)}${i.is_admin ? '<span class="badge">Admin</span>' : ''}</div>
+      <span class="stato ${attivo ? 'dentro' : 'attesa'}">${attivo ? 'registrato' : 'in attesa'}</span>
+      <button class="x" aria-label="Revoca">×</button>`;
+    r.querySelector('button.x').addEventListener('click', () => revoca(i.email, attivo));
+    el.appendChild(r);
+  });
+}
+
+async function invita(){
+  const email = $('nuovo-invito').value.trim().toLowerCase();
+  if (!email || !email.includes('@')) return msg('msg-invito','Scrivi un indirizzo email valido.','err');
+
+  const { error } = await sb.from('inviti')
+    .insert({ email, is_admin: $('invito-admin').checked });
+
+  if (error){
+    return msg('msg-invito', (error.code === '23505')
+      ? 'Questa email è già fra gli invitati.' : 'Non riuscito: ' + error.message, 'err');
+  }
+  $('nuovo-invito').value = ''; $('invito-admin').checked = false;
+  msg('msg-invito', `${email} può ora accedere. Mandagli il link del sito.`, 'ok');
+  caricaInviti();
+}
+
+async function revoca(email, giaDentro){
+  const avviso = giaDentro
+    ? `Revocare l'invito a ${email}?\n\nNon potrà più registrarsi, ma essendo già entrato la sua sessione resta valida. Per escluderlo davvero cancella anche l'utente in Supabase › Authentication › Users.`
+    : `Revocare l'invito a ${email}?`;
+  if (!confirm(avviso)) return;
+
+  const { error } = await sb.from('inviti').delete().eq('email', email);
+  if (error) return msg('msg-invito','Non riuscito: ' + error.message,'err');
+  msg('msg-invito', `Invito a ${email} revocato.`, 'ok');
+  caricaInviti();
+}
+
+async function copiaLink(){
+  const url = window.location.origin + window.location.pathname;
+  try{
+    await navigator.clipboard.writeText(url);
+    msg('msg-invito','Link copiato negli appunti.','ok');
+  }catch(e){
+    msg('msg-invito','Copia a mano: ' + url, 'ok');
   }
 }
 
@@ -633,8 +706,7 @@ async function importaRosa(){
 async function chiediLink(){
   const email = $('email').value.trim();
   if (!email) return msg('msg-login','Scrivi la tua email per ricevere il link.','err');
-  $('btn-entra').disabled = true;
-  msg('msg-login','Invio in corso…');
+  $('btn-entra').disabled = true; msg('msg-login','Invio in corso…');
   const ritorno = window.location.origin + window.location.pathname;
   const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: ritorno } });
   $('btn-entra').disabled = false;
@@ -647,40 +719,34 @@ async function chiediLink(){
   else msg('msg-login', error.message, 'err');
 }
 
-/* ---------------- admin ---------------- */
+/* ---------------- archivio (admin) ---------------- */
 async function aggiornaStato(){
   const conta = async (tab, filtro) => {
     let q = sb.from(tab).select('*', { count:'exact', head:true });
     if (filtro) q = filtro(q);
-    const { count, error } = await q;
-    return error ? '—' : count;
+    const { count, error } = await q; return error ? '—' : count;
   };
   $('n-giocatori').textContent = await conta('giocatori', q => q.eq('in_listone', true));
   $('n-prezzi').textContent    = await conta('prezzi_correnti');
   const { data } = await sb.from('giocatori')
-    .select('aggiornato_il').order('aggiornato_il', { ascending:false }).limit(1).maybeSingle();
+    .select('aggiornato_il').order('aggiornato_il',{ ascending:false }).limit(1).maybeSingle();
   $('ultimo').textContent = data
-    ? new Date(data.aggiornato_il).toLocaleString('it-IT',{ dateStyle:'short', timeStyle:'short' })
-    : 'mai';
+    ? new Date(data.aggiornato_il).toLocaleString('it-IT',{ dateStyle:'short', timeStyle:'short' }) : 'mai';
 }
 
 function mappaGiocatore(p){
   const s = p.stats || {};
   return {
-    id: p.player_id,
-    fantacalcio_id: num(p.fantacalcio_id), sportsmonks_id: num(p.sportsmonks_id),
+    id: p.player_id, fantacalcio_id: num(p.fantacalcio_id), sportsmonks_id: num(p.sportsmonks_id),
     nome: p.name, nome_completo: p.full_name ? p.full_name.trim() : null,
     squadra: p.team_name || null, squadra_sigla: p.team_short || null,
-    immagine: p.player_image || null,
-    ruolo: p.role || null, ruoli_mantra: p.mantra_roles || [],
+    immagine: p.player_image || null, ruolo: p.role || null, ruoli_mantra: p.mantra_roles || [],
     quotazione: num(s.quotazione), quotazione_mantra: num(s.quotazione_mantra),
     prezzo_base: num(s.fallback_price),
     presenze: num((p.presenze !== null && p.presenze !== undefined) ? p.presenze : s.presenze),
     media_voto: num(s.mv), fantamedia: num(s.fmv), fantamedia_attesa: num(s.xfmv),
-    gol: num(s.gol_fatti), assist: num(s.assist),
-    ammonizioni: num(s.amm), espulsioni: num(s.esp),
-    in_listone: p.is_in_listone !== false,
-    aggiornato_il: new Date().toISOString()
+    gol: num(s.gol_fatti), assist: num(s.assist), ammonizioni: num(s.amm), espulsioni: num(s.esp),
+    in_listone: p.is_in_listone !== false, aggiornato_il: new Date().toISOString()
   };
 }
 
@@ -692,7 +758,6 @@ async function aggiornaAnagrafica(){
     if (!risposta.ok) throw new Error('FantaLab ha risposto ' + risposta.status);
     const lista = (await risposta.json()).players || [];
     if (!lista.length) throw new Error('Risposta vuota: nessun giocatore ricevuto.');
-
     const righe = lista.map(mappaGiocatore), blocco = 200; let scritti = 0;
     for (let i = 0; i < righe.length; i += blocco){
       const pezzo = righe.slice(i, i + blocco);
@@ -704,16 +769,14 @@ async function aggiornaAnagrafica(){
     const conStat = righe.filter(r => r.fantamedia !== null).length;
     msg('msg-anagrafica', `${scritti} giocatori aggiornati, ${conStat} con fantamedia disponibile.`, 'ok');
     await caricaArchivio(); disegnaRosa(); aggiornaStato();
-  }catch(e){
-    msg('msg-anagrafica','Non riuscito: ' + (e.message || e),'err');
-  }finally{ btn.disabled = false; }
+  }catch(e){ msg('msg-anagrafica','Non riuscito: ' + (e.message || e),'err'); }
+  finally{ btn.disabled = false; }
 }
 
 function estraiPrezzi(testo){
   const d = JSON.parse(testo);
   if (d && d.prices && !Array.isArray(d.prices)){
-    return Object.entries(d.prices)
-      .map(([id, v]) => ({ id, prezzo: Number(v && v.price) }))
+    return Object.entries(d.prices).map(([id, v]) => ({ id, prezzo: Number(v && v.price) }))
       .filter(p => Number.isFinite(p.prezzo));
   }
   if (Array.isArray(d)){
@@ -724,18 +787,15 @@ function estraiPrezzi(testo){
 }
 
 async function registraPrezzi(){
-  const btn = $('btn-prezzi');
-  const testo = $('json-prezzi').value.trim();
+  const btn = $('btn-prezzi'), testo = $('json-prezzi').value.trim();
   if (!testo) return msg('msg-prezzi','Incolla prima il JSON dei prezzi.','err');
   btn.disabled = true; msg('msg-prezzi','Leggo il JSON…');
   try{
     const prezzi = estraiPrezzi(testo);
     if (!prezzi.length) throw new Error('Nessun prezzo trovato nel testo incollato.');
-
     const { data: gio, error: e1 } = await sb.from('giocatori').select('id');
     if (e1) throw e1;
     const noti = new Set((gio || []).map(g => g.id));
-
     const { data: correnti, error: e2 } = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
     if (e2) throw e2;
     const attuale = new Map((correnti || []).map(r => [r.giocatore_id, Number(r.prezzo)]));
@@ -790,6 +850,10 @@ document.addEventListener('click', e => {
 $('banda').addEventListener('change', disegnaRosa);
 $('metrica').addEventListener('change', disegnaRosa);
 $('btn-importa').addEventListener('click', importaRosa);
+
+$('btn-invita').addEventListener('click', invita);
+$('nuovo-invito').addEventListener('keydown', e => { if (e.key === 'Enter') invita(); });
+$('btn-link').addEventListener('click', copiaLink);
 
 $('tab-rosa').addEventListener('click', () => {
   $('tab-rosa').classList.add('attiva'); $('tab-admin').classList.remove('attiva');
