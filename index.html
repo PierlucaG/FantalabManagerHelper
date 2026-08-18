@@ -49,7 +49,7 @@
 
   .card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px;margin-bottom:16px}
   .card h2{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--muted);margin:0 0 16px;font-weight:500}
+    color:var(--muted);margin:0 0 16px;font-weight:500;display:flex;align-items:center;flex-wrap:wrap;gap:0}
   .card p.nota{color:var(--muted);font-size:13px;margin:0 0 14px}
   code{font-family:var(--mono);font-size:12px;background:var(--ink);padding:1px 5px;border-radius:2px;
     word-break:break-all}
@@ -84,6 +84,7 @@
   button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
   button.ghost:hover:not(:disabled){color:var(--text)}
   .full{width:100%;margin-top:14px}
+  .mini{font-size:13px;padding:7px 12px;min-height:34px}
 
   .msg{margin-top:14px;padding:11px 13px;border-radius:3px;font-size:14px;
     border-left:3px solid var(--line);background:var(--panel-2)}
@@ -147,7 +148,6 @@
   .reparto-testa em .manca{color:var(--warn)}
   .reparto-testa em .su{color:var(--ok)} .reparto-testa em .giu{color:var(--ko)}
 
-  /* ---- riga giocatore ---- */
   .g{display:grid;gap:5px 10px;padding:12px 0;border-bottom:1px solid var(--line);
      grid-template-columns:1fr auto auto auto auto;
      grid-template-areas:"nome verd pagato alt x" "dati verd pagato alt x";align-items:center}
@@ -161,23 +161,39 @@
   .g .verdetto{grid-area:verd;justify-self:end}
   .g input.pagato{grid-area:pagato;width:72px;padding:8px;font-family:var(--mono);
     font-size:14px;text-align:right}
-  .g .alt{grid-area:alt}
-  .g .x{grid-area:x}
-  .g .alt,.g .x{background:none;border:0;color:var(--muted);cursor:pointer;padding:0 4px;
+  .g .alt{grid-area:alt} .g .x{grid-area:x}
+  .g .alt,.g .x{background:none;border:0;color:var(--muted);cursor:pointer;padding:0 5px;
     font-family:var(--body);text-transform:none;min-height:36px;line-height:1;font-size:19px;
     letter-spacing:0;font-weight:400}
-  .g .alt{font-size:16px}
+  .g .alt{font-size:17px}
   .g .alt:hover{color:var(--rosa)} .g .x:hover{color:var(--ko)}
-  .g .alt.aperta{color:var(--rosa)}
+  .g .alt.scelto{color:#16111a;background:var(--rosa);border-radius:3px}
 
-  /* ---- pannello alternative ---- */
-  .alt-box{grid-column:1/-1;background:var(--panel-2);border-radius:3px;
-    padding:13px 15px;margin-top:8px;font-size:13px}
-  .alt-box h4{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--muted);margin:0 0 11px;font-weight:500}
+  .verdetto{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+    text-transform:uppercase;padding:4px 7px;border-radius:2px;white-space:nowrap}
+  .v-tieni{background:rgba(110,231,168,.16);color:var(--ok)}
+  .v-vendi{background:rgba(255,209,102,.16);color:var(--warn)}
+  .v-riscatto{background:rgba(242,169,181,.16);color:var(--rosa)}
+  .v-zavorra{background:rgba(255,130,114,.16);color:var(--ko)}
+  .v-nd{background:var(--panel-2);color:var(--muted)}
+
+  /* ---- sostituzioni ---- */
+  .sost-ctrl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}
+  .blocco{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+  .blocco:first-of-type{border-top:0;padding-top:0;margin-top:0}
+  .blocco-testa{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:11px}
+  .blocco-testa .chi{font-family:var(--display);font-size:20px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
+  .blocco-testa .chi small{font-family:var(--mono);font-size:11px;font-weight:400;
+    text-transform:none;letter-spacing:.04em;color:var(--muted);margin-left:8px}
+  .blocco-testa .via{background:none;border:0;color:var(--muted);font-size:19px;cursor:pointer;
+    padding:0 4px;min-height:32px;line-height:1;text-transform:none;font-family:var(--body)}
+  .blocco-testa .via:hover{color:var(--ko)}
   .alt-r{display:grid;grid-template-columns:1fr auto auto auto;gap:3px 12px;
-    padding:8px 0;border-bottom:1px solid var(--line);align-items:baseline}
+    padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline}
   .alt-r:last-child{border-bottom:0}
+  .alt-r.top{background:rgba(110,231,168,.05);margin:0 -8px;padding-left:8px;padding-right:8px;
+    border-radius:2px}
   .alt-r .n{font-weight:600;font-size:14px}
   .alt-r .n small{font-weight:400;color:var(--muted);font-family:var(--mono);
     font-size:11px;margin-left:6px}
@@ -187,14 +203,9 @@
   .alt-nulla{color:var(--muted);font-size:13px;line-height:1.6}
   .tag-tuo{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
     background:var(--line);color:var(--muted);padding:2px 6px;border-radius:2px;margin-left:6px}
-
-  .verdetto{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;
-    text-transform:uppercase;padding:4px 7px;border-radius:2px;white-space:nowrap}
-  .v-tieni{background:rgba(110,231,168,.16);color:var(--ok)}
-  .v-vendi{background:rgba(255,209,102,.16);color:var(--warn)}
-  .v-riscatto{background:rgba(242,169,181,.16);color:var(--rosa)}
-  .v-zavorra{background:rgba(255,130,114,.16);color:var(--ko)}
-  .v-nd{background:var(--panel-2);color:var(--muted)}
+  #totale-sost{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.6}
+  #totale-sost b{color:var(--text);font-weight:500}
 
   .cerca{position:relative}
   .risultati{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);
@@ -231,9 +242,9 @@
     .sub{margin-bottom:20px}
     .sommario{grid-template-columns:repeat(2,1fr)}
     .sommario b{font-size:24px}
-    .controlli{grid-template-columns:1fr}
+    .controlli,.sost-ctrl{grid-template-columns:1fr}
     .invita{grid-template-columns:1fr}
-    .card > button:not(.x):not(.info){width:100%}
+    .card > button:not(.x):not(.info):not(.via){width:100%}
     textarea{font-size:16px}
     .g{grid-template-columns:1fr auto auto;
        grid-template-areas:"nome alt x" "dati dati dati" "verd verd pagato";
@@ -289,7 +300,7 @@
           <li><b>Speso</b> — la somma di quanto hai pagato all'asta.</li>
           <li><b>Valore ora</b> — quanto valgono oggi gli stessi giocatori ai prezzi Manager.</li>
           <li><b>Plusvalenza</b> — la differenza fra i due.</li>
-          <li><b>Sotto mediana</b> — quanti dei tuoi rendono meno del giocatore mediano della loro fascia di prezzo. È il numero scomodo: dice quanti stai pagando più di quanto rendano.</li>
+          <li><b>Sotto mediana</b> — quanti dei tuoi rendono meno del giocatore mediano della loro fascia di prezzo.</li>
         </ul>
       </div>
 
@@ -305,16 +316,14 @@
         <div class="spiega nascosto">
           Ogni pallino è un tuo giocatore. In orizzontale la <b>plusvalenza</b> in percentuale
           sul prezzo pagato; in verticale lo scarto fra il suo <b>rendimento</b> e la mediana
-          della sua fascia. Le due linee al centro sono lo zero. Tocca un pallino per i dettagli.
+          della sua fascia. Tocca un pallino per i dettagli.
           <p><b>I due assi non pesano uguale.</b> Quello verticale dice se un giocatore vale il
           prezzo che ha oggi. Quello orizzontale dice solo com'è andato l'acquisto: quanto hai
-          pagato è ormai speso e non cambia se convenga tenerlo. Il segnale di vendita sta
-          quindi soprattutto in verticale — sia <i>zavorra</i> sia <i>vendi sull'onda</i> sono
-          candidati alla cessione, la differenza è che nel secondo caso ci guadagni anche.</p>
+          pagato è ormai speso e non cambia se convenga tenerlo.</p>
           <p><b>Tre cose che il tool non sa.</b> Se un giocatore è appena arrivato o rientra da
           un infortunio, il passato non predice il futuro. Se al suo prezzo non esiste di meglio,
-          venderlo non ti migliora — per questo c'è il pulsante ⇄ su ogni riga. E il prezzo è
-          quello che dice il mercato interno, non la garanzia che qualcuno compri a quella cifra.</p>
+          venderlo non ti migliora — per questo c'è il ⇄. E il prezzo è quello che dice il
+          mercato interno, non la garanzia che qualcuno compri a quella cifra.</p>
         </div>
         <svg id="grafico" viewBox="0 0 400 300" role="img" aria-label="Grafico a quadranti"></svg>
         <div class="legenda">
@@ -331,8 +340,7 @@
         <div class="spiega nascosto">
           Scrivi almeno due lettere del cognome: compaiono i giocatori a listone con ruolo,
           squadra e prezzo Manager attuale. Chi è già in rosa non viene proposto.
-          <p>Dopo averlo aggiunto, scrivi nella riga il <b>prezzo che hai pagato all'asta</b>:
-          è il dato che rende possibile il calcolo della plusvalenza.</p>
+          <p>Dopo averlo aggiunto, scrivi nella riga il <b>prezzo che hai pagato all'asta</b>.</p>
         </div>
         <div class="cerca">
           <input id="cerca" type="text" autocomplete="off" autocapitalize="off"
@@ -345,17 +353,14 @@
       <div class="card">
         <h2>Parametri analisi <button class="info" aria-label="Spiegazione">i</button></h2>
         <div class="spiega nascosto">
-          <b>Ampiezza fascia</b> — definisce chi sono i "pari prezzo". A ±20% un giocatore da
-          100 crediti viene confrontato con chi sta fra 80 e 120, stesso ruolo. Stringere rende
-          il confronto più mirato ma con meno giocatori; allargare fa il contrario.
-          <p>La fascia serve a due cose: calcolare la mediana che compare in ogni riga, e
-          popolare l'elenco delle alternative che apri con il pulsante <b>⇄</b>.</p>
+          <b>Ampiezza fascia</b> — definisce chi sono i "pari prezzo" ai fini del giudizio.
+          A ±20% un giocatore da 100 crediti viene confrontato con chi sta fra 80 e 120, stesso
+          ruolo, e da quel gruppo esce la mediana che vedi in ogni riga. Serve solo per i verdetti:
+          per cercare sostituti c'è il budget, nel pannello Sostituzioni.
           <p><b>Metrica</b> — la fantamedia include bonus e malus, la media voto misura solo la
           prestazione, la fantamedia attesa è la stima di FantaLab depurata dalla fortuna.
-          Quest'ultima è disponibile per quasi tutti i giocatori, mentre la fantamedia manca a
-          chi non ha giocato in Serie A l'anno scorso.</p>
-          <p>Sotto i due menu, il riepilogo ti dice quanti giocatori riescono a essere valutati
-          con le impostazioni correnti. Se stringi troppo la fascia, quel numero cala.</p>
+          Quest'ultima è disponibile per quasi tutti, mentre la fantamedia manca a chi non ha
+          giocato in Serie A l'anno scorso.</p>
         </div>
         <div class="controlli">
           <div>
@@ -381,12 +386,57 @@
 
       <div id="reparti"></div>
 
+      <!-- ---- sostituzioni ---- -->
+      <div class="card nascosto" id="card-sost" style="margin-top:22px">
+        <h2>Sostituzioni <button class="info" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto">
+          Premi il <b>⇄</b> accanto a un giocatore per cercargli un sostituto. Puoi selezionarne
+          quanti vuoi e confrontarli insieme.
+          <p><b>Budget</b> — quanti crediti sei disposto a mettere in più rispetto al prezzo
+          attuale del giocatore. A <i>+25</i>, per uno che ne vale 100 vedi tutto ciò che costa
+          fino a 125, compreso ciò che costa meno. È un vincolo diverso dall'ampiezza fascia:
+          quello serve a giudicare, questo a comprare.</p>
+          <p><b>Miglioramento minimo</b> — scarta le alternative che rendono solo un'inezia in
+          più, che non giustificano uno scambio.</p>
+          <p>Compaiono solo giocatori dello stesso ruolo, perché devono occupare lo stesso slot.
+          La colonna finale è il costo dello scambio: negativo significa che ci guadagni crediti.
+          La prima riga di ogni elenco, evidenziata, è la migliore per rendimento.</p>
+        </div>
+
+        <div class="sost-ctrl">
+          <div>
+            <label for="budget">Budget in più</label>
+            <select id="budget">
+              <option value="0">Stesso prezzo o meno</option>
+              <option value="5">+ 5 crediti</option>
+              <option value="10" selected>+ 10 crediti</option>
+              <option value="25">+ 25 crediti</option>
+              <option value="50">+ 50 crediti</option>
+              <option value="100">+ 100 crediti</option>
+              <option value="9999">Qualsiasi prezzo</option>
+            </select>
+          </div>
+          <div>
+            <label for="soglia">Miglioramento minimo</label>
+            <select id="soglia">
+              <option value="0" selected>Qualsiasi</option>
+              <option value="0.25">+ 0,25</option>
+              <option value="0.5">+ 0,50</option>
+              <option value="1">+ 1,00</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="blocchi-sost"></div>
+        <div id="totale-sost"></div>
+        <button id="btn-svuota" class="ghost full">Svuota selezione</button>
+      </div>
+
       <div class="card" style="margin-top:22px">
         <h2>Importa rosa da FantaLab <button class="info" aria-label="Spiegazione">i</button></h2>
         <div class="spiega nascosto">
-          Alternativa alla ricerca manuale, per chi se la cava con gli strumenti sviluppatore
-          del browser. Su FantaLab apri Network, filtra su Fetch/XHR, ricarica, trova la
-          chiamata che restituisce la tua rosa e copiane il corpo della risposta.
+          Alternativa alla ricerca manuale. Su FantaLab apri Network, filtra su Fetch/XHR,
+          ricarica, trova la chiamata che restituisce la tua rosa e copiane il corpo della risposta.
           <p>Il lettore riconosce i giocatori dai loro identificativi e, se li trova, anche i
           prezzi pagati. Quelli che non riesce a leggere restano a zero.</p>
         </div>
@@ -407,8 +457,7 @@
           Chi non è in questo elenco non può registrarsi: il rifiuto avviene nel database,
           prima ancora che l'account esista.
           <p><b>Registrato</b> significa che la persona ha completato l'accesso;
-          <b>in attesa</b> che il link non è ancora stato aperto — controlla che non sia
-          finito nello spam.</p>
+          <b>in attesa</b> che il link non è ancora stato aperto.</p>
           <p>La × revoca l'invito e blocca le registrazioni future, ma non espelle chi è
           già entrato: per farlo cancella l'utente in Supabase, sotto Authentication › Users.</p>
         </div>
@@ -437,10 +486,8 @@
         <h2>Anagrafica e statistiche <button class="info" aria-label="Spiegazione">i</button></h2>
         <div class="spiega nascosto">
           Scarica dall'API pubblica di FantaLab i giocatori a listone: nomi, squadre, ruoli,
-          quotazioni ufficiali, media voto e fantamedia. Aggiorna quelli già presenti senza
-          toccare le rose di nessuno.
-          <p>Una volta al giorno è più che sufficiente. Finché il campionato non comincia,
-          media voto e fantamedia arrivano dalla stagione scorsa.</p>
+          quotazioni ufficiali, media voto e fantamedia. Non tocca le rose di nessuno.
+          <p>Una volta al giorno è più che sufficiente.</p>
         </div>
         <button id="btn-anagrafica">Aggiorna anagrafica</button>
         <div id="msg-anagrafica" class="msg"></div>
@@ -452,8 +499,8 @@
           Questi prezzi vivono solo dentro FantaLab e richiedono l'accesso, quindi vanno
           incollati a mano. Su FantaLab apri Network, ricarica, trova <code>/v2/prices</code>
           e copiane la risposta.
-          <p>Finiscono nello storico solo i prezzi <b>cambiati</b> rispetto all'ultima
-          rilevazione: se premi due volte di fila la seconda non duplica nulla.</p>
+          <p>Finiscono nello storico solo i prezzi <b>cambiati</b>: premendo due volte di fila
+          la seconda non duplica nulla.</p>
         </div>
         <label for="json-prezzi">JSON dei prezzi</label>
         <textarea id="json-prezzi" placeholder='{"season_id": 17, "prices": { ... } }'></textarea>
@@ -481,7 +528,7 @@ const QUOTE   = { P:3, D:8, C:8, A:6 };
 const REPARTI = [['P','Portieri'],['D','Difensori'],['C','Centrocampisti'],['A','Attaccanti']];
 const COLORE  = { P:'var(--r-p)', D:'var(--r-d)', C:'var(--r-c)', A:'var(--r-a)' };
 const NOME_METRICA = { fantamedia:'fantamedia', media_voto:'media voto', fantamedia_attesa:'fantamedia attesa' };
-const MIN_FASCIA = 3, MAX_ALT = 8;
+const MIN_FASCIA = 3, MAX_ALT = 10;
 
 const STATISTICHE = ['fmv','mv','presenze','gol_fatti','assist','amm','esp',
                      'quotazione','quotazione_mantra','xfmv','fallback_price'];
@@ -495,7 +542,7 @@ const $ = id => document.getElementById(id);
 let sb = null, sonoAdmin = false;
 let GIOCATORI = new Map(), ROSA_ID = null, ROSA = new Map();
 let CHIUSI = { P:false, D:false, C:false, A:false };
-let APERTI = new Set();
+let SCELTI = new Set();
 
 /* ---------------- utilità ---------------- */
 function msg(dove, testo, tipo){
@@ -570,15 +617,10 @@ async function caricaRosa(session){
 }
 
 /* ---------------- analisi ---------------- */
-function fascia(prezzo){
-  const b = Number($('banda').value) / 100;
-  return { lo: prezzo * (1 - b), hi: prezzo * (1 + b) };
-}
-
 function analizza(id){
   const g = GIOCATORI.get(id);
   if (!g) return null;
-  const metrica = $('metrica').value;
+  const metrica = $('metrica').value, banda = Number($('banda').value) / 100;
   const pagato = ROSA.get(id), prezzo = g.prezzo, mio = num(g[metrica]);
 
   const r = { g, pagato, prezzo, mio, delta:null, deltaPerc:null,
@@ -589,7 +631,7 @@ function analizza(id){
     r.deltaPerc = pagato > 0 ? (r.delta / pagato) * 100 : null;
   }
   if (prezzo !== null){
-    const { lo, hi } = fascia(prezzo), vicini = [];
+    const lo = prezzo * (1 - banda), hi = prezzo * (1 + banda), vicini = [];
     GIOCATORI.forEach(o => {
       if (o.ruolo !== g.ruolo) return;
       if (o.prezzo === null || o.prezzo < lo || o.prezzo > hi) return;
@@ -612,29 +654,34 @@ function analizza(id){
   return r;
 }
 
-/* chi rende più di lui, stesso ruolo, stessa fascia di prezzo */
+/* chi rende più di lui, stesso ruolo, entro il budget dichiarato */
 function alternative(r){
   if (r.prezzo === null || r.mio === null) return null;
   const metrica = $('metrica').value;
-  const { lo, hi } = fascia(r.prezzo);
+  const budget  = Number($('budget').value);
+  const soglia  = Number($('soglia').value);
+  const tetto   = r.prezzo + budget;
   const out = [];
   GIOCATORI.forEach(o => {
     if (o.id === r.g.id || o.ruolo !== r.g.ruolo) return;
-    if (o.prezzo === null || o.prezzo < lo || o.prezzo > hi) return;
+    if (o.prezzo === null || o.prezzo > tetto) return;
     const v = num(o[metrica]);
-    if (v === null || v <= r.mio) return;
-    out.push({ g:o, v, meglio: v - r.mio, costo: o.prezzo - r.prezzo, tuo: ROSA.has(o.id) });
+    if (v === null) return;
+    const meglio = v - r.mio;
+    if (meglio <= 0 || meglio < soglia) return;
+    out.push({ g:o, v, meglio, costo: o.prezzo - r.prezzo, tuo: ROSA.has(o.id) });
   });
   return out.sort((a,b) => b.v - a.v).slice(0, MAX_ALT);
 }
 
-/* ---------------- disegno ---------------- */
+/* ---------------- disegno rosa ---------------- */
 function disegnaRosa(){
   const cont = $('reparti'); cont.innerHTML = '';
   if (!ROSA.size){
     cont.innerHTML = '<div class="vuoto">Nessun giocatore in rosa.<br>Cercane uno qui sopra, oppure importa la rosa da FantaLab.</div>';
     aggiornaSommario([]); disegnaGrafico([]); aggiornaRiepilogo([]);
     $('card-grafico').classList.add('nascosto');
+    disegnaSostituzioni();
     return;
   }
   $('card-grafico').classList.remove('nascosto');
@@ -678,6 +725,7 @@ function disegnaRosa(){
   aggiornaSommario(tutte);
   aggiornaRiepilogo(tutte);
   disegnaGrafico(tutte);
+  disegnaSostituzioni();
 }
 
 function rigaGiocatore(r){
@@ -699,7 +747,8 @@ function rigaGiocatore(r){
     <span class="verdetto v-${r.verdetto}">${r.etichetta}</span>
     <input class="pagato" type="number" inputmode="numeric" min="0" step="1"
            value="${r.pagato ?? ''}" aria-label="Prezzo pagato">
-    <button class="alt" aria-label="Alternative in fascia" title="Chi rende di più al suo prezzo">⇄</button>
+    <button class="alt${SCELTI.has(r.g.id) ? ' scelto' : ''}"
+            aria-label="Cerca sostituti" title="Cerca un sostituto">⇄</button>
     <button class="x" aria-label="Rimuovi">×</button>`;
 
   const campo = el.querySelector('input.pagato');
@@ -710,50 +759,16 @@ function rigaGiocatore(r){
   campo.addEventListener('blur', e => { if (e.target.value === '') salvaPagato(r.g.id, 0); });
   campo.addEventListener('change', e => salvaPagato(r.g.id, e.target.value));
   el.querySelector('button.x').addEventListener('click', () => rimuovi(r.g.id));
-
-  const bAlt = el.querySelector('button.alt');
-  bAlt.addEventListener('click', () => {
-    const esistente = el.querySelector('.alt-box');
-    if (esistente){ esistente.remove(); APERTI.delete(r.g.id); bAlt.classList.remove('aperta'); }
-    else { el.appendChild(pannelloAlternative(r)); APERTI.add(r.g.id); bAlt.classList.add('aperta'); }
-  });
-  if (APERTI.has(r.g.id)){ el.appendChild(pannelloAlternative(r)); bAlt.classList.add('aperta'); }
-
+  el.querySelector('button.alt').addEventListener('click', () => commutaScelto(r.g.id));
   return el;
 }
 
-function pannelloAlternative(r){
-  const box = document.createElement('div');
-  box.className = 'alt-box';
-  const lista = alternative(r);
-  const nomeM = NOME_METRICA[$('metrica').value];
-
-  if (lista === null){
-    box.innerHTML = `<div class="alt-nulla">Serve il prezzo Manager e un rendimento noto
-      per cercare alternative a questo giocatore.</div>`;
-    return box;
-  }
-  const { lo, hi } = fascia(r.prezzo);
-  box.innerHTML = `<h4>Meglio di lui fra ${Math.round(lo)} e ${Math.round(hi)} crediti · ${nomeM}</h4>`;
-
-  if (!lista.length){
-    box.innerHTML += `<div class="alt-nulla">Nessuno rende più di lui in questa fascia.
-      Al suo prezzo è la scelta migliore disponibile: venderlo non ti migliorerebbe.</div>`;
-    return box;
-  }
-
-  lista.forEach(a => {
-    const cCosto = a.costo > 0 ? 'su' : (a.costo < 0 ? 'giu' : '');
-    const riga = document.createElement('div');
-    riga.className = 'alt-r';
-    riga.innerHTML = `
-      <div class="n">${esc(a.g.nome)}<small>${esc(a.g.squadra_sigla || '')}</small>${a.tuo ? '<span class="tag-tuo">già tuo</span>' : ''}</div>
-      <span>${a.g.prezzo} cr</span>
-      <span class="meglio">${a.v.toFixed(2)} (+${a.meglio.toFixed(2)})</span>
-      <span class="costo ${cCosto}">${seg(a.costo)}${a.costo} cr</span>`;
-    box.appendChild(riga);
-  });
-  return box;
+function commutaScelto(id){
+  const primo = SCELTI.size === 0;
+  if (SCELTI.has(id)) SCELTI.delete(id); else SCELTI.add(id);
+  disegnaRosa();
+  if (primo && SCELTI.size)
+    setTimeout(() => $('card-sost').scrollIntoView({ behavior:'smooth', block:'start' }), 60);
 }
 
 function aggiornaSommario(a){
@@ -770,7 +785,7 @@ function aggiornaSommario(a){
 
 function aggiornaRiepilogo(a){
   const el = $('riepilogo');
-  if (!a.length){ el.textContent = 'Aggiungi giocatori per vedere l\'analisi.'; return; }
+  if (!a.length){ el.textContent = "Aggiungi giocatori per vedere l'analisi."; return; }
   const valutati    = a.filter(r => r.verdetto !== 'nd').length;
   const senzaRend   = a.filter(r => r.mio === null).length;
   const senzaFascia = a.filter(r => r.mio !== null && r.medianaFascia === null).length;
@@ -785,6 +800,65 @@ function aggiornaRiepilogo(a){
   if (senzaPagato) mancano.push(`${senzaPagato} senza prezzo pagato`);
   if (mancano.length) t += ' Esclusi: ' + mancano.join(', ') + '.';
   el.innerHTML = t;
+}
+
+/* ---------------- sostituzioni ---------------- */
+function disegnaSostituzioni(){
+  const card = $('card-sost'), cont = $('blocchi-sost'), tot = $('totale-sost');
+  if (!SCELTI.size){ card.classList.add('nascosto'); cont.innerHTML = ''; tot.innerHTML = ''; return; }
+  card.classList.remove('nascosto');
+  cont.innerHTML = '';
+
+  const nomeM = NOME_METRICA[$('metrica').value];
+  let costoTot = 0, guadagnoTot = 0, conProposta = 0;
+
+  [...SCELTI].forEach(id => {
+    const r = analizza(id);
+    if (!r) return;
+    const blocco = document.createElement('div');
+    blocco.className = 'blocco';
+
+    const rendMio = r.mio !== null ? r.mio.toFixed(2) : 'n.d.';
+    const testa = document.createElement('div');
+    testa.className = 'blocco-testa';
+    testa.innerHTML =
+      `<div class="chi">${esc(r.g.nome)}
+         <small>${esc(r.g.squadra_sigla || '')} · ${r.prezzo ?? '—'} cr · ${nomeM} ${rendMio}</small></div>
+       <button class="via" aria-label="Togli dalla selezione">×</button>`;
+    testa.querySelector('button.via').addEventListener('click', () => commutaScelto(id));
+    blocco.appendChild(testa);
+
+    const lista = alternative(r);
+    if (lista === null){
+      blocco.insertAdjacentHTML('beforeend',
+        `<div class="alt-nulla">Serve il prezzo Manager e un rendimento noto per cercargli un sostituto.</div>`);
+    } else if (!lista.length){
+      blocco.insertAdjacentHTML('beforeend',
+        `<div class="alt-nulla">Nessuno rende di più entro questo budget. Al suo prezzo è la scelta migliore disponibile.</div>`);
+    } else {
+      conProposta++;
+      costoTot += lista[0].costo;
+      guadagnoTot += lista[0].meglio;
+      lista.forEach((a, i) => {
+        const cCosto = a.costo > 0 ? 'su' : (a.costo < 0 ? 'giu' : '');
+        const riga = document.createElement('div');
+        riga.className = 'alt-r' + (i === 0 ? ' top' : '');
+        riga.innerHTML = `
+          <div class="n">${esc(a.g.nome)}<small>${esc(a.g.squadra_sigla || '')}</small>${a.tuo ? '<span class="tag-tuo">già tuo</span>' : ''}</div>
+          <span>${a.g.prezzo} cr</span>
+          <span class="meglio">${a.v.toFixed(2)} (+${a.meglio.toFixed(2)})</span>
+          <span class="costo ${cCosto}">${seg(a.costo)}${a.costo} cr</span>`;
+        blocco.appendChild(riga);
+      });
+    }
+    cont.appendChild(blocco);
+  });
+
+  tot.innerHTML = conProposta
+    ? `Prendendo la <b>prima proposta</b> per ciascuno dei ${conProposta} giocatori con alternative: ` +
+      `<b>${seg(costoTot)}${costoTot} crediti</b> di saldo, ` +
+      `<b>+${guadagnoTot.toFixed(2)}</b> di ${nomeM} complessiva.`
+    : `Nessuna proposta con il budget attuale. Prova ad allargarlo.`;
 }
 
 /* ---------------- grafico ---------------- */
@@ -828,9 +902,10 @@ function disegnaGrafico(analisi){
   punti.forEach((p, i) => {
     const x = px(Math.max(-maxX, Math.min(maxX, p.deltaPerc)));
     const y = py(Math.max(-maxY, Math.min(maxY, p.scarto)));
-    s += `<circle class="punto" data-i="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.5"
-      fill="${COLORE[p.g.ruolo] || '#8b9aaa'}" fill-opacity=".85"
-      stroke="#10161d" stroke-width="1.2"><title>${esc(p.g.nome)}</title></circle>`;
+    const evid = SCELTI.has(p.g.id);
+    s += `<circle class="punto" data-i="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}"
+      r="${evid ? 7 : 5.5}" fill="${COLORE[p.g.ruolo] || '#8b9aaa'}" fill-opacity=".85"
+      stroke="${evid ? '#e7edf3' : '#10161d'}" stroke-width="1.4"><title>${esc(p.g.nome)}</title></circle>`;
   });
 
   svg.innerHTML = s;
@@ -842,8 +917,6 @@ function disegnaGrafico(analisi){
         `pagato ${p.pagato} → ${p.prezzo} (${seg(p.deltaPerc)}${p.deltaPerc.toFixed(0)}%) · ` +
         `rendimento ${p.mio.toFixed(2)} contro ${p.medianaFascia.toFixed(2)} di fascia ` +
         `(${seg(p.scarto)}${p.scarto.toFixed(2)})`;
-      svg.querySelectorAll('.punto').forEach(o => o.setAttribute('stroke','#10161d'));
-      c.setAttribute('stroke','#e7edf3');
     });
   });
   $('dettaglio').textContent = esclusi
@@ -865,7 +938,7 @@ async function rimuovi(id){
   const { error } = await sb.from('rose_giocatori').delete()
     .eq('rosa_id', ROSA_ID).eq('giocatore_id', id);
   if (error) return msg('msg-rosa','Non riuscito: ' + error.message,'err');
-  ROSA.delete(id); APERTI.delete(id); msg('msg-rosa',''); disegnaRosa();
+  ROSA.delete(id); SCELTI.delete(id); msg('msg-rosa',''); disegnaRosa();
 }
 async function salvaPagato(id, valore){
   const v = Number(valore);
@@ -1159,6 +1232,9 @@ $('cerca').addEventListener('keydown', e => {
 
 $('banda').addEventListener('change', disegnaRosa);
 $('metrica').addEventListener('change', disegnaRosa);
+$('budget').addEventListener('change', disegnaSostituzioni);
+$('soglia').addEventListener('change', disegnaSostituzioni);
+$('btn-svuota').addEventListener('click', () => { SCELTI.clear(); disegnaRosa(); });
 $('btn-importa').addEventListener('click', importaRosa);
 $('btn-invita').addEventListener('click', invita);
 $('nuovo-invito').addEventListener('keydown', e => { if (e.key === 'Enter') invita(); });
