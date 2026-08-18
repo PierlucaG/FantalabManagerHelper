@@ -24,7 +24,8 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   body{
     background:var(--ink); color:var(--text); font-family:var(--body);
     font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
@@ -49,7 +50,7 @@
 
   .card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px;margin-bottom:16px}
   .card h2{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--muted);margin:0 0 16px;font-weight:500;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+    color:var(--muted);margin:0 0 16px;font-weight:500}
   .card p.nota{color:var(--muted);font-size:13px;margin:0 0 14px}
   code{font-family:var(--mono);font-size:12px;background:var(--ink);padding:1px 5px;border-radius:2px;
     word-break:break-all}
@@ -58,7 +59,7 @@
     width:18px;height:18px;min-height:0;padding:0;border-radius:50%;
     background:transparent;border:1px solid var(--line);color:var(--muted);
     font-family:var(--body);font-size:11px;font-weight:600;text-transform:none;
-    letter-spacing:0;margin-left:8px;vertical-align:middle;cursor:pointer;line-height:1}
+    letter-spacing:0;margin-left:8px;vertical-align:middle;cursor:pointer;line-height:1;flex:0 0 auto}
   .info:hover:not(:disabled){filter:none;color:var(--text);border-color:var(--muted)}
   .info.aperta{background:var(--rosa);border-color:var(--rosa);color:#16111a}
   .spiega{background:var(--panel-2);border-left:3px solid var(--rosa);border-radius:3px;
@@ -84,7 +85,7 @@
   button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
   button.ghost:hover:not(:disabled){color:var(--text)}
   .full{width:100%;margin-top:14px}
-  .mini{font-size:13px;padding:7px 12px;min-height:34px}
+  .mini{font-size:14px;padding:6px 13px;min-height:32px;margin-top:9px}
 
   .msg{margin-top:14px;padding:11px 13px;border-radius:3px;font-size:14px;
     border-left:3px solid var(--line);background:var(--panel-2)}
@@ -119,17 +120,12 @@
   .sommario span{font-family:var(--mono);font-size:9px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--muted)}
 
-  .controlli{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  #riepilogo{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);
-    font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.6}
-  #riepilogo b{color:var(--text);font-weight:500}
-
   #grafico{width:100%;height:auto;display:block}
   .legenda{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
     margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)}
   .legenda i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
-  #dettaglio{margin-top:12px;padding:10px 12px;background:var(--panel-2);border-radius:3px;
-    font-family:var(--mono);font-size:12px;color:var(--muted);min-height:38px;line-height:1.5}
+  #dettaglio{margin-top:12px;padding:11px 13px;background:var(--panel-2);border-radius:3px;
+    font-family:var(--mono);font-size:12px;color:var(--muted);min-height:38px;line-height:1.55}
   #dettaglio b{color:var(--text)}
   .punto{cursor:pointer}
 
@@ -177,10 +173,27 @@
   .v-zavorra{background:rgba(255,130,114,.16);color:var(--ko)}
   .v-nd{background:var(--panel-2);color:var(--muted)}
 
-  /* ---- sostituzioni ---- */
-  .sost-ctrl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}
+  /* ---- scheda collassabile ---- */
+  .card.sez{padding-bottom:20px}
+  .sez-testa{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    cursor:pointer;user-select:none}
+  .sez-testa:hover h2{color:var(--text)}
+  .card.sez h2{margin:0;display:flex;align-items:center;gap:9px;transition:color .15s ease}
+  .sez-testa em{font-family:var(--mono);font-size:11px;font-style:normal;color:var(--muted);
+    white-space:nowrap;letter-spacing:.06em}
+  .card.sez.chiusa .sez-corpo{display:none}
+  .sez-corpo{margin-top:18px}
+  .card.sez.chiusa .chev{transform:rotate(-90deg)}
+
+  .controlli{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .gruppo{margin-top:18px}
+  .gruppo:first-child{margin-top:0}
+  .gruppo > h3{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--rosa);margin:0 0 12px;font-weight:500}
+  #riepilogo{margin-top:13px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.6}
+  #riepilogo b{color:var(--text);font-weight:500}
+
   .blocco{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
-  .blocco:first-of-type{border-top:0;padding-top:0;margin-top:0}
   .blocco-testa{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:11px}
   .blocco-testa .chi{font-family:var(--display);font-size:20px;font-weight:600;
     text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
@@ -192,18 +205,16 @@
   .alt-r{display:grid;grid-template-columns:1fr auto auto auto;gap:3px 12px;
     padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline}
   .alt-r:last-child{border-bottom:0}
-  .alt-r.top{background:rgba(110,231,168,.05);margin:0 -8px;padding-left:8px;padding-right:8px;
-    border-radius:2px}
+  .alt-r.top{background:rgba(110,231,168,.05);margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:2px}
   .alt-r .n{font-weight:600;font-size:14px}
-  .alt-r .n small{font-weight:400;color:var(--muted);font-family:var(--mono);
-    font-size:11px;margin-left:6px}
+  .alt-r .n small{font-weight:400;color:var(--muted);font-family:var(--mono);font-size:11px;margin-left:6px}
   .alt-r span{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
   .alt-r .meglio{color:var(--ok)}
   .alt-r .costo.su{color:var(--ko)} .alt-r .costo.giu{color:var(--ok)}
   .alt-nulla{color:var(--muted);font-size:13px;line-height:1.6}
   .tag-tuo{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
     background:var(--line);color:var(--muted);padding:2px 6px;border-radius:2px;margin-left:6px}
-  #totale-sost{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+  #totale-sost{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
     font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.6}
   #totale-sost b{color:var(--text);font-weight:500}
 
@@ -218,8 +229,7 @@
   .vuoto{text-align:center;color:var(--muted);padding:26px 4px;font-size:14px;line-height:1.6}
 
   .invita{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
-  .spunta{display:flex;align-items:center;gap:8px;margin:12px 0 0;
-    font-size:13px;color:var(--muted);cursor:pointer}
+  .spunta{display:flex;align-items:center;gap:8px;margin:12px 0 0;font-size:13px;color:var(--muted);cursor:pointer}
   .spunta input{width:17px;height:17px;padding:0;accent-color:var(--rosa);flex:0 0 auto}
   .inv{display:grid;grid-template-columns:1fr auto auto;gap:4px 10px;align-items:center;
     padding:11px 0;border-bottom:1px solid var(--line)}
@@ -242,9 +252,10 @@
     .sub{margin-bottom:20px}
     .sommario{grid-template-columns:repeat(2,1fr)}
     .sommario b{font-size:24px}
-    .controlli,.sost-ctrl{grid-template-columns:1fr}
+    .controlli{grid-template-columns:1fr}
     .invita{grid-template-columns:1fr}
-    .card > button:not(.x):not(.info):not(.via){width:100%}
+    .card > button:not(.x):not(.info):not(.via),
+    .sez-corpo > button:not(.x):not(.info):not(.via){width:100%}
     textarea{font-size:16px}
     .g{grid-template-columns:1fr auto auto;
        grid-template-areas:"nome alt x" "dati dati dati" "verd verd pagato";
@@ -254,6 +265,7 @@
     .g .alt,.g .x{align-self:start}
     .alt-r{grid-template-columns:1fr auto;gap:2px 10px}
     .alt-r .n{grid-column:1/-1}
+    .sez-testa em{display:none}
   }
 </style>
 </head>
@@ -293,8 +305,8 @@
     <div id="vista-rosa">
 
       <div class="testa-sez">Colpo d'occhio
-        <button class="info" aria-label="Spiegazione">i</button></div>
-      <div class="spiega nascosto">
+        <button class="info" data-spiega="sp-sommario" aria-label="Spiegazione">i</button></div>
+      <div class="spiega nascosto" id="sp-sommario">
         I quattro numeri riassumono la rosa.
         <ul>
           <li><b>Speso</b> — la somma di quanto hai pagato all'asta.</li>
@@ -312,18 +324,18 @@
       </div>
 
       <div class="card" id="card-grafico">
-        <h2>Quadranti <button class="info" aria-label="Spiegazione">i</button></h2>
-        <div class="spiega nascosto">
+        <h2>Quadranti <button class="info" data-spiega="sp-grafico" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto" id="sp-grafico">
           Ogni pallino è un tuo giocatore. In orizzontale la <b>plusvalenza</b> in percentuale
           sul prezzo pagato; in verticale lo scarto fra il suo <b>rendimento</b> e la mediana
-          della sua fascia. Tocca un pallino per i dettagli.
+          della sua fascia. Tocca un pallino per i dettagli e per cercargli un sostituto.
           <p><b>I due assi non pesano uguale.</b> Quello verticale dice se un giocatore vale il
           prezzo che ha oggi. Quello orizzontale dice solo com'è andato l'acquisto: quanto hai
           pagato è ormai speso e non cambia se convenga tenerlo.</p>
           <p><b>Tre cose che il tool non sa.</b> Se un giocatore è appena arrivato o rientra da
           un infortunio, il passato non predice il futuro. Se al suo prezzo non esiste di meglio,
-          venderlo non ti migliora — per questo c'è il ⇄. E il prezzo è quello che dice il
-          mercato interno, non la garanzia che qualcuno compri a quella cifra.</p>
+          venderlo non ti migliora. E il prezzo è quello che dice il mercato interno, non la
+          garanzia che qualcuno compri a quella cifra.</p>
         </div>
         <svg id="grafico" viewBox="0 0 400 300" role="img" aria-label="Grafico a quadranti"></svg>
         <div class="legenda">
@@ -336,8 +348,8 @@
       </div>
 
       <div class="card">
-        <h2>Aggiungi giocatore <button class="info" aria-label="Spiegazione">i</button></h2>
-        <div class="spiega nascosto">
+        <h2>Aggiungi giocatore <button class="info" data-spiega="sp-aggiungi" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto" id="sp-aggiungi">
           Scrivi almeno due lettere del cognome: compaiono i giocatori a listone con ruolo,
           squadra e prezzo Manager attuale. Chi è già in rosa non viene proposto.
           <p>Dopo averlo aggiunto, scrivi nella riga il <b>prezzo che hai pagato all'asta</b>.</p>
@@ -350,91 +362,97 @@
         <div id="msg-rosa" class="msg"></div>
       </div>
 
-      <div class="card">
-        <h2>Parametri analisi <button class="info" aria-label="Spiegazione">i</button></h2>
-        <div class="spiega nascosto">
-          <b>Ampiezza fascia</b> — definisce chi sono i "pari prezzo" ai fini del giudizio.
-          A ±20% un giocatore da 100 crediti viene confrontato con chi sta fra 80 e 120, stesso
-          ruolo, e da quel gruppo esce la mediana che vedi in ogni riga. Serve solo per i verdetti:
-          per cercare sostituti c'è il budget, nel pannello Sostituzioni.
-          <p><b>Metrica</b> — la fantamedia include bonus e malus, la media voto misura solo la
-          prestazione, la fantamedia attesa è la stima di FantaLab depurata dalla fortuna.
-          Quest'ultima è disponibile per quasi tutti, mentre la fantamedia manca a chi non ha
-          giocato in Serie A l'anno scorso.</p>
-        </div>
-        <div class="controlli">
-          <div>
-            <label for="banda">Ampiezza fascia</label>
-            <select id="banda">
-              <option value="10">± 10% del prezzo</option>
-              <option value="20" selected>± 20% del prezzo</option>
-              <option value="30">± 30% del prezzo</option>
-              <option value="50">± 50% del prezzo</option>
-            </select>
-          </div>
-          <div>
-            <label for="metrica">Metrica di rendimento</label>
-            <select id="metrica">
-              <option value="fantamedia" selected>Fantamedia</option>
-              <option value="media_voto">Media voto</option>
-              <option value="fantamedia_attesa">Fantamedia attesa</option>
-            </select>
-          </div>
-        </div>
-        <div id="riepilogo">—</div>
-      </div>
-
       <div id="reparti"></div>
 
-      <!-- ---- sostituzioni ---- -->
-      <div class="card nascosto" id="card-sost" style="margin-top:22px">
-        <h2>Sostituzioni <button class="info" aria-label="Spiegazione">i</button></h2>
-        <div class="spiega nascosto">
-          Premi il <b>⇄</b> accanto a un giocatore per cercargli un sostituto. Puoi selezionarne
-          quanti vuoi e confrontarli insieme.
-          <p><b>Budget</b> — quanti crediti sei disposto a mettere in più rispetto al prezzo
-          attuale del giocatore. A <i>+25</i>, per uno che ne vale 100 vedi tutto ciò che costa
-          fino a 125, compreso ciò che costa meno. È un vincolo diverso dall'ampiezza fascia:
-          quello serve a giudicare, questo a comprare.</p>
-          <p><b>Miglioramento minimo</b> — scarta le alternative che rendono solo un'inezia in
-          più, che non giustificano uno scambio.</p>
-          <p>Compaiono solo giocatori dello stesso ruolo, perché devono occupare lo stesso slot.
-          La colonna finale è il costo dello scambio: negativo significa che ci guadagni crediti.
-          La prima riga di ogni elenco, evidenziata, è la migliore per rendimento.</p>
+      <!-- ---- confronti e scambi ---- -->
+      <div class="card sez chiusa" id="card-sost" style="margin-top:22px">
+        <div class="sez-testa" id="sost-testa" role="button" tabindex="0">
+          <h2><span class="chev">▼</span>Confronti e scambi
+            <button class="info" data-spiega="sp-sost" aria-label="Spiegazione">i</button></h2>
+          <em id="sost-conta"></em>
         </div>
 
-        <div class="sost-ctrl">
-          <div>
-            <label for="budget">Budget in più</label>
-            <select id="budget">
-              <option value="0">Stesso prezzo o meno</option>
-              <option value="5">+ 5 crediti</option>
-              <option value="10" selected>+ 10 crediti</option>
-              <option value="25">+ 25 crediti</option>
-              <option value="50">+ 50 crediti</option>
-              <option value="100">+ 100 crediti</option>
-              <option value="9999">Qualsiasi prezzo</option>
-            </select>
+        <div class="sez-corpo">
+          <div class="spiega nascosto" id="sp-sost">
+            Qui vivono i parametri che governano i giudizi e la ricerca dei sostituti.
+            <p><b>Ampiezza fascia</b> — chi sono i "pari prezzo" ai fini del verdetto. A ±20% un
+            giocatore da 100 crediti si misura con chi sta fra 80 e 120, stesso ruolo, e da quel
+            gruppo esce la mediana che vedi in ogni riga.</p>
+            <p><b>Metrica</b> — la fantamedia include bonus e malus, la media voto misura solo la
+            prestazione, la fantamedia attesa è la stima di FantaLab depurata dalla fortuna.
+            Quest'ultima è disponibile per quasi tutti, mentre la fantamedia manca a chi non ha
+            giocato in Serie A l'anno scorso.</p>
+            <p><b>Budget in più</b> — quanti crediti sei disposto a mettere oltre il prezzo
+            attuale del giocatore. A <i>+25</i>, per uno che ne vale 100 vedi tutto ciò che costa
+            fino a 125, compreso ciò che costa meno. È un vincolo diverso dall'ampiezza fascia:
+            quello serve a giudicare, questo a comprare.</p>
+            <p><b>Miglioramento minimo</b> — scarta le alternative che rendono un'inezia in più,
+            che non giustificherebbero uno scambio.</p>
+            <p>Compaiono solo giocatori dello stesso ruolo, perché devono occupare lo stesso
+            slot. La colonna finale è il costo dello scambio: negativo significa che ci guadagni
+            crediti. La prima riga di ogni elenco, evidenziata, è la migliore per rendimento.</p>
           </div>
-          <div>
-            <label for="soglia">Miglioramento minimo</label>
-            <select id="soglia">
-              <option value="0" selected>Qualsiasi</option>
-              <option value="0.25">+ 0,25</option>
-              <option value="0.5">+ 0,50</option>
-              <option value="1">+ 1,00</option>
-            </select>
-          </div>
-        </div>
 
-        <div id="blocchi-sost"></div>
-        <div id="totale-sost"></div>
-        <button id="btn-svuota" class="ghost full">Svuota selezione</button>
+          <div class="gruppo">
+            <h3>Come giudicare</h3>
+            <div class="controlli">
+              <div>
+                <label for="banda">Ampiezza fascia</label>
+                <select id="banda">
+                  <option value="10">± 10% del prezzo</option>
+                  <option value="20" selected>± 20% del prezzo</option>
+                  <option value="30">± 30% del prezzo</option>
+                  <option value="50">± 50% del prezzo</option>
+                </select>
+              </div>
+              <div>
+                <label for="metrica">Metrica di rendimento</label>
+                <select id="metrica">
+                  <option value="fantamedia" selected>Fantamedia</option>
+                  <option value="media_voto">Media voto</option>
+                  <option value="fantamedia_attesa">Fantamedia attesa</option>
+                </select>
+              </div>
+            </div>
+            <div id="riepilogo">—</div>
+          </div>
+
+          <div class="gruppo">
+            <h3>Come sostituire</h3>
+            <div class="controlli">
+              <div>
+                <label for="budget">Budget in più</label>
+                <select id="budget">
+                  <option value="0">Stesso prezzo o meno</option>
+                  <option value="5">+ 5 crediti</option>
+                  <option value="10" selected>+ 10 crediti</option>
+                  <option value="25">+ 25 crediti</option>
+                  <option value="50">+ 50 crediti</option>
+                  <option value="100">+ 100 crediti</option>
+                  <option value="9999">Qualsiasi prezzo</option>
+                </select>
+              </div>
+              <div>
+                <label for="soglia">Miglioramento minimo</label>
+                <select id="soglia">
+                  <option value="0" selected>Qualsiasi</option>
+                  <option value="0.25">+ 0,25</option>
+                  <option value="0.5">+ 0,50</option>
+                  <option value="1">+ 1,00</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="blocchi-sost"></div>
+          <div id="totale-sost"></div>
+          <button id="btn-svuota" class="ghost full nascosto">Svuota selezione</button>
+        </div>
       </div>
 
       <div class="card" style="margin-top:22px">
-        <h2>Importa rosa da FantaLab <button class="info" aria-label="Spiegazione">i</button></h2>
-        <div class="spiega nascosto">
+        <h2>Importa rosa da FantaLab <button class="info" data-spiega="sp-import" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto" id="sp-import">
           Alternativa alla ricerca manuale. Su FantaLab apri Network, filtra su Fetch/XHR,
           ricarica, trova la chiamata che restituisce la tua rosa e copiane il corpo della risposta.
           <p>Il lettore riconosce i giocatori dai loro identificativi e, se li trova, anche i
@@ -452,8 +470,8 @@
     <div id="vista-admin" class="nascosto">
 
       <div class="card">
-        <h2>Inviti <button class="info" aria-label="Spiegazione">i</button></h2>
-        <div class="spiega nascosto">
+        <h2>Inviti <button class="info" data-spiega="sp-inviti" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto" id="sp-inviti">
           Chi non è in questo elenco non può registrarsi: il rifiuto avviene nel database,
           prima ancora che l'account esista.
           <p><b>Registrato</b> significa che la persona ha completato l'accesso;
@@ -483,8 +501,8 @@
       </div>
 
       <div class="card">
-        <h2>Anagrafica e statistiche <button class="info" aria-label="Spiegazione">i</button></h2>
-        <div class="spiega nascosto">
+        <h2>Anagrafica e statistiche <button class="info" data-spiega="sp-anag" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto" id="sp-anag">
           Scarica dall'API pubblica di FantaLab i giocatori a listone: nomi, squadre, ruoli,
           quotazioni ufficiali, media voto e fantamedia. Non tocca le rose di nessuno.
           <p>Una volta al giorno è più che sufficiente.</p>
@@ -494,8 +512,8 @@
       </div>
 
       <div class="card">
-        <h2>Prezzi Manager <button class="info" aria-label="Spiegazione">i</button></h2>
-        <div class="spiega nascosto">
+        <h2>Prezzi Manager <button class="info" data-spiega="sp-prezzi" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto" id="sp-prezzi">
           Questi prezzi vivono solo dentro FantaLab e richiedono l'accesso, quindi vanno
           incollati a mano. Su FantaLab apri Network, ricarica, trova <code>/v2/prices</code>
           e copiane la risposta.
@@ -654,13 +672,11 @@ function analizza(id){
   return r;
 }
 
-/* chi rende più di lui, stesso ruolo, entro il budget dichiarato */
 function alternative(r){
   if (r.prezzo === null || r.mio === null) return null;
   const metrica = $('metrica').value;
-  const budget  = Number($('budget').value);
-  const soglia  = Number($('soglia').value);
-  const tetto   = r.prezzo + budget;
+  const tetto = r.prezzo + Number($('budget').value);
+  const soglia = Number($('soglia').value);
   const out = [];
   GIOCATORI.forEach(o => {
     if (o.id === r.g.id || o.ruolo !== r.g.ruolo) return;
@@ -763,12 +779,17 @@ function rigaGiocatore(r){
   return el;
 }
 
+/* ---------------- scheda confronti ---------------- */
+function apriScheda(scorri){
+  $('card-sost').classList.remove('chiusa');
+  if (scorri) setTimeout(() => $('card-sost').scrollIntoView({ block:'start' }), 60);
+}
+function commutaScheda(){ $('card-sost').classList.toggle('chiusa'); }
+
 function commutaScelto(id){
-  const primo = SCELTI.size === 0;
   if (SCELTI.has(id)) SCELTI.delete(id); else SCELTI.add(id);
   disegnaRosa();
-  if (primo && SCELTI.size)
-    setTimeout(() => $('card-sost').scrollIntoView({ behavior:'smooth', block:'start' }), 60);
+  if (SCELTI.has(id)) apriScheda(true);
 }
 
 function aggiornaSommario(a){
@@ -785,6 +806,11 @@ function aggiornaSommario(a){
 
 function aggiornaRiepilogo(a){
   const el = $('riepilogo');
+  const conta = $('sost-conta');
+  conta.textContent = SCELTI.size
+    ? `${SCELTI.size} in confronto`
+    : `± ${$('banda').value}% · ${NOME_METRICA[$('metrica').value]}`;
+
   if (!a.length){ el.textContent = "Aggiungi giocatori per vedere l'analisi."; return; }
   const valutati    = a.filter(r => r.verdetto !== 'nd').length;
   const senzaRend   = a.filter(r => r.mio === null).length;
@@ -792,8 +818,7 @@ function aggiornaRiepilogo(a){
   const senzaPagato = a.filter(r => r.scarto !== null && r.delta === null).length;
   const peerMedio   = Math.round(a.reduce((s,r) => s + r.peer, 0) / a.length);
 
-  let t = `± ${$('banda').value}% · ${NOME_METRICA[$('metrica').value]} — ` +
-          `<b>${valutati}</b> di ${a.length} valutati, in media <b>${peerMedio}</b> pari fascia ciascuno.`;
+  let t = `<b>${valutati}</b> di ${a.length} valutati, in media <b>${peerMedio}</b> pari fascia ciascuno.`;
   const mancano = [];
   if (senzaRend)   mancano.push(`${senzaRend} senza rendimento`);
   if (senzaFascia) mancano.push(`${senzaFascia} con fascia troppo esigua`);
@@ -802,13 +827,15 @@ function aggiornaRiepilogo(a){
   el.innerHTML = t;
 }
 
-/* ---------------- sostituzioni ---------------- */
 function disegnaSostituzioni(){
-  const card = $('card-sost'), cont = $('blocchi-sost'), tot = $('totale-sost');
-  if (!SCELTI.size){ card.classList.add('nascosto'); cont.innerHTML = ''; tot.innerHTML = ''; return; }
-  card.classList.remove('nascosto');
+  const cont = $('blocchi-sost'), tot = $('totale-sost'), svuota = $('btn-svuota');
   cont.innerHTML = '';
+  svuota.classList.toggle('nascosto', !SCELTI.size);
 
+  if (!SCELTI.size){
+    tot.innerHTML = 'Premi il <b>⇄</b> accanto a un giocatore, o toccalo nel grafico, per cercargli un sostituto.';
+    return;
+  }
   const nomeM = NOME_METRICA[$('metrica').value];
   let costoTot = 0, guadagnoTot = 0, conProposta = 0;
 
@@ -817,8 +844,8 @@ function disegnaSostituzioni(){
     if (!r) return;
     const blocco = document.createElement('div');
     blocco.className = 'blocco';
-
     const rendMio = r.mio !== null ? r.mio.toFixed(2) : 'n.d.';
+
     const testa = document.createElement('div');
     testa.className = 'blocco-testa';
     testa.innerHTML =
@@ -836,9 +863,7 @@ function disegnaSostituzioni(){
       blocco.insertAdjacentHTML('beforeend',
         `<div class="alt-nulla">Nessuno rende di più entro questo budget. Al suo prezzo è la scelta migliore disponibile.</div>`);
     } else {
-      conProposta++;
-      costoTot += lista[0].costo;
-      guadagnoTot += lista[0].meglio;
+      conProposta++; costoTot += lista[0].costo; guadagnoTot += lista[0].meglio;
       lista.forEach((a, i) => {
         const cCosto = a.costo > 0 ? 'su' : (a.costo < 0 ? 'giu' : '');
         const riga = document.createElement('div');
@@ -858,7 +883,7 @@ function disegnaSostituzioni(){
     ? `Prendendo la <b>prima proposta</b> per ciascuno dei ${conProposta} giocatori con alternative: ` +
       `<b>${seg(costoTot)}${costoTot} crediti</b> di saldo, ` +
       `<b>+${guadagnoTot.toFixed(2)}</b> di ${nomeM} complessiva.`
-    : `Nessuna proposta con il budget attuale. Prova ad allargarlo.`;
+    : 'Nessuna proposta con il budget attuale. Prova ad allargarlo.';
 }
 
 /* ---------------- grafico ---------------- */
@@ -910,18 +935,26 @@ function disegnaGrafico(analisi){
 
   svg.innerHTML = s;
   svg.querySelectorAll('.punto').forEach(c => {
-    c.addEventListener('click', () => {
-      const p = punti[Number(c.dataset.i)];
-      $('dettaglio').innerHTML =
-        `<b>${esc(p.g.nome)}</b> · ${esc(p.g.squadra_sigla || '')} · ` +
-        `pagato ${p.pagato} → ${p.prezzo} (${seg(p.deltaPerc)}${p.deltaPerc.toFixed(0)}%) · ` +
-        `rendimento ${p.mio.toFixed(2)} contro ${p.medianaFascia.toFixed(2)} di fascia ` +
-        `(${seg(p.scarto)}${p.scarto.toFixed(2)})`;
-    });
+    c.addEventListener('click', () => mostraDettaglio(punti[Number(c.dataset.i)]));
   });
   $('dettaglio').textContent = esclusi
     ? `Tocca un pallino per i dettagli. ${esclusi} giocatori esclusi per dati mancanti.`
     : 'Tocca un pallino per i dettagli.';
+}
+
+function mostraDettaglio(p){
+  const el = $('dettaglio');
+  const scelto = SCELTI.has(p.g.id);
+  el.innerHTML =
+    `<b>${esc(p.g.nome)}</b> · ${esc(p.g.squadra_sigla || '')} · ` +
+    `pagato ${p.pagato} → ${p.prezzo} (${seg(p.deltaPerc)}${p.deltaPerc.toFixed(0)}%) · ` +
+    `rendimento ${p.mio.toFixed(2)} contro ${p.medianaFascia.toFixed(2)} di fascia ` +
+    `(${seg(p.scarto)}${p.scarto.toFixed(2)})`;
+  const b = document.createElement('button');
+  b.className = 'ghost mini';
+  b.textContent = scelto ? 'Togli dai confronti' : 'Cerca un sostituto';
+  b.addEventListener('click', () => commutaScelto(p.g.id));
+  el.appendChild(b);
 }
 
 /* ---------------- modifiche rosa ---------------- */
@@ -1202,16 +1235,23 @@ async function registraPrezzi(){
 document.addEventListener('click', e => {
   const b = e.target.closest('.info');
   if (b){
-    e.preventDefault();
-    const testa = b.closest('h2, .testa-sez');
-    const sp = testa && testa.nextElementSibling;
-    if (sp && sp.classList.contains('spiega')){
+    e.preventDefault(); e.stopPropagation();
+    const sp = $(b.dataset.spiega);
+    if (sp){
       const chiusa = sp.classList.toggle('nascosto');
       b.classList.toggle('aperta', !chiusa);
     }
     return;
   }
   if (!e.target.closest('.cerca')) $('risultati').classList.add('nascosto');
+});
+
+$('sost-testa').addEventListener('click', e => {
+  if (e.target.closest('.info')) return;
+  commutaScheda();
+});
+$('sost-testa').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); commutaScheda(); }
 });
 
 $('btn-entra').addEventListener('click', chiediLink);
