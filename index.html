@@ -17,6 +17,7 @@
     --ink:#10161d; --panel:#19212b; --panel-2:#1f2833; --line:#2b3542;
     --text:#e7edf3; --muted:#8b9aaa; --rosa:#f2a9b5;
     --ok:#6ee7a8; --ko:#ff8272; --warn:#ffd166;
+    --r-p:#ffd166; --r-d:#82b1ff; --r-c:#6ee7a8; --r-a:#f2a9b5;
     --display:"Barlow Condensed",system-ui,sans-serif;
     --body:"IBM Plex Sans",system-ui,sans-serif;
     --mono:"IBM Plex Mono",ui-monospace,monospace;
@@ -53,6 +54,21 @@
   code{font-family:var(--mono);font-size:12px;background:var(--ink);padding:1px 5px;border-radius:2px;
     word-break:break-all}
 
+  /* ---- spiegazioni ---- */
+  .info{display:inline-flex;align-items:center;justify-content:center;
+    width:18px;height:18px;min-height:0;padding:0;border-radius:50%;
+    background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-family:var(--body);font-size:11px;font-weight:600;text-transform:none;
+    letter-spacing:0;margin-left:8px;vertical-align:middle;cursor:pointer;line-height:1}
+  .info:hover:not(:disabled){filter:none;color:var(--text);border-color:var(--muted)}
+  .info.aperta{background:var(--rosa);border-color:var(--rosa);color:#16111a}
+  .spiega{background:var(--panel-2);border-left:3px solid var(--rosa);border-radius:3px;
+    padding:13px 15px;margin:0 0 16px;font-size:13px;color:var(--muted);line-height:1.65}
+  .spiega b{color:var(--text);font-weight:600}
+  .spiega ul{margin:9px 0 0;padding-left:17px}
+  .spiega li{margin-bottom:5px}
+  .spiega p{margin:9px 0 0}
+
   label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
     text-transform:uppercase;color:var(--muted);margin-bottom:7px}
   input,textarea,select{width:100%;padding:11px 12px;background:var(--ink);
@@ -63,8 +79,7 @@
 
   button{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:.03em;
     text-transform:uppercase;padding:11px 18px;border:0;border-radius:3px;
-    background:var(--rosa);color:#16111a;cursor:pointer;transition:filter .15s ease;
-    min-height:44px}
+    background:var(--rosa);color:#16111a;cursor:pointer;transition:filter .15s ease;min-height:44px}
   button:hover:not(:disabled){filter:brightness(1.08)}
   button:disabled{opacity:.5;cursor:default}
   button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
@@ -89,13 +104,14 @@
   .barra{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
   .nascosto{display:none}
 
-  /* ---- schede ---- */
   .schede{display:flex;gap:20px;margin:0 0 18px;border-bottom:1px solid var(--line)}
   .schede button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);
     border-radius:0;padding:9px 2px;font-size:16px;min-height:0}
   .schede button.attiva{color:var(--text);border-bottom-color:var(--rosa)}
 
   /* ---- sommario ---- */
+  .testa-sez{display:flex;align-items:center;font-family:var(--mono);font-size:11px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
   .sommario{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
     background:var(--line);border:1px solid var(--line);border-radius:4px;
     overflow:hidden;margin-bottom:16px}
@@ -104,23 +120,39 @@
   .sommario span{font-family:var(--mono);font-size:9px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--muted)}
 
-  /* ---- controlli ---- */
   .controlli{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
+  /* ---- grafico ---- */
+  #grafico{width:100%;height:auto;display:block}
+  .legenda{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+    margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .legenda i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+  #dettaglio{margin-top:12px;padding:10px 12px;background:var(--panel-2);border-radius:3px;
+    font-family:var(--mono);font-size:12px;color:var(--muted);min-height:38px;line-height:1.5}
+  #dettaglio b{color:var(--text)}
+  .punto{cursor:pointer}
+
   /* ---- reparti ---- */
-  .reparto{margin-top:22px}
-  .reparto-testa{display:flex;justify-content:space-between;align-items:baseline;
-    padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:2px}
+  .reparto{margin-top:20px}
+  .reparto-testa{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+  .reparto-testa:hover h3{color:var(--rosa)}
   .reparto-testa h3{font-family:var(--display);font-size:21px;font-weight:600;
-    text-transform:uppercase;letter-spacing:.04em;margin:0}
-  .reparto-testa em{font-family:var(--mono);font-size:12px;font-style:normal;color:var(--muted)}
-  .reparto-testa em.manca{color:var(--warn)}
+    text-transform:uppercase;letter-spacing:.04em;margin:0;display:flex;align-items:center;gap:9px;
+    transition:color .15s ease}
+  .chev{display:inline-block;font-size:11px;color:var(--muted);transition:transform .18s ease;
+    transform:rotate(0deg)}
+  .reparto.chiuso .chev{transform:rotate(-90deg)}
+  .reparto.chiuso .reparto-corpo{display:none}
+  .reparto-testa em{font-family:var(--mono);font-size:12px;font-style:normal;color:var(--muted);
+    white-space:nowrap}
+  .reparto-testa em .manca{color:var(--warn)}
+  .reparto-testa em .su{color:var(--ok)} .reparto-testa em .giu{color:var(--ko)}
 
   /* ---- riga giocatore ---- */
   .g{display:grid;gap:5px 10px;padding:12px 0;border-bottom:1px solid var(--line);
      grid-template-columns:1fr auto auto auto;
-     grid-template-areas:"nome verd pagato x" "dati verd pagato x";
-     align-items:center}
+     grid-template-areas:"nome verd pagato x" "dati verd pagato x";align-items:center}
   .g:last-child{border-bottom:0}
   .g .nome{grid-area:nome;font-weight:600;line-height:1.25}
   .g .nome small{font-weight:400;color:var(--muted);font-family:var(--mono);
@@ -143,7 +175,6 @@
   .v-zavorra{background:rgba(255,130,114,.16);color:var(--ko)}
   .v-nd{background:var(--panel-2);color:var(--muted)}
 
-  /* ---- ricerca ---- */
   .cerca{position:relative}
   .risultati{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);
     background:var(--panel-2);border:1px solid var(--line);border-radius:3px;
@@ -154,7 +185,6 @@
   .risultati small{font-family:var(--mono);font-size:11px;color:var(--muted)}
   .vuoto{text-align:center;color:var(--muted);padding:26px 4px;font-size:14px;line-height:1.6}
 
-  /* ---- inviti ---- */
   .invita{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
   .spunta{display:flex;align-items:center;gap:8px;margin:12px 0 0;
     font-size:13px;color:var(--muted);cursor:pointer}
@@ -182,13 +212,10 @@
     .sommario b{font-size:24px}
     .controlli{grid-template-columns:1fr}
     .invita{grid-template-columns:1fr}
-    .card > button:not(.x){width:100%}
+    .card > button:not(.x):not(.info){width:100%}
     textarea{font-size:16px}
-
-    /* riga giocatore su tre livelli */
     .g{grid-template-columns:1fr auto;
-       grid-template-areas:"nome x" "dati dati" "verd pagato";
-       gap:7px 10px;padding:14px 0}
+       grid-template-areas:"nome x" "dati dati" "verd pagato";gap:7px 10px;padding:14px 0}
     .g .verdetto{justify-self:start}
     .g input.pagato{width:84px}
     .g .x{align-self:start}
@@ -230,6 +257,18 @@
     <!-- ---------- ROSA ---------- -->
     <div id="vista-rosa">
 
+      <div class="testa-sez">Colpo d'occhio
+        <button class="info" aria-label="Spiegazione">i</button></div>
+      <div class="spiega nascosto">
+        I quattro numeri riassumono la rosa.
+        <ul>
+          <li><b>Speso</b> — la somma di quanto hai pagato all'asta.</li>
+          <li><b>Valore ora</b> — quanto valgono oggi gli stessi giocatori ai prezzi Manager.</li>
+          <li><b>Plusvalenza</b> — la differenza fra i due. Verde se il mercato ti dà ragione.</li>
+          <li><b>Sotto mediana</b> — quanti dei tuoi rendono meno del giocatore mediano della loro fascia di prezzo. È il numero scomodo: dice quanti stai pagando più di quanto rendano.</li>
+        </ul>
+      </div>
+
       <div class="sommario">
         <div><b id="s-speso">—</b><span>Speso</span></div>
         <div><b id="s-valore">—</b><span>Valore ora</span></div>
@@ -237,8 +276,36 @@
         <div><b id="s-sotto">—</b><span>Sotto mediana</span></div>
       </div>
 
+      <div class="card" id="card-grafico">
+        <h2>Quadranti <button class="info" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto">
+          Ogni pallino è un tuo giocatore. In orizzontale la <b>plusvalenza</b> in percentuale
+          sul prezzo pagato; in verticale lo scarto fra il suo <b>rendimento</b> e la mediana
+          della sua fascia di prezzo. Le due linee al centro sono lo zero.
+          <p>In alto a destra sta chi guadagna e rende. In basso a sinistra chi perde su
+          entrambi i fronti. I due quadranti interessanti sono quelli misti: in alto a sinistra
+          chi rende ma il mercato non se n'è accorto, in basso a destra chi vale tanto ma
+          gioca poco.</p>
+          <p>Tocca un pallino per vedere di chi si tratta.</p>
+        </div>
+        <svg id="grafico" viewBox="0 0 400 300" role="img" aria-label="Grafico a quadranti"></svg>
+        <div class="legenda">
+          <span><i style="background:var(--r-p)"></i>Portieri</span>
+          <span><i style="background:var(--r-d)"></i>Difensori</span>
+          <span><i style="background:var(--r-c)"></i>Centrocampisti</span>
+          <span><i style="background:var(--r-a)"></i>Attaccanti</span>
+        </div>
+        <div id="dettaglio">Tocca un pallino per i dettagli.</div>
+      </div>
+
       <div class="card">
-        <h2>Aggiungi giocatore</h2>
+        <h2>Aggiungi giocatore <button class="info" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto">
+          Scrivi almeno due lettere del cognome: compaiono i giocatori a listone con ruolo,
+          squadra e prezzo Manager attuale. Chi è già in rosa non viene proposto.
+          <p>Dopo averlo aggiunto, scrivi nella riga il <b>prezzo che hai pagato all'asta</b>:
+          è il dato che rende possibile il calcolo della plusvalenza.</p>
+        </div>
         <div class="cerca">
           <input id="cerca" type="text" autocomplete="off" autocapitalize="off"
                  autocorrect="off" spellcheck="false" placeholder="Scrivi un cognome…">
@@ -248,7 +315,23 @@
       </div>
 
       <div class="card">
-        <h2>Parametri analisi</h2>
+        <h2>Parametri analisi <button class="info" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto">
+          <b>Ampiezza fascia</b> — chi sono i "pari prezzo" di un giocatore. A ±20%, uno da
+          100 crediti viene confrontato con chi sta fra 80 e 120, stesso ruolo. Stringere rende
+          il confronto più mirato ma con meno giocatori; allargare fa il contrario.
+          <p><b>Metrica</b> — la fantamedia include bonus e malus, la media voto misura solo la
+          prestazione, la fantamedia attesa è la stima di FantaLab depurata dalla fortuna.</p>
+          <p>I quattro verdetti nascono incrociando plusvalenza e rendimento:</p>
+          <ul>
+            <li><b>Tieni</b> — guadagna e rende sopra la fascia.</li>
+            <li><b>Vendi sull'onda</b> — vale più di quanto l'hai pagato ma rende poco: il mercato lo sopravvaluta, approfittane.</li>
+            <li><b>Riscatto</b> — vale meno ma rende bene: sottovalutato, tienilo o compranne altri così.</li>
+            <li><b>Zavorra</b> — perde su entrambi i fronti.</li>
+          </ul>
+          <p>Se la fascia contiene meno di tre giocatori il verdetto non viene emesso: una
+          mediana su due valori non significa niente.</p>
+        </div>
         <div class="controlli">
           <div>
             <label for="banda">Ampiezza fascia</label>
@@ -273,9 +356,14 @@
       <div id="reparti"></div>
 
       <div class="card" style="margin-top:22px">
-        <h2>Importa rosa da FantaLab</h2>
-        <p class="nota">Da FantaLab, strumenti sviluppatore, scheda Network: copia il corpo della
-          risposta che contiene la tua rosa e incollalo qui.</p>
+        <h2>Importa rosa da FantaLab <button class="info" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto">
+          Alternativa alla ricerca manuale, per chi se la cava con gli strumenti sviluppatore
+          del browser. Su FantaLab apri Network, filtra su Fetch/XHR, ricarica, trova la
+          chiamata che restituisce la tua rosa e copiane il corpo della risposta.
+          <p>Il lettore riconosce i giocatori dai loro identificativi e, se li trova, anche i
+          prezzi pagati. Quelli che non riesce a leggere restano a zero e li completi a mano.</p>
+        </div>
         <label for="json-rosa">JSON della rosa</label>
         <textarea id="json-rosa" placeholder="{ … }"></textarea>
         <button id="btn-importa" class="full">Importa</button>
@@ -288,9 +376,16 @@
     <div id="vista-admin" class="nascosto">
 
       <div class="card">
-        <h2>Inviti</h2>
-        <p class="nota">Chi non è in questo elenco non può registrarsi: il database rifiuta
-          l'accesso prima ancora che l'account esista.</p>
+        <h2>Inviti <button class="info" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto">
+          Chi non è in questo elenco non può registrarsi: il rifiuto avviene nel database,
+          prima ancora che l'account esista.
+          <p><b>Registrato</b> significa che la persona ha completato l'accesso;
+          <b>in attesa</b> che il link non è ancora stato aperto — controlla che non sia
+          finito nello spam.</p>
+          <p>La × revoca l'invito e blocca le registrazioni future, ma non espelle chi è
+          già entrato: per farlo cancella l'utente in Supabase, sotto Authentication › Users.</p>
+        </div>
         <div class="invita">
           <div>
             <label for="nuovo-invito">Email da invitare</label>
@@ -313,17 +408,28 @@
       </div>
 
       <div class="card">
-        <h2>Anagrafica e statistiche</h2>
-        <p class="nota">Scarica i giocatori a listone da FantaLab: nomi, squadre, ruoli, quotazioni,
-          media voto e fantamedia. Aggiorna quelli già presenti senza toccare le rose.</p>
+        <h2>Anagrafica e statistiche <button class="info" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto">
+          Scarica dall'API pubblica di FantaLab i giocatori a listone: nomi, squadre, ruoli,
+          quotazioni ufficiali, media voto e fantamedia. Aggiorna quelli già presenti senza
+          toccare le rose di nessuno.
+          <p>Una volta al giorno è più che sufficiente. Finché il campionato non comincia,
+          media voto e fantamedia arrivano dalla stagione scorsa.</p>
+        </div>
         <button id="btn-anagrafica">Aggiorna anagrafica</button>
         <div id="msg-anagrafica" class="msg"></div>
       </div>
 
       <div class="card">
-        <h2>Prezzi Manager</h2>
-        <p class="nota">Copia il corpo della risposta di <code>/v2/prices</code> e incollalo qui.
-          Vengono registrati solo i prezzi cambiati.</p>
+        <h2>Prezzi Manager <button class="info" aria-label="Spiegazione">i</button></h2>
+        <div class="spiega nascosto">
+          Questi prezzi vivono solo dentro FantaLab e richiedono l'accesso, quindi vanno
+          incollati a mano. Su FantaLab apri Network, ricarica, trova <code>/v2/prices</code>
+          e copiane la risposta.
+          <p>Finiscono nello storico solo i prezzi <b>cambiati</b> rispetto all'ultima
+          rilevazione: se premi due volte di fila la seconda non duplica nulla. Col passare
+          delle settimane questo diventa la cronologia del mercato.</p>
+        </div>
         <label for="json-prezzi">JSON dei prezzi</label>
         <textarea id="json-prezzi" placeholder='{"season_id": 17, "prices": { ... } }'></textarea>
         <button id="btn-prezzi" class="full">Registra prezzi</button>
@@ -348,6 +454,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const QUOTE   = { P:3, D:8, C:8, A:6 };
 const REPARTI = [['P','Portieri'],['D','Difensori'],['C','Centrocampisti'],['A','Attaccanti']];
+const COLORE  = { P:'var(--r-p)', D:'var(--r-d)', C:'var(--r-c)', A:'var(--r-a)' };
 const MIN_FASCIA = 3;
 
 const STATISTICHE = ['fmv','mv','presenze','gol_fatti','assist','amm','esp',
@@ -361,6 +468,7 @@ const API_ANAGRAFICA =
 const $ = id => document.getElementById(id);
 let sb = null, sonoAdmin = false;
 let GIOCATORI = new Map(), ROSA_ID = null, ROSA = new Map();
+let CHIUSI = { P:false, D:false, C:false, A:false };
 
 /* ---------------- utilità ---------------- */
 function msg(dove, testo, tipo){
@@ -396,15 +504,12 @@ async function avvia(){
 async function disegna(session){
   if (!session){ mostraSolo('login'); return; }
   mostraSolo('app');
-
   const { data: profilo } = await sb.from('profili')
     .select('nome, is_admin').eq('id', session.user.id).maybeSingle();
-
   sonoAdmin = !!(profilo && profilo.is_admin);
   $('saluto').textContent = (profilo && profilo.nome) || session.user.email.split('@')[0];
   $('chi').innerHTML = esc(session.user.email) + (sonoAdmin ? '<span class="badge">Amministratore</span>' : '');
   $('tab-admin').classList.toggle('nascosto', !sonoAdmin);
-
   await caricaArchivio();
   await caricaRosa(session);
   disegnaRosa();
@@ -444,7 +549,7 @@ function analizza(id){
   const pagato = ROSA.get(id), prezzo = g.prezzo, mio = num(g[metrica]);
 
   const r = { g, pagato, prezzo, mio, delta:null, deltaPerc:null,
-              medianaFascia:null, peer:0, verdetto:'nd', etichetta:'dati assenti' };
+              medianaFascia:null, scarto:null, peer:0, verdetto:'nd', etichetta:'dati assenti' };
 
   if (prezzo !== null && pagato !== null && !Number.isNaN(pagato)){
     r.delta = prezzo - pagato;
@@ -460,8 +565,10 @@ function analizza(id){
     r.peer = vicini.length;
     if (vicini.length >= MIN_FASCIA) r.medianaFascia = mediana(vicini);
   }
-  if (r.delta !== null && r.mio !== null && r.medianaFascia !== null){
-    const sopra = r.mio >= r.medianaFascia, guadagno = r.delta >= 0;
+  if (r.mio !== null && r.medianaFascia !== null) r.scarto = r.mio - r.medianaFascia;
+
+  if (r.delta !== null && r.scarto !== null){
+    const sopra = r.scarto >= 0, guadagno = r.delta >= 0;
     if (guadagno && sopra)       { r.verdetto='tieni';    r.etichetta='tieni'; }
     else if (guadagno)           { r.verdetto='vendi';    r.etichetta="vendi sull'onda"; }
     else if (sopra)              { r.verdetto='riscatto'; r.etichetta='riscatto'; }
@@ -472,13 +579,17 @@ function analizza(id){
   return r;
 }
 
-/* ---------------- disegno ---------------- */
+/* ---------------- disegno rosa ---------------- */
 function disegnaRosa(){
   const cont = $('reparti'); cont.innerHTML = '';
   if (!ROSA.size){
     cont.innerHTML = '<div class="vuoto">Nessun giocatore in rosa.<br>Cercane uno qui sopra, oppure importa la rosa da FantaLab.</div>';
-    aggiornaSommario([]); return;
+    aggiornaSommario([]); disegnaGrafico([]);
+    $('card-grafico').classList.add('nascosto');
+    return;
   }
+  $('card-grafico').classList.remove('nascosto');
+
   const tutte = [];
   REPARTI.forEach(([sigla, titolo]) => {
     const ids = [...ROSA.keys()].filter(id => {
@@ -489,14 +600,38 @@ function disegnaRosa(){
     tutte.push(...analisi);
 
     const box = document.createElement('div');
-    box.className = 'reparto';
+    box.className = 'reparto' + (CHIUSI[sigla] ? ' chiuso' : '');
+
     const manca = analisi.length < QUOTE[sigla];
-    box.innerHTML = `<div class="reparto-testa"><h3>${titolo}</h3>
-      <em class="${manca ? 'manca' : ''}">${analisi.length} / ${QUOTE[sigla]}</em></div>`;
-    analisi.forEach(r => box.appendChild(rigaGiocatore(r)));
+    const somma = analisi.reduce((s,r) => s + (r.delta || 0), 0);
+    const cls = somma > 0 ? 'su' : (somma < 0 ? 'giu' : '');
+    const seg = somma > 0 ? '+' : '';
+
+    const testa = document.createElement('div');
+    testa.className = 'reparto-testa';
+    testa.setAttribute('role','button');
+    testa.setAttribute('tabindex','0');
+    testa.innerHTML =
+      `<h3><span class="chev">▼</span>${titolo}</h3>
+       <em><span class="${manca ? 'manca' : ''}">${analisi.length} / ${QUOTE[sigla]}</span>` +
+      (analisi.length ? ` · <span class="${cls}">${seg}${somma}</span>` : '') + `</em>`;
+
+    const corpo = document.createElement('div');
+    corpo.className = 'reparto-corpo';
+    analisi.forEach(r => corpo.appendChild(rigaGiocatore(r)));
+
+    const commuta = () => { CHIUSI[sigla] = !CHIUSI[sigla]; box.classList.toggle('chiuso'); };
+    testa.addEventListener('click', commuta);
+    testa.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); commuta(); }
+    });
+
+    box.appendChild(testa); box.appendChild(corpo);
     cont.appendChild(box);
   });
+
   aggiornaSommario(tutte);
+  disegnaGrafico(tutte);
 }
 
 function rigaGiocatore(r){
@@ -521,7 +656,13 @@ function rigaGiocatore(r){
            value="${r.pagato ?? ''}" aria-label="Prezzo pagato">
     <button class="x" aria-label="Rimuovi">×</button>`;
 
-  el.querySelector('input.pagato').addEventListener('change', e => salvaPagato(r.g.id, e.target.value));
+  const campo = el.querySelector('input.pagato');
+  campo.addEventListener('focus', e => {
+    const t = e.target;
+    setTimeout(() => { if (t.value === '0') t.value = ''; else t.select(); }, 0);
+  });
+  campo.addEventListener('blur', e => { if (e.target.value === '') salvaPagato(r.g.id, 0); });
+  campo.addEventListener('change', e => salvaPagato(r.g.id, e.target.value));
   el.querySelector('button.x').addEventListener('click', () => rimuovi(r.g.id));
   return el;
 }
@@ -530,12 +671,88 @@ function aggiornaSommario(a){
   const speso  = a.reduce((s,r) => s + (r.pagato || 0), 0);
   const valore = a.reduce((s,r) => s + (r.prezzo || 0), 0);
   const plus   = valore - speso;
-  const sotto  = a.filter(r => r.mio !== null && r.medianaFascia !== null && r.mio < r.medianaFascia).length;
+  const sotto  = a.filter(r => r.scarto !== null && r.scarto < 0).length;
   $('s-speso').textContent  = speso || '—';
   $('s-valore').textContent = valore || '—';
   $('s-plus').textContent   = a.length ? (plus > 0 ? '+' : '') + plus : '—';
   $('s-plus').style.color   = plus > 0 ? 'var(--ok)' : (plus < 0 ? 'var(--ko)' : '');
   $('s-sotto').textContent  = a.length ? sotto : '—';
+}
+
+/* ---------------- grafico a quadranti ---------------- */
+function disegnaGrafico(analisi){
+  const svg = $('grafico');
+  const punti = analisi.filter(r => r.deltaPerc !== null && r.scarto !== null);
+  const esclusi = analisi.length - punti.length;
+
+  if (!punti.length){
+    svg.innerHTML = `<text x="200" y="150" text-anchor="middle" fill="#8b9aaa"
+      font-family="IBM Plex Sans" font-size="13">Servono prezzo pagato e rendimento.</text>`;
+    $('dettaglio').textContent = 'Nessun giocatore con dati completi.';
+    return;
+  }
+
+  const W = 400, H = 300, m = { t:22, r:16, b:30, l:44 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+
+  const maxX = Math.max(20, ...punti.map(p => Math.abs(p.deltaPerc))) * 1.15;
+  const maxY = Math.max(0.5, ...punti.map(p => Math.abs(p.scarto))) * 1.15;
+  const px = v => m.l + (v / maxX + 1) / 2 * iw;
+  const py = v => m.t + (1 - (v / maxY + 1) / 2) * ih;
+
+  const cx = px(0), cy = py(0);
+  let s = '';
+
+  // sfondo dei quadranti favorevoli
+  s += `<rect x="${cx}" y="${m.t}" width="${m.l+iw-cx}" height="${cy-m.t}" fill="#6ee7a8" opacity=".045"/>`;
+  s += `<rect x="${m.l}" y="${cy}" width="${cx-m.l}" height="${m.t+ih-cy}" fill="#ff8272" opacity=".045"/>`;
+
+  // cornice e assi
+  s += `<rect x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="none" stroke="#2b3542"/>`;
+  s += `<line x1="${cx}" y1="${m.t}" x2="${cx}" y2="${m.t+ih}" stroke="#2b3542" stroke-dasharray="3 3"/>`;
+  s += `<line x1="${m.l}" y1="${cy}" x2="${m.l+iw}" y2="${cy}" stroke="#2b3542" stroke-dasharray="3 3"/>`;
+
+  // etichette quadranti
+  const q = (x, y, t, anc) => `<text x="${x}" y="${y}" text-anchor="${anc}" fill="#8b9aaa"
+    font-family="IBM Plex Mono" font-size="8" letter-spacing="1" opacity=".8">${t}</text>`;
+  s += q(m.l+iw-5, m.t+13, 'TIENI', 'end');
+  s += q(m.l+5,    m.t+13, 'RISCATTO', 'start');
+  s += q(m.l+iw-5, m.t+ih-6, "VENDI SULL'ONDA", 'end');
+  s += q(m.l+5,    m.t+ih-6, 'ZAVORRA', 'start');
+
+  // titoli assi
+  s += `<text x="${m.l+iw/2}" y="${H-8}" text-anchor="middle" fill="#8b9aaa"
+    font-family="IBM Plex Mono" font-size="9">plusvalenza %</text>`;
+  s += `<text x="12" y="${m.t+ih/2}" text-anchor="middle" fill="#8b9aaa"
+    font-family="IBM Plex Mono" font-size="9" transform="rotate(-90 12 ${m.t+ih/2})">scarto dalla fascia</text>`;
+
+  // pallini
+  punti.forEach((p, i) => {
+    const x = px(Math.max(-maxX, Math.min(maxX, p.deltaPerc)));
+    const y = py(Math.max(-maxY, Math.min(maxY, p.scarto)));
+    s += `<circle class="punto" data-i="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.5"
+      fill="${COLORE[p.g.ruolo] || 'var(--muted)'}" fill-opacity=".85"
+      stroke="#10161d" stroke-width="1.2"><title>${esc(p.g.nome)}</title></circle>`;
+  });
+
+  svg.innerHTML = s;
+  svg.querySelectorAll('.punto').forEach(c => {
+    c.addEventListener('click', () => {
+      const p = punti[Number(c.dataset.i)];
+      const seg = v => v > 0 ? '+' : '';
+      $('dettaglio').innerHTML =
+        `<b>${esc(p.g.nome)}</b> · ${esc(p.g.squadra_sigla || '')} · ` +
+        `pagato ${p.pagato} → ${p.prezzo} (${seg(p.deltaPerc)}${p.deltaPerc.toFixed(0)}%) · ` +
+        `rendimento ${p.mio.toFixed(2)} contro ${p.medianaFascia.toFixed(2)} di fascia ` +
+        `(${seg(p.scarto)}${p.scarto.toFixed(2)})`;
+      svg.querySelectorAll('.punto').forEach(o => o.setAttribute('stroke','#10161d'));
+      c.setAttribute('stroke','#e7edf3');
+    });
+  });
+
+  $('dettaglio').textContent = esclusi
+    ? `Tocca un pallino per i dettagli. ${esclusi} giocatori esclusi per dati mancanti.`
+    : 'Tocca un pallino per i dettagli.';
 }
 
 /* ---------------- modifiche rosa ---------------- */
@@ -557,6 +774,7 @@ async function rimuovi(id){
 async function salvaPagato(id, valore){
   const v = Number(valore);
   if (!Number.isFinite(v) || v < 0) return;
+  if (ROSA.get(id) === v) return;
   const { error } = await sb.from('rose_giocatori').update({ prezzo_pagato: v })
     .eq('rosa_id', ROSA_ID).eq('giocatore_id', id);
   if (error) return msg('msg-rosa','Non riuscito: ' + error.message,'err');
@@ -573,7 +791,6 @@ function cerca(){
     .filter(g => (g.nome || '').toLowerCase().includes(q) ||
                  (g.nome_completo || '').toLowerCase().includes(q))
     .sort((a,b) => (b.prezzo || 0) - (a.prezzo || 0)).slice(0, 12);
-
   if (!ultimi.length){
     box.innerHTML = '<div style="color:var(--muted)">Nessun giocatore trovato.</div>';
     box.classList.remove('nascosto'); return;
@@ -617,7 +834,6 @@ async function importaRosa(){
     const trovati = new Map();
     raccogli(JSON.parse(testo), trovati, null);
     if (!trovati.size) throw new Error('Nessun giocatore riconosciuto. Assicurati di aver copiato la risposta per intero.');
-
     const nuovi = [...trovati.entries()].filter(([id]) => !ROSA.has(id));
     if (!nuovi.length){
       msg('msg-importa', `Riconosciuti ${trovati.size} giocatori, tutti già in rosa.`, 'ok'); return;
@@ -626,7 +842,6 @@ async function importaRosa(){
       rosa_id: ROSA_ID, giocatore_id: id, prezzo_pagato: Number.isFinite(p) ? p : 0 }));
     const { error } = await sb.from('rose_giocatori').insert(righe);
     if (error) throw error;
-
     nuovi.forEach(([id, p]) => ROSA.set(id, Number.isFinite(p) ? p : 0));
     const conPrezzo = nuovi.filter(([,p]) => Number.isFinite(p)).length;
     msg('msg-importa', `${nuovi.length} giocatori aggiunti, ${conPrezzo} con prezzo pagato riconosciuto.` +
@@ -645,12 +860,9 @@ async function caricaInviti(){
   const { data: inviti, error } = await sb.from('inviti')
     .select('email, is_admin, creato_il').order('creato_il');
   if (error){ el.innerHTML = ''; return; }
-
   const { data: profili } = await sb.from('profili').select('email');
   const dentro = new Set((profili || []).map(p => (p.email || '').toLowerCase()));
-
   if (!inviti.length){ el.innerHTML = '<div class="vuoto">Nessun invito ancora.</div>'; return; }
-
   el.innerHTML = '';
   inviti.forEach(i => {
     const r = document.createElement('div'); r.className = 'inv';
@@ -667,10 +879,7 @@ async function caricaInviti(){
 async function invita(){
   const email = $('nuovo-invito').value.trim().toLowerCase();
   if (!email || !email.includes('@')) return msg('msg-invito','Scrivi un indirizzo email valido.','err');
-
-  const { error } = await sb.from('inviti')
-    .insert({ email, is_admin: $('invito-admin').checked });
-
+  const { error } = await sb.from('inviti').insert({ email, is_admin: $('invito-admin').checked });
   if (error){
     return msg('msg-invito', (error.code === '23505')
       ? 'Questa email è già fra gli invitati.' : 'Non riuscito: ' + error.message, 'err');
@@ -685,7 +894,6 @@ async function revoca(email, giaDentro){
     ? `Revocare l'invito a ${email}?\n\nNon potrà più registrarsi, ma essendo già entrato la sua sessione resta valida. Per escluderlo davvero cancella anche l'utente in Supabase › Authentication › Users.`
     : `Revocare l'invito a ${email}?`;
   if (!confirm(avviso)) return;
-
   const { error } = await sb.from('inviti').delete().eq('email', email);
   if (error) return msg('msg-invito','Non riuscito: ' + error.message,'err');
   msg('msg-invito', `Invito a ${email} revocato.`, 'ok');
@@ -694,12 +902,8 @@ async function revoca(email, giaDentro){
 
 async function copiaLink(){
   const url = window.location.origin + window.location.pathname;
-  try{
-    await navigator.clipboard.writeText(url);
-    msg('msg-invito','Link copiato negli appunti.','ok');
-  }catch(e){
-    msg('msg-invito','Copia a mano: ' + url, 'ok');
-  }
+  try{ await navigator.clipboard.writeText(url); msg('msg-invito','Link copiato negli appunti.','ok'); }
+  catch(e){ msg('msg-invito','Copia a mano: ' + url, 'ok'); }
 }
 
 /* ---------------- accesso ---------------- */
@@ -799,11 +1003,9 @@ async function registraPrezzi(){
     const { data: correnti, error: e2 } = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
     if (e2) throw e2;
     const attuale = new Map((correnti || []).map(r => [r.giocatore_id, Number(r.prezzo)]));
-
     const ignorati  = prezzi.filter(p => !noti.has(p.id)).length;
     const candidati = prezzi.filter(p =>  noti.has(p.id));
     const nuovi     = candidati.filter(p => attuale.get(p.id) !== p.prezzo);
-
     if (!nuovi.length){
       msg('msg-prezzi', `Nessuna variazione: i ${candidati.length} prezzi coincidono con l'ultimo rilevamento.`,'ok');
       return;
@@ -828,6 +1030,21 @@ async function registraPrezzi(){
 }
 
 /* ---------------- collegamenti ---------------- */
+document.addEventListener('click', e => {
+  const b = e.target.closest('.info');
+  if (b){
+    e.preventDefault();
+    const testa = b.closest('h2, .testa-sez');
+    const sp = testa && testa.nextElementSibling;
+    if (sp && sp.classList.contains('spiega')){
+      const chiusa = sp.classList.toggle('nascosto');
+      b.classList.toggle('aperta', !chiusa);
+    }
+    return;
+  }
+  if (!e.target.closest('.cerca')) $('risultati').classList.add('nascosto');
+});
+
 $('btn-entra').addEventListener('click', chiediLink);
 $('email').addEventListener('keydown', e => { if (e.key === 'Enter') chiediLink(); });
 
@@ -843,14 +1060,10 @@ $('cerca').addEventListener('keydown', e => {
   else return;
   voci.forEach((v,i) => v.classList.toggle('sel', i === selIdx));
 });
-document.addEventListener('click', e => {
-  if (!e.target.closest('.cerca')) $('risultati').classList.add('nascosto');
-});
 
 $('banda').addEventListener('change', disegnaRosa);
 $('metrica').addEventListener('change', disegnaRosa);
 $('btn-importa').addEventListener('click', importaRosa);
-
 $('btn-invita').addEventListener('click', invita);
 $('nuovo-invito').addEventListener('keydown', e => { if (e.key === 'Enter') invita(); });
 $('btn-link').addEventListener('click', copiaLink);
