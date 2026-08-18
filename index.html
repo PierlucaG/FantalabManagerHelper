@@ -54,7 +54,6 @@
   code{font-family:var(--mono);font-size:12px;background:var(--ink);padding:1px 5px;border-radius:2px;
     word-break:break-all}
 
-  /* ---- spiegazioni ---- */
   .info{display:inline-flex;align-items:center;justify-content:center;
     width:18px;height:18px;min-height:0;padding:0;border-radius:50%;
     background:transparent;border:1px solid var(--line);color:var(--muted);
@@ -109,7 +108,6 @@
     border-radius:0;padding:9px 2px;font-size:16px;min-height:0}
   .schede button.attiva{color:var(--text);border-bottom-color:var(--rosa)}
 
-  /* ---- sommario ---- */
   .testa-sez{display:flex;align-items:center;font-family:var(--mono);font-size:11px;
     letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
   .sommario{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
@@ -121,8 +119,10 @@
     text-transform:uppercase;color:var(--muted)}
 
   .controlli{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  #riepilogo{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.6}
+  #riepilogo b{color:var(--text);font-weight:500}
 
-  /* ---- grafico ---- */
   #grafico{width:100%;height:auto;display:block}
   .legenda{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
     margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)}
@@ -132,7 +132,6 @@
   #dettaglio b{color:var(--text)}
   .punto{cursor:pointer}
 
-  /* ---- reparti ---- */
   .reparto{margin-top:20px}
   .reparto-testa{display:flex;justify-content:space-between;align-items:center;gap:12px;
     padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
@@ -140,8 +139,7 @@
   .reparto-testa h3{font-family:var(--display);font-size:21px;font-weight:600;
     text-transform:uppercase;letter-spacing:.04em;margin:0;display:flex;align-items:center;gap:9px;
     transition:color .15s ease}
-  .chev{display:inline-block;font-size:11px;color:var(--muted);transition:transform .18s ease;
-    transform:rotate(0deg)}
+  .chev{display:inline-block;font-size:11px;color:var(--muted);transition:transform .18s ease}
   .reparto.chiuso .chev{transform:rotate(-90deg)}
   .reparto.chiuso .reparto-corpo{display:none}
   .reparto-testa em{font-family:var(--mono);font-size:12px;font-style:normal;color:var(--muted);
@@ -151,8 +149,8 @@
 
   /* ---- riga giocatore ---- */
   .g{display:grid;gap:5px 10px;padding:12px 0;border-bottom:1px solid var(--line);
-     grid-template-columns:1fr auto auto auto;
-     grid-template-areas:"nome verd pagato x" "dati verd pagato x";align-items:center}
+     grid-template-columns:1fr auto auto auto auto;
+     grid-template-areas:"nome verd pagato alt x" "dati verd pagato alt x";align-items:center}
   .g:last-child{border-bottom:0}
   .g .nome{grid-area:nome;font-weight:600;line-height:1.25}
   .g .nome small{font-weight:400;color:var(--muted);font-family:var(--mono);
@@ -163,9 +161,32 @@
   .g .verdetto{grid-area:verd;justify-self:end}
   .g input.pagato{grid-area:pagato;width:72px;padding:8px;font-family:var(--mono);
     font-size:14px;text-align:right}
-  .g .x{grid-area:x;background:none;border:0;color:var(--muted);font-size:20px;cursor:pointer;
-    padding:0 4px;font-family:var(--body);text-transform:none;min-height:36px;line-height:1}
-  .g .x:hover{color:var(--ko)}
+  .g .alt{grid-area:alt}
+  .g .x{grid-area:x}
+  .g .alt,.g .x{background:none;border:0;color:var(--muted);cursor:pointer;padding:0 4px;
+    font-family:var(--body);text-transform:none;min-height:36px;line-height:1;font-size:19px;
+    letter-spacing:0;font-weight:400}
+  .g .alt{font-size:16px}
+  .g .alt:hover{color:var(--rosa)} .g .x:hover{color:var(--ko)}
+  .g .alt.aperta{color:var(--rosa)}
+
+  /* ---- pannello alternative ---- */
+  .alt-box{grid-column:1/-1;background:var(--panel-2);border-radius:3px;
+    padding:13px 15px;margin-top:8px;font-size:13px}
+  .alt-box h4{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 11px;font-weight:500}
+  .alt-r{display:grid;grid-template-columns:1fr auto auto auto;gap:3px 12px;
+    padding:8px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .alt-r:last-child{border-bottom:0}
+  .alt-r .n{font-weight:600;font-size:14px}
+  .alt-r .n small{font-weight:400;color:var(--muted);font-family:var(--mono);
+    font-size:11px;margin-left:6px}
+  .alt-r span{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+  .alt-r .meglio{color:var(--ok)}
+  .alt-r .costo.su{color:var(--ko)} .alt-r .costo.giu{color:var(--ok)}
+  .alt-nulla{color:var(--muted);font-size:13px;line-height:1.6}
+  .tag-tuo{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--line);color:var(--muted);padding:2px 6px;border-radius:2px;margin-left:6px}
 
   .verdetto{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;
     text-transform:uppercase;padding:4px 7px;border-radius:2px;white-space:nowrap}
@@ -214,11 +235,14 @@
     .invita{grid-template-columns:1fr}
     .card > button:not(.x):not(.info){width:100%}
     textarea{font-size:16px}
-    .g{grid-template-columns:1fr auto;
-       grid-template-areas:"nome x" "dati dati" "verd pagato";gap:7px 10px;padding:14px 0}
+    .g{grid-template-columns:1fr auto auto;
+       grid-template-areas:"nome alt x" "dati dati dati" "verd verd pagato";
+       gap:7px 10px;padding:14px 0}
     .g .verdetto{justify-self:start}
     .g input.pagato{width:84px}
-    .g .x{align-self:start}
+    .g .alt,.g .x{align-self:start}
+    .alt-r{grid-template-columns:1fr auto;gap:2px 10px}
+    .alt-r .n{grid-column:1/-1}
   }
 </style>
 </head>
@@ -264,7 +288,7 @@
         <ul>
           <li><b>Speso</b> — la somma di quanto hai pagato all'asta.</li>
           <li><b>Valore ora</b> — quanto valgono oggi gli stessi giocatori ai prezzi Manager.</li>
-          <li><b>Plusvalenza</b> — la differenza fra i due. Verde se il mercato ti dà ragione.</li>
+          <li><b>Plusvalenza</b> — la differenza fra i due.</li>
           <li><b>Sotto mediana</b> — quanti dei tuoi rendono meno del giocatore mediano della loro fascia di prezzo. È il numero scomodo: dice quanti stai pagando più di quanto rendano.</li>
         </ul>
       </div>
@@ -281,12 +305,16 @@
         <div class="spiega nascosto">
           Ogni pallino è un tuo giocatore. In orizzontale la <b>plusvalenza</b> in percentuale
           sul prezzo pagato; in verticale lo scarto fra il suo <b>rendimento</b> e la mediana
-          della sua fascia di prezzo. Le due linee al centro sono lo zero.
-          <p>In alto a destra sta chi guadagna e rende. In basso a sinistra chi perde su
-          entrambi i fronti. I due quadranti interessanti sono quelli misti: in alto a sinistra
-          chi rende ma il mercato non se n'è accorto, in basso a destra chi vale tanto ma
-          gioca poco.</p>
-          <p>Tocca un pallino per vedere di chi si tratta.</p>
+          della sua fascia. Le due linee al centro sono lo zero. Tocca un pallino per i dettagli.
+          <p><b>I due assi non pesano uguale.</b> Quello verticale dice se un giocatore vale il
+          prezzo che ha oggi. Quello orizzontale dice solo com'è andato l'acquisto: quanto hai
+          pagato è ormai speso e non cambia se convenga tenerlo. Il segnale di vendita sta
+          quindi soprattutto in verticale — sia <i>zavorra</i> sia <i>vendi sull'onda</i> sono
+          candidati alla cessione, la differenza è che nel secondo caso ci guadagni anche.</p>
+          <p><b>Tre cose che il tool non sa.</b> Se un giocatore è appena arrivato o rientra da
+          un infortunio, il passato non predice il futuro. Se al suo prezzo non esiste di meglio,
+          venderlo non ti migliora — per questo c'è il pulsante ⇄ su ogni riga. E il prezzo è
+          quello che dice il mercato interno, non la garanzia che qualcuno compri a quella cifra.</p>
         </div>
         <svg id="grafico" viewBox="0 0 400 300" role="img" aria-label="Grafico a quadranti"></svg>
         <div class="legenda">
@@ -317,20 +345,17 @@
       <div class="card">
         <h2>Parametri analisi <button class="info" aria-label="Spiegazione">i</button></h2>
         <div class="spiega nascosto">
-          <b>Ampiezza fascia</b> — chi sono i "pari prezzo" di un giocatore. A ±20%, uno da
+          <b>Ampiezza fascia</b> — definisce chi sono i "pari prezzo". A ±20% un giocatore da
           100 crediti viene confrontato con chi sta fra 80 e 120, stesso ruolo. Stringere rende
           il confronto più mirato ma con meno giocatori; allargare fa il contrario.
+          <p>La fascia serve a due cose: calcolare la mediana che compare in ogni riga, e
+          popolare l'elenco delle alternative che apri con il pulsante <b>⇄</b>.</p>
           <p><b>Metrica</b> — la fantamedia include bonus e malus, la media voto misura solo la
-          prestazione, la fantamedia attesa è la stima di FantaLab depurata dalla fortuna.</p>
-          <p>I quattro verdetti nascono incrociando plusvalenza e rendimento:</p>
-          <ul>
-            <li><b>Tieni</b> — guadagna e rende sopra la fascia.</li>
-            <li><b>Vendi sull'onda</b> — vale più di quanto l'hai pagato ma rende poco: il mercato lo sopravvaluta, approfittane.</li>
-            <li><b>Riscatto</b> — vale meno ma rende bene: sottovalutato, tienilo o compranne altri così.</li>
-            <li><b>Zavorra</b> — perde su entrambi i fronti.</li>
-          </ul>
-          <p>Se la fascia contiene meno di tre giocatori il verdetto non viene emesso: una
-          mediana su due valori non significa niente.</p>
+          prestazione, la fantamedia attesa è la stima di FantaLab depurata dalla fortuna.
+          Quest'ultima è disponibile per quasi tutti i giocatori, mentre la fantamedia manca a
+          chi non ha giocato in Serie A l'anno scorso.</p>
+          <p>Sotto i due menu, il riepilogo ti dice quanti giocatori riescono a essere valutati
+          con le impostazioni correnti. Se stringi troppo la fascia, quel numero cala.</p>
         </div>
         <div class="controlli">
           <div>
@@ -351,6 +376,7 @@
             </select>
           </div>
         </div>
+        <div id="riepilogo">—</div>
       </div>
 
       <div id="reparti"></div>
@@ -362,7 +388,7 @@
           del browser. Su FantaLab apri Network, filtra su Fetch/XHR, ricarica, trova la
           chiamata che restituisce la tua rosa e copiane il corpo della risposta.
           <p>Il lettore riconosce i giocatori dai loro identificativi e, se li trova, anche i
-          prezzi pagati. Quelli che non riesce a leggere restano a zero e li completi a mano.</p>
+          prezzi pagati. Quelli che non riesce a leggere restano a zero.</p>
         </div>
         <label for="json-rosa">JSON della rosa</label>
         <textarea id="json-rosa" placeholder="{ … }"></textarea>
@@ -427,8 +453,7 @@
           incollati a mano. Su FantaLab apri Network, ricarica, trova <code>/v2/prices</code>
           e copiane la risposta.
           <p>Finiscono nello storico solo i prezzi <b>cambiati</b> rispetto all'ultima
-          rilevazione: se premi due volte di fila la seconda non duplica nulla. Col passare
-          delle settimane questo diventa la cronologia del mercato.</p>
+          rilevazione: se premi due volte di fila la seconda non duplica nulla.</p>
         </div>
         <label for="json-prezzi">JSON dei prezzi</label>
         <textarea id="json-prezzi" placeholder='{"season_id": 17, "prices": { ... } }'></textarea>
@@ -455,7 +480,8 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const QUOTE   = { P:3, D:8, C:8, A:6 };
 const REPARTI = [['P','Portieri'],['D','Difensori'],['C','Centrocampisti'],['A','Attaccanti']];
 const COLORE  = { P:'var(--r-p)', D:'var(--r-d)', C:'var(--r-c)', A:'var(--r-a)' };
-const MIN_FASCIA = 3;
+const NOME_METRICA = { fantamedia:'fantamedia', media_voto:'media voto', fantamedia_attesa:'fantamedia attesa' };
+const MIN_FASCIA = 3, MAX_ALT = 8;
 
 const STATISTICHE = ['fmv','mv','presenze','gol_fatti','assist','amm','esp',
                      'quotazione','quotazione_mantra','xfmv','fallback_price'];
@@ -469,6 +495,7 @@ const $ = id => document.getElementById(id);
 let sb = null, sonoAdmin = false;
 let GIOCATORI = new Map(), ROSA_ID = null, ROSA = new Map();
 let CHIUSI = { P:false, D:false, C:false, A:false };
+let APERTI = new Set();
 
 /* ---------------- utilità ---------------- */
 function msg(dove, testo, tipo){
@@ -487,6 +514,7 @@ function mediana(v){
 const num = v => (v === null || v === undefined || v === '') ? null : Number(v);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const seg = v => v > 0 ? '+' : '';
 
 /* ---------------- avvio ---------------- */
 async function avvia(){
@@ -542,10 +570,15 @@ async function caricaRosa(session){
 }
 
 /* ---------------- analisi ---------------- */
+function fascia(prezzo){
+  const b = Number($('banda').value) / 100;
+  return { lo: prezzo * (1 - b), hi: prezzo * (1 + b) };
+}
+
 function analizza(id){
   const g = GIOCATORI.get(id);
   if (!g) return null;
-  const metrica = $('metrica').value, banda = Number($('banda').value) / 100;
+  const metrica = $('metrica').value;
   const pagato = ROSA.get(id), prezzo = g.prezzo, mio = num(g[metrica]);
 
   const r = { g, pagato, prezzo, mio, delta:null, deltaPerc:null,
@@ -556,7 +589,7 @@ function analizza(id){
     r.deltaPerc = pagato > 0 ? (r.delta / pagato) * 100 : null;
   }
   if (prezzo !== null){
-    const lo = prezzo * (1 - banda), hi = prezzo * (1 + banda), vicini = [];
+    const { lo, hi } = fascia(prezzo), vicini = [];
     GIOCATORI.forEach(o => {
       if (o.ruolo !== g.ruolo) return;
       if (o.prezzo === null || o.prezzo < lo || o.prezzo > hi) return;
@@ -579,12 +612,28 @@ function analizza(id){
   return r;
 }
 
-/* ---------------- disegno rosa ---------------- */
+/* chi rende più di lui, stesso ruolo, stessa fascia di prezzo */
+function alternative(r){
+  if (r.prezzo === null || r.mio === null) return null;
+  const metrica = $('metrica').value;
+  const { lo, hi } = fascia(r.prezzo);
+  const out = [];
+  GIOCATORI.forEach(o => {
+    if (o.id === r.g.id || o.ruolo !== r.g.ruolo) return;
+    if (o.prezzo === null || o.prezzo < lo || o.prezzo > hi) return;
+    const v = num(o[metrica]);
+    if (v === null || v <= r.mio) return;
+    out.push({ g:o, v, meglio: v - r.mio, costo: o.prezzo - r.prezzo, tuo: ROSA.has(o.id) });
+  });
+  return out.sort((a,b) => b.v - a.v).slice(0, MAX_ALT);
+}
+
+/* ---------------- disegno ---------------- */
 function disegnaRosa(){
   const cont = $('reparti'); cont.innerHTML = '';
   if (!ROSA.size){
     cont.innerHTML = '<div class="vuoto">Nessun giocatore in rosa.<br>Cercane uno qui sopra, oppure importa la rosa da FantaLab.</div>';
-    aggiornaSommario([]); disegnaGrafico([]);
+    aggiornaSommario([]); disegnaGrafico([]); aggiornaRiepilogo([]);
     $('card-grafico').classList.add('nascosto');
     return;
   }
@@ -601,20 +650,17 @@ function disegnaRosa(){
 
     const box = document.createElement('div');
     box.className = 'reparto' + (CHIUSI[sigla] ? ' chiuso' : '');
-
     const manca = analisi.length < QUOTE[sigla];
     const somma = analisi.reduce((s,r) => s + (r.delta || 0), 0);
     const cls = somma > 0 ? 'su' : (somma < 0 ? 'giu' : '');
-    const seg = somma > 0 ? '+' : '';
 
     const testa = document.createElement('div');
     testa.className = 'reparto-testa';
-    testa.setAttribute('role','button');
-    testa.setAttribute('tabindex','0');
+    testa.setAttribute('role','button'); testa.setAttribute('tabindex','0');
     testa.innerHTML =
       `<h3><span class="chev">▼</span>${titolo}</h3>
        <em><span class="${manca ? 'manca' : ''}">${analisi.length} / ${QUOTE[sigla]}</span>` +
-      (analisi.length ? ` · <span class="${cls}">${seg}${somma}</span>` : '') + `</em>`;
+      (analisi.length ? ` · <span class="${cls}">${seg(somma)}${somma}</span>` : '') + `</em>`;
 
     const corpo = document.createElement('div');
     corpo.className = 'reparto-corpo';
@@ -625,18 +671,17 @@ function disegnaRosa(){
     testa.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); commuta(); }
     });
-
     box.appendChild(testa); box.appendChild(corpo);
     cont.appendChild(box);
   });
 
   aggiornaSommario(tutte);
+  aggiornaRiepilogo(tutte);
   disegnaGrafico(tutte);
 }
 
 function rigaGiocatore(r){
   const el = document.createElement('div'); el.className = 'g';
-  const seg = v => v > 0 ? '+' : '';
   const cls = v => v > 0 ? 'su' : (v < 0 ? 'giu' : '');
 
   const deltaTxt = r.delta !== null
@@ -654,6 +699,7 @@ function rigaGiocatore(r){
     <span class="verdetto v-${r.verdetto}">${r.etichetta}</span>
     <input class="pagato" type="number" inputmode="numeric" min="0" step="1"
            value="${r.pagato ?? ''}" aria-label="Prezzo pagato">
+    <button class="alt" aria-label="Alternative in fascia" title="Chi rende di più al suo prezzo">⇄</button>
     <button class="x" aria-label="Rimuovi">×</button>`;
 
   const campo = el.querySelector('input.pagato');
@@ -664,7 +710,50 @@ function rigaGiocatore(r){
   campo.addEventListener('blur', e => { if (e.target.value === '') salvaPagato(r.g.id, 0); });
   campo.addEventListener('change', e => salvaPagato(r.g.id, e.target.value));
   el.querySelector('button.x').addEventListener('click', () => rimuovi(r.g.id));
+
+  const bAlt = el.querySelector('button.alt');
+  bAlt.addEventListener('click', () => {
+    const esistente = el.querySelector('.alt-box');
+    if (esistente){ esistente.remove(); APERTI.delete(r.g.id); bAlt.classList.remove('aperta'); }
+    else { el.appendChild(pannelloAlternative(r)); APERTI.add(r.g.id); bAlt.classList.add('aperta'); }
+  });
+  if (APERTI.has(r.g.id)){ el.appendChild(pannelloAlternative(r)); bAlt.classList.add('aperta'); }
+
   return el;
+}
+
+function pannelloAlternative(r){
+  const box = document.createElement('div');
+  box.className = 'alt-box';
+  const lista = alternative(r);
+  const nomeM = NOME_METRICA[$('metrica').value];
+
+  if (lista === null){
+    box.innerHTML = `<div class="alt-nulla">Serve il prezzo Manager e un rendimento noto
+      per cercare alternative a questo giocatore.</div>`;
+    return box;
+  }
+  const { lo, hi } = fascia(r.prezzo);
+  box.innerHTML = `<h4>Meglio di lui fra ${Math.round(lo)} e ${Math.round(hi)} crediti · ${nomeM}</h4>`;
+
+  if (!lista.length){
+    box.innerHTML += `<div class="alt-nulla">Nessuno rende più di lui in questa fascia.
+      Al suo prezzo è la scelta migliore disponibile: venderlo non ti migliorerebbe.</div>`;
+    return box;
+  }
+
+  lista.forEach(a => {
+    const cCosto = a.costo > 0 ? 'su' : (a.costo < 0 ? 'giu' : '');
+    const riga = document.createElement('div');
+    riga.className = 'alt-r';
+    riga.innerHTML = `
+      <div class="n">${esc(a.g.nome)}<small>${esc(a.g.squadra_sigla || '')}</small>${a.tuo ? '<span class="tag-tuo">già tuo</span>' : ''}</div>
+      <span>${a.g.prezzo} cr</span>
+      <span class="meglio">${a.v.toFixed(2)} (+${a.meglio.toFixed(2)})</span>
+      <span class="costo ${cCosto}">${seg(a.costo)}${a.costo} cr</span>`;
+    box.appendChild(riga);
+  });
+  return box;
 }
 
 function aggiornaSommario(a){
@@ -674,12 +763,31 @@ function aggiornaSommario(a){
   const sotto  = a.filter(r => r.scarto !== null && r.scarto < 0).length;
   $('s-speso').textContent  = speso || '—';
   $('s-valore').textContent = valore || '—';
-  $('s-plus').textContent   = a.length ? (plus > 0 ? '+' : '') + plus : '—';
+  $('s-plus').textContent   = a.length ? seg(plus) + plus : '—';
   $('s-plus').style.color   = plus > 0 ? 'var(--ok)' : (plus < 0 ? 'var(--ko)' : '');
   $('s-sotto').textContent  = a.length ? sotto : '—';
 }
 
-/* ---------------- grafico a quadranti ---------------- */
+function aggiornaRiepilogo(a){
+  const el = $('riepilogo');
+  if (!a.length){ el.textContent = 'Aggiungi giocatori per vedere l\'analisi.'; return; }
+  const valutati    = a.filter(r => r.verdetto !== 'nd').length;
+  const senzaRend   = a.filter(r => r.mio === null).length;
+  const senzaFascia = a.filter(r => r.mio !== null && r.medianaFascia === null).length;
+  const senzaPagato = a.filter(r => r.scarto !== null && r.delta === null).length;
+  const peerMedio   = Math.round(a.reduce((s,r) => s + r.peer, 0) / a.length);
+
+  let t = `± ${$('banda').value}% · ${NOME_METRICA[$('metrica').value]} — ` +
+          `<b>${valutati}</b> di ${a.length} valutati, in media <b>${peerMedio}</b> pari fascia ciascuno.`;
+  const mancano = [];
+  if (senzaRend)   mancano.push(`${senzaRend} senza rendimento`);
+  if (senzaFascia) mancano.push(`${senzaFascia} con fascia troppo esigua`);
+  if (senzaPagato) mancano.push(`${senzaPagato} senza prezzo pagato`);
+  if (mancano.length) t += ' Esclusi: ' + mancano.join(', ') + '.';
+  el.innerHTML = t;
+}
+
+/* ---------------- grafico ---------------- */
 function disegnaGrafico(analisi){
   const svg = $('grafico');
   const punti = analisi.filter(r => r.deltaPerc !== null && r.scarto !== null);
@@ -691,47 +799,37 @@ function disegnaGrafico(analisi){
     $('dettaglio').textContent = 'Nessun giocatore con dati completi.';
     return;
   }
-
   const W = 400, H = 300, m = { t:22, r:16, b:30, l:44 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
-
   const maxX = Math.max(20, ...punti.map(p => Math.abs(p.deltaPerc))) * 1.15;
   const maxY = Math.max(0.5, ...punti.map(p => Math.abs(p.scarto))) * 1.15;
   const px = v => m.l + (v / maxX + 1) / 2 * iw;
   const py = v => m.t + (1 - (v / maxY + 1) / 2) * ih;
-
   const cx = px(0), cy = py(0);
   let s = '';
 
-  // sfondo dei quadranti favorevoli
   s += `<rect x="${cx}" y="${m.t}" width="${m.l+iw-cx}" height="${cy-m.t}" fill="#6ee7a8" opacity=".045"/>`;
   s += `<rect x="${m.l}" y="${cy}" width="${cx-m.l}" height="${m.t+ih-cy}" fill="#ff8272" opacity=".045"/>`;
-
-  // cornice e assi
   s += `<rect x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="none" stroke="#2b3542"/>`;
   s += `<line x1="${cx}" y1="${m.t}" x2="${cx}" y2="${m.t+ih}" stroke="#2b3542" stroke-dasharray="3 3"/>`;
   s += `<line x1="${m.l}" y1="${cy}" x2="${m.l+iw}" y2="${cy}" stroke="#2b3542" stroke-dasharray="3 3"/>`;
 
-  // etichette quadranti
   const q = (x, y, t, anc) => `<text x="${x}" y="${y}" text-anchor="${anc}" fill="#8b9aaa"
     font-family="IBM Plex Mono" font-size="8" letter-spacing="1" opacity=".8">${t}</text>`;
   s += q(m.l+iw-5, m.t+13, 'TIENI', 'end');
   s += q(m.l+5,    m.t+13, 'RISCATTO', 'start');
   s += q(m.l+iw-5, m.t+ih-6, "VENDI SULL'ONDA", 'end');
   s += q(m.l+5,    m.t+ih-6, 'ZAVORRA', 'start');
-
-  // titoli assi
   s += `<text x="${m.l+iw/2}" y="${H-8}" text-anchor="middle" fill="#8b9aaa"
     font-family="IBM Plex Mono" font-size="9">plusvalenza %</text>`;
   s += `<text x="12" y="${m.t+ih/2}" text-anchor="middle" fill="#8b9aaa"
     font-family="IBM Plex Mono" font-size="9" transform="rotate(-90 12 ${m.t+ih/2})">scarto dalla fascia</text>`;
 
-  // pallini
   punti.forEach((p, i) => {
     const x = px(Math.max(-maxX, Math.min(maxX, p.deltaPerc)));
     const y = py(Math.max(-maxY, Math.min(maxY, p.scarto)));
     s += `<circle class="punto" data-i="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.5"
-      fill="${COLORE[p.g.ruolo] || 'var(--muted)'}" fill-opacity=".85"
+      fill="${COLORE[p.g.ruolo] || '#8b9aaa'}" fill-opacity=".85"
       stroke="#10161d" stroke-width="1.2"><title>${esc(p.g.nome)}</title></circle>`;
   });
 
@@ -739,7 +837,6 @@ function disegnaGrafico(analisi){
   svg.querySelectorAll('.punto').forEach(c => {
     c.addEventListener('click', () => {
       const p = punti[Number(c.dataset.i)];
-      const seg = v => v > 0 ? '+' : '';
       $('dettaglio').innerHTML =
         `<b>${esc(p.g.nome)}</b> · ${esc(p.g.squadra_sigla || '')} · ` +
         `pagato ${p.pagato} → ${p.prezzo} (${seg(p.deltaPerc)}${p.deltaPerc.toFixed(0)}%) · ` +
@@ -749,7 +846,6 @@ function disegnaGrafico(analisi){
       c.setAttribute('stroke','#e7edf3');
     });
   });
-
   $('dettaglio').textContent = esclusi
     ? `Tocca un pallino per i dettagli. ${esclusi} giocatori esclusi per dati mancanti.`
     : 'Tocca un pallino per i dettagli.';
@@ -769,7 +865,7 @@ async function rimuovi(id){
   const { error } = await sb.from('rose_giocatori').delete()
     .eq('rosa_id', ROSA_ID).eq('giocatore_id', id);
   if (error) return msg('msg-rosa','Non riuscito: ' + error.message,'err');
-  ROSA.delete(id); msg('msg-rosa',''); disegnaRosa();
+  ROSA.delete(id); APERTI.delete(id); msg('msg-rosa',''); disegnaRosa();
 }
 async function salvaPagato(id, valore){
   const v = Number(valore);
