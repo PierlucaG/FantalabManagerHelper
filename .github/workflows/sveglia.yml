@@ -1,0 +1,39 @@
+name: Sveglia il database
+
+# Supabase mette in pausa i progetti gratuiti dopo una settimana
+# senza attività. Questo lavoro chiama il database due volte a
+# settimana, lunedì e giovedì, lasciando al massimo quattro giorni
+# di silenzio.
+
+on:
+  schedule:
+    # minuti ore giorno-del-mese mese giorno-della-settimana
+    # 1 = lunedì, 4 = giovedì. L'orario è UTC.
+    - cron: '17 6 * * 1,4'
+  workflow_dispatch:   # permette di lanciarlo a mano dal sito
+
+jobs:
+  battito:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chiama Supabase
+        run: |
+          codice=$(curl --silent --show-error \
+            --output risposta.txt \
+            --write-out "%{http_code}" \
+            --max-time 30 \
+            --request POST "${{ secrets.SUPABASE_URL }}/rest/v1/rpc/segna_battito" \
+            --header "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            --header "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            --header "Content-Type: application/json" \
+            --data '{}')
+
+          echo "Risposta HTTP: $codice"
+          echo "Contenuto: $(cat risposta.txt)"
+
+          if [ "$codice" != "200" ]; then
+            echo "::error::Il database non ha risposto come previsto."
+            exit 1
+          fi
+
+          echo "Battito registrato."
