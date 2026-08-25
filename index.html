@@ -636,7 +636,10 @@
 
 <script>
 /* ============================================================
-   CONFIGURAZIONE — sostituisci le due righe qui sotto.
+   CONFIGURAZIONE — già compilata, non serve toccarla.
+   Se un giorno cambi progetto Supabase, riscrivi SOLO il testo
+   fra apici nelle due righe qui sotto: non usare cerca-e-sostituisci
+   sull'intero file, perché altrove quelle stesse parole servono ad altro.
    L'indirizzo finisce con .co e basta: niente /rest/v1/
    ============================================================ */
 const SUPABASE_URL      = 'https://vlmswsueouohjkfgteia.supabase.co';
@@ -715,9 +718,13 @@ function temaSalvato(){
 /* ---------------- avvio ---------------- */
 async function avvia(){
   applicaTema(temaSalvato());
-  if (SUPABASE_URL.startsWith('https://vlmswsueouohjkfgteia.supabase.co') || SUPABASE_ANON_KEY.startsWith('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsbXN3c3Vlb3VvaGprZmd0ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NjQ2MTMsImV4cCI6MjEwMjU0MDYxM30.WbwjbwiOkgSrnTuelQ089xqVI_YiNPYqdDnZLQGrHpU')){
+  const urlOk   = /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(SUPABASE_URL);
+  const chiaveOk = SUPABASE_ANON_KEY.split('.').length === 3 && SUPABASE_ANON_KEY.length > 100;
+  if (!urlOk || !chiaveOk){
     mostraSolo('login');
-    msg('msg-login','Configurazione incompleta: le due righe in cima al file contengono ancora i segnaposto.','err');
+    msg('msg-login', !urlOk
+      ? "L'indirizzo Supabase in cima al file non è valido: deve essere https://qualcosa.supabase.co, senza /rest/v1/ in fondo."
+      : 'La chiave anon in cima al file non sembra valida: ricopiala per intero da Supabase.', 'err');
     $('btn-entra').disabled = true; return;
   }
   sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
