@@ -241,6 +241,15 @@
   .alt-nulla{padding:9px 11px;font-size:12px;line-height:1.6;color:var(--muted)}
   .tag-tuo{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;
     background:var(--line);color:var(--muted);padding:1px 5px;border-radius:2px;flex:0 0 auto}
+  .tag-pack{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+    background:color-mix(in srgb, var(--accent) 16%, transparent);color:var(--accent);
+    padding:1px 5px;border-radius:2px;flex:0 0 auto}
+  .tag-ko{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+    background:color-mix(in srgb, var(--ko) 16%, transparent);color:var(--ko);
+    padding:1px 5px;border-radius:2px;flex:0 0 auto}
+  #stato-pacchetto{margin-top:10px;font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--muted)}
+  #stato-pacchetto b{color:var(--ink);font-weight:600}
+  #stato-pacchetto .manca{color:var(--warn)}
   #totale-sost{margin-top:12px;padding-top:10px;border-top:1px solid var(--ink);
     font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--muted)}
   #totale-sost b{color:var(--ink);font-weight:600}
@@ -272,11 +281,6 @@
   /* ---------- accesso ---------- */
   .accesso{max-width:520px}
   .accesso .corpo-acc{padding:24px 30px 30px}
-  .quote{display:flex;border:1px solid var(--line2);margin:0 0 22px}
-  .quote div{flex:1;padding:9px 4px 8px;text-align:center;border-right:1px solid var(--line);background:var(--card)}
-  .quote div:last-child{border-right:0}
-  .quote b{display:block;font-family:var(--cond);font-size:26px;font-weight:700;line-height:1}
-  .quote span{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--muted)}
 
   .nascosto{display:none !important}
   .pie{padding:14px 26px 20px;border-top:1px solid var(--line);display:flex;
@@ -336,10 +340,6 @@
     </div>
   </header>
   <div class="corpo-acc">
-    <div class="quote">
-      <div><b>3</b><span>POR</span></div><div><b>8</b><span>DIF</span></div>
-      <div><b>8</b><span>CEN</span></div><div><b>6</b><span>ATT</span></div>
-    </div>
     <div class="rubrica"><span class="sx">Entra</span></div>
     <div style="margin-top:14px">
       <label for="email">La tua email</label>
@@ -433,16 +433,19 @@
         <div id="msg-rosa" class="avviso"></div>
 
         <div id="pannello-import" class="nascosto" style="margin-top:12px">
-          <div class="rubrica"><span class="sx">Importa rosa da FantaLab
+          <div class="rubrica"><span class="sx">Importa da FantaLab
             <button class="info" data-spiega="sp-import" aria-label="Spiegazione">i</button></span></div>
           <div class="spiega nascosto" id="sp-import">
             Su FantaLab apri gli strumenti sviluppatore, scheda Network, filtra su Fetch/XHR,
-            ricarica e trova la chiamata che restituisce la tua rosa: copiane il corpo della
-            risposta.
-            <p>Il lettore riconosce i giocatori dai loro identificativi e, se li trova, anche i
-            prezzi pagati. Quelli che non riesce a leggere restano a zero.</p>
+            vai nella sezione Mercato e trova la chiamata <code>/v2/market</code>: copiane il
+            corpo della risposta e incollalo qui.
+            <p>Un solo incolla aggiorna <b>tre cose</b>: la rosa con i prezzi pagati davvero,
+            i giocatori usciti nel tuo pacchetto e i crediti che hai in cassa.</p>
+            <p>Nessuno viene mai tolto dalla rosa in automatico: se un giocatore non compare
+            più su FantaLab te lo segnalo e decidi tu.</p>
           </div>
-          <textarea id="json-rosa" placeholder="{ … }" style="margin-top:10px"></textarea>
+          <textarea id="json-rosa" placeholder='{"user_season_id": "…", "roster": { … } }'
+                    style="margin-top:10px"></textarea>
           <button id="btn-importa" class="piena">Importa</button>
           <div id="msg-importa" class="avviso"></div>
         </div>
@@ -510,7 +513,15 @@
             <p>Compaiono solo giocatori dello stesso ruolo, perché devono occupare lo stesso
             slot. L'ultima colonna è il costo dello scambio: negativo significa che ci guadagni
             crediti.</p>
+            <p><b>Solo dal mio pacchetto</b> — con la regola nuova puoi comprare soltanto chi è
+            uscito nel tuo pacchetto, quindi tenendolo acceso vedi le alternative che puoi
+            davvero prendere. I crediti che hai in cassa si sommano da soli al tetto di spesa.
+            Spegnendolo torni a confrontarti con tutto il listone, utile per capire cosa ti
+            stai perdendo.</p>
           </div>
+          <label class="spunta" style="margin-top:11px">
+            <input id="solo-pacchetto" type="checkbox"> Solo dal mio pacchetto</label>
+          <div id="stato-pacchetto"></div>
           <div class="campi">
             <div>
               <label for="budget">Budget in più</label>
@@ -656,8 +667,11 @@ const API_ANAGRAFICA =
   '&stats=' + STATISTICHE.join(',');
 
 const $ = id => document.getElementById(id);
-let sb = null, sonoAdmin = false;
+let sb = null, sonoAdmin = false, UTENTE = null;
 let GIOCATORI = new Map(), ROSA_ID = null, ROSA = new Map();
+let PACCHETTO = new Map();
+let MERCATO = { giornata:null, crediti:0, scambi_fatti:0, scambi_max:3, scadenza:null };
+let TABELLE_PACK = true;
 let CHIUSI = { P:false, D:false, C:false, A:false };
 let SCELTI = new Set();
 let TEMA = 'chiaro';
@@ -701,7 +715,7 @@ function temaSalvato(){
 /* ---------------- avvio ---------------- */
 async function avvia(){
   applicaTema(temaSalvato());
-  if (SUPABASE_URL.startsWith('INCOLLA') || SUPABASE_ANON_KEY.startsWith('INCOLLA')){
+  if (SUPABASE_URL.startsWith('https://vlmswsueouohjkfgteia.supabase.co') || SUPABASE_ANON_KEY.startsWith('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsbXN3c3Vlb3VvaGprZmd0ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NjQ2MTMsImV4cCI6MjEwMjU0MDYxM30.WbwjbwiOkgSrnTuelQ089xqVI_YiNPYqdDnZLQGrHpU')){
     mostraSolo('login');
     msg('msg-login','Configurazione incompleta: le due righe in cima al file contengono ancora i segnaposto.','err');
     $('btn-entra').disabled = true; return;
@@ -715,6 +729,7 @@ async function avvia(){
 async function disegna(session){
   if (!session){ mostraSolo('login'); return; }
   mostraSolo('app');
+  UTENTE = session.user.id;
   const { data: profilo } = await sb.from('profili')
     .select('nome, is_admin').eq('id', session.user.id).maybeSingle();
   sonoAdmin = !!(profilo && profilo.is_admin);
@@ -723,6 +738,8 @@ async function disegna(session){
   $('tab-admin').classList.toggle('nascosto', !sonoAdmin);
   await caricaArchivio();
   await caricaRosa(session);
+  await caricaPacchetto();
+  $('solo-pacchetto').checked = PACCHETTO.size > 0;
   disegnaRosa();
   if (sonoAdmin){ aggiornaStato(); caricaInviti(); }
 }
@@ -758,6 +775,56 @@ async function caricaRosa(session){
   const { data: righe } = await sb.from('rose_giocatori')
     .select('giocatore_id, prezzo_pagato').eq('rosa_id', ROSA_ID);
   ROSA = new Map((righe || []).map(r => [r.giocatore_id, Number(r.prezzo_pagato)]));
+}
+
+async function caricaPacchetto(){
+  const { data: pk, error } = await sb.from('pacchetti')
+    .select('player_id, ruolo, prezzo, infortunato, giornata');
+  if (error){
+    TABELLE_PACK = false; PACCHETTO = new Map();
+  } else {
+    TABELLE_PACK = true;
+    PACCHETTO = new Map((pk || []).map(r => [r.player_id, {
+      ruolo: r.ruolo, prezzo: num(r.prezzo), infortunato: !!r.infortunato
+    }]));
+  }
+  const { data: m } = await sb.from('mercato_stato')
+    .select('giornata, crediti, scambi_fatti, scambi_max, scadenza').maybeSingle();
+  if (m) MERCATO = {
+    giornata: m.giornata, crediti: Number(m.crediti) || 0,
+    scambi_fatti: Number(m.scambi_fatti) || 0,
+    scambi_max: Number(m.scambi_max) || 3, scadenza: m.scadenza
+  };
+}
+
+function statoPacchetto(){
+  const el = $('stato-pacchetto');
+  if (!TABELLE_PACK){
+    el.innerHTML = '<span class="manca">Le tabelle del pacchetto non esistono ancora nel database.</span>';
+    return;
+  }
+  if (!PACCHETTO.size){
+    el.innerHTML = 'Nessun pacchetto importato. Incolla la risposta di <b>/v2/market</b> dal pannello Importa.';
+    return;
+  }
+  const conta = { P:0, D:0, C:0, A:0 };
+  let ignoti = 0;
+  PACCHETTO.forEach((v, id) => {
+    if (!GIOCATORI.has(id)){ ignoti++; return; }
+    const r = GIOCATORI.get(id).ruolo;
+    if (conta[r] !== undefined) conta[r]++;
+  });
+  let t = `Nel pacchetto <b>${PACCHETTO.size}</b> giocatori: ` +
+    REPARTI.map(([s]) => `${conta[s]} ${s}`).join(' · ');
+  t += `<br>In cassa <b>${MERCATO.crediti}</b> crediti · scambi <b>${MERCATO.scambi_fatti}/${MERCATO.scambi_max}</b>`;
+  if (MERCATO.giornata) t += ` · giornata ${MERCATO.giornata}`;
+  if (MERCATO.scadenza){
+    const d = new Date(MERCATO.scadenza);
+    if (!isNaN(d)) t += `<br>Mercato aperto fino al ` + d.toLocaleString('it-IT',
+      { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+  }
+  if (ignoti) t += `<br><span class="manca">${ignoti} non riconosciuti: aggiorna l'anagrafica.</span>`;
+  el.innerHTML = t;
 }
 
 /* ---------------- analisi ---------------- */
@@ -804,20 +871,40 @@ function coloriVerdetto(v){
   return { c:`var(${m[v]})`, b:`color-mix(in srgb, var(${m[v]}) 14%, transparent)` };
 }
 
+function soloPacchetto(){
+  return $('solo-pacchetto').checked && PACCHETTO.size > 0;
+}
+
 function alternative(r){
   if (r.prezzo === null || r.mio === null) return null;
   const metrica = $('metrica').value;
-  const tetto = r.prezzo + Number($('budget').value);
+  const pack = soloPacchetto();
+  const margine = Number($('budget').value);
+  /* Vendendo il giocatore incassi il suo prezzo attuale; in modalità pacchetto
+     ai crediti dello scambio si sommano quelli già in cassa. */
+  const tetto = margine >= 9999
+    ? Infinity
+    : r.prezzo + margine + (pack ? MERCATO.crediti : 0);
   const soglia = Number($('soglia').value);
   const out = [];
-  GIOCATORI.forEach(o => {
+
+  const fonte = pack
+    ? [...PACCHETTO.keys()].map(id => GIOCATORI.get(id)).filter(Boolean)
+    : [...GIOCATORI.values()];
+
+  fonte.forEach(o => {
     if (o.id === r.g.id || o.ruolo !== r.g.ruolo) return;
-    if (o.prezzo === null || o.prezzo > tetto) return;
+    if (pack && ROSA.has(o.id)) return;
+    const inPack = PACCHETTO.get(o.id);
+    const prezzo = (inPack && inPack.prezzo !== null) ? inPack.prezzo : o.prezzo;
+    if (prezzo === null || prezzo > tetto) return;
     const v = num(o[metrica]);
     if (v === null) return;
     const meglio = v - r.mio;
     if (meglio <= 0 || meglio < soglia) return;
-    out.push({ g:o, v, meglio, costo: o.prezzo - r.prezzo, tuo: ROSA.has(o.id) });
+    out.push({ g:o, v, meglio, prezzo, costo: prezzo - r.prezzo,
+               tuo: ROSA.has(o.id), pack: !!inPack,
+               ko: !!(inPack && inPack.infortunato) });
   });
   return out.sort((a,b) => b.v - a.v).slice(0, MAX_ALT);
 }
@@ -961,7 +1048,10 @@ function aggiornaRiepilogo(a){
 function disegnaSostituzioni(){
   const cont = $('blocchi-sost'), tot = $('totale-sost'), svuota = $('btn-svuota');
   cont.innerHTML = '';
+  statoPacchetto();
   svuota.classList.toggle('nascosto', !SCELTI.size);
+  const pack = soloPacchetto();
+  $('sost-conta').textContent = pack ? 'dal pacchetto' : 'tutto il listone';
 
   if (!SCELTI.size){
     tot.innerHTML = 'Tocca un pallino del quadrante — o il <b>⇄</b> di una riga — per cercargli un sostituto.';
@@ -996,19 +1086,22 @@ function disegnaSostituzioni(){
       card.insertAdjacentHTML('beforeend',
         '<div class="alt-nulla">Serve il prezzo Manager e un rendimento noto per cercargli un sostituto.</div>');
     } else if (!lista.length){
-      card.insertAdjacentHTML('beforeend',
-        '<div class="alt-nulla">Nessuno rende di più entro questo budget. Al suo prezzo è la scelta migliore disponibile.</div>');
+      card.insertAdjacentHTML('beforeend', '<div class="alt-nulla">' + (pack
+        ? 'Nel tuo pacchetto non c\'è nessuno dello stesso ruolo che renda di più entro questo budget. Tienilo, oppure togli la spunta per vedere cosa offrirebbe il listone.'
+        : 'Nessuno rende di più entro questo budget. Al suo prezzo è la scelta migliore disponibile.') + '</div>');
     } else {
       conProposta++; costoTot += lista[0].costo; guadagnoTot += lista[0].meglio;
       card.insertAdjacentHTML('beforeend',
         `<div class="lista-capo"><span>${lista.length} alternative</span><span>${nomeM} / scambio</span></div>`);
       lista.forEach(a => {
         const cCost = a.costo > 0 ? 'su' : (a.costo < 0 ? 'giu' : '');
+        const tag = a.tuo ? '<span class="tag-tuo">già tuo</span>'
+                  : (!pack && a.pack ? '<span class="tag-pack">pacchetto</span>' : '');
         card.insertAdjacentHTML('beforeend', `
           <div class="alt-r">
-            <div class="nm"><span>${esc(a.g.nome)}</span><small>${esc(a.g.squadra_sigla || '')}</small>${a.tuo ? '<span class="tag-tuo">già tuo</span>' : ''}</div>
+            <div class="nm"><span>${esc(a.g.nome)}</span><small>${esc(a.g.squadra_sigla || '')}</small>${tag}${a.ko ? '<span class="tag-ko">ko</span>' : ''}</div>
             <div class="rend"><b>${a.v.toFixed(2)}</b> (+${a.meglio.toFixed(2)})</div>
-            <div class="prz">${a.g.prezzo} cr</div>
+            <div class="prz">${a.prezzo} cr</div>
             <div class="cst ${cCost}">${seg(a.costo)}${a.costo} cr</div>
           </div>`);
       });
@@ -1016,10 +1109,20 @@ function disegnaSostituzioni(){
     cont.appendChild(card);
   });
 
-  tot.innerHTML = conProposta
-    ? `Prendendo la prima proposta per ciascuno dei ${conProposta} con alternative: ` +
-      `<b>${seg(costoTot)}${costoTot} crediti</b> di saldo, <b>+${guadagnoTot.toFixed(2)}</b> di ${nomeM}.`
-    : 'Nessuna proposta con il budget attuale. Prova ad allargarlo.';
+  if (!conProposta){
+    tot.innerHTML = 'Nessuna proposta con il budget attuale. Prova ad allargarlo.';
+    return;
+  }
+  let t = `Prendendo la prima proposta per ciascuno dei ${conProposta} con alternative: ` +
+    `<b>${seg(costoTot)}${costoTot} crediti</b> di saldo, <b>+${guadagnoTot.toFixed(2)}</b> di ${nomeM}.`;
+  if (pack){
+    const restano = MERCATO.scambi_max - MERCATO.scambi_fatti;
+    t += `<br>Ti restano <b>${restano}</b> scambi su ${MERCATO.scambi_max} questa giornata`;
+    t += conProposta > restano
+      ? `: <span style="color:var(--warn)">più di quanti ne servirebbero per tutte queste mosse.</span>`
+      : '.';
+  }
+  tot.innerHTML = t;
 }
 
 /* ---------------- grafico ---------------- */
@@ -1194,26 +1297,118 @@ function raccogli(nodo, out, chiave){
   for (const [k, v] of Object.entries(nodo)) raccogli(v, out, k);
 }
 
+/* Scrive in rosa le coppie [id, prezzo pagato]: inserisce i nuovi,
+   corregge il pagato di chi c'è già se FantaLab dice un'altra cifra. */
+async function applicaRosa(coppie){
+  const nuovi  = coppie.filter(([id]) => !ROSA.has(id));
+  const cambi  = coppie.filter(([id, p]) =>
+    ROSA.has(id) && Number.isFinite(p) && ROSA.get(id) !== p);
+
+  if (nuovi.length){
+    const { error } = await sb.from('rose_giocatori').insert(nuovi.map(([id, p]) => ({
+      rosa_id: ROSA_ID, giocatore_id: id, prezzo_pagato: Number.isFinite(p) ? p : 0 })));
+    if (error) throw error;
+    nuovi.forEach(([id, p]) => ROSA.set(id, Number.isFinite(p) ? p : 0));
+  }
+  for (const [id, p] of cambi){
+    const { error } = await sb.from('rose_giocatori').update({ prezzo_pagato: p })
+      .eq('rosa_id', ROSA_ID).eq('giocatore_id', id);
+    if (error) throw error;
+    ROSA.set(id, p);
+  }
+  return { nuovi: nuovi.length, cambi: cambi.length };
+}
+
+const èMercato = d => !!(d && d.roster && Array.isArray(d.roster.players));
+
+async function importaMercato(d){
+  /* --- rosa --- */
+  const inRosa = (d.roster.players || [])
+    .filter(p => p.player_id)
+    .map(p => [p.player_id, num(p.purchase_price)]);
+  const noti = inRosa.filter(([id]) => GIOCATORI.has(id));
+  const esito = await applicaRosa(noti);
+  const fuori = inRosa.length - noti.length;
+  const spariti = [...ROSA.keys()].filter(id => !inRosa.some(([x]) => x === id)).length;
+
+  /* --- pacchetto: sostituisce per intero quello precedente --- */
+  const pack = (d.available_pack_players || []).filter(p => p.player_id);
+  let esitoPack = null;
+  if (TABELLE_PACK){
+    const { error: eDel } = await sb.from('pacchetti').delete().eq('utente_id', UTENTE);
+    if (eDel) throw eDel;
+    if (pack.length){
+      const righe = pack.map(p => ({
+        utente_id: UTENTE, player_id: p.player_id,
+        giornata: num(p.pack_matchday_id), ruolo: p.role || null,
+        prezzo: num(p.current_market_price),
+        in_listone: p.in_listone !== false, infortunato: !!p.is_injured,
+        pack_code: p.pack_code || null, aggiornato_il: new Date().toISOString()
+      }));
+      const { error } = await sb.from('pacchetti').insert(righe);
+      if (error) throw error;
+    }
+    PACCHETTO = new Map(pack.map(p => [p.player_id, {
+      ruolo: p.role || null, prezzo: num(p.current_market_price),
+      infortunato: !!p.is_injured }]));
+    esitoPack = pack.filter(p => !GIOCATORI.has(p.player_id)).length;
+
+    /* --- crediti, scambi, scadenza --- */
+    const st = {
+      utente_id: UTENTE, giornata: num(d.matchday_id),
+      crediti: num(d.credits && d.credits.balance) || 0,
+      scambi_fatti: num(d.trades_this_matchday && d.trades_this_matchday.count) || 0,
+      scambi_max: num(d.trades_this_matchday && d.trades_this_matchday.max_per_matchday) || 3,
+      scadenza: (d.market_window && d.market_window.deadline) || null,
+      aggiornato_il: new Date().toISOString()
+    };
+    const { error: eSt } = await sb.from('mercato_stato')
+      .upsert(st, { onConflict:'utente_id' });
+    if (eSt) throw eSt;
+    MERCATO = { giornata:st.giornata, crediti:st.crediti, scambi_fatti:st.scambi_fatti,
+                scambi_max:st.scambi_max, scadenza:st.scadenza };
+    $('solo-pacchetto').checked = PACCHETTO.size > 0;
+  }
+
+  /* --- resoconto --- */
+  let t = `Rosa: ${esito.nuovi} aggiunti, ${esito.cambi} prezzi corretti, ` +
+          `${noti.length - esito.nuovi - esito.cambi} già in ordine.`;
+  if (fuori)   t += ` ${fuori} non riconosciuti: aggiorna l'anagrafica.`;
+  if (spariti) t += ` Attenzione: ${spariti} in rosa qui non compaiono più su FantaLab, valuta se toglierli.`;
+  if (!TABELLE_PACK){
+    t += ` Pacchetto non salvato: le tabelle non esistono ancora nel database.`;
+  } else {
+    t += ` Pacchetto: ${pack.length} giocatori`;
+    t += esitoPack ? `, di cui ${esitoPack} da riconoscere.` : '.';
+    t += ` In cassa ${MERCATO.crediti} crediti, scambi ${MERCATO.scambi_fatti}/${MERCATO.scambi_max}.`;
+  }
+  return t;
+}
+
 async function importaRosa(){
   const testo = $('json-rosa').value.trim();
   if (!testo) return msg('msg-importa','Incolla prima il JSON.','err');
   $('btn-importa').disabled = true;
   try{
-    const trovati = new Map();
-    raccogli(JSON.parse(testo), trovati, null);
-    if (!trovati.size) throw new Error('Nessun giocatore riconosciuto. Assicurati di aver copiato la risposta per intero.');
-    const nuovi = [...trovati.entries()].filter(([id]) => !ROSA.has(id));
-    if (!nuovi.length){
-      msg('msg-importa', `Riconosciuti ${trovati.size} giocatori, tutti già in rosa.`, 'ok'); return;
+    const d = JSON.parse(testo);
+
+    if (èMercato(d)){
+      msg('msg-importa','Leggo rosa e pacchetto…');
+      const t = await importaMercato(d);
+      msg('msg-importa', t, 'ok');
+      $('json-rosa').value = ''; disegnaRosa(); return;
     }
-    const righe = nuovi.map(([id, p]) => ({
-      rosa_id: ROSA_ID, giocatore_id: id, prezzo_pagato: Number.isFinite(p) ? p : 0 }));
-    const { error } = await sb.from('rose_giocatori').insert(righe);
-    if (error) throw error;
-    nuovi.forEach(([id, p]) => ROSA.set(id, Number.isFinite(p) ? p : 0));
-    const conPrezzo = nuovi.filter(([,p]) => Number.isFinite(p)).length;
-    msg('msg-importa', `${nuovi.length} giocatori aggiunti, ${conPrezzo} con prezzo pagato riconosciuto.` +
-      (conPrezzo < nuovi.length ? ' Gli altri sono a zero: completali nella tabella.' : ''), 'ok');
+
+    /* formato non riconosciuto: lettore tollerante di prima */
+    const trovati = new Map();
+    raccogli(d, trovati, null);
+    if (!trovati.size) throw new Error('Nessun giocatore riconosciuto. Assicurati di aver copiato la risposta per intero.');
+    const esito = await applicaRosa([...trovati.entries()]);
+    if (!esito.nuovi && !esito.cambi){
+      msg('msg-importa', `Riconosciuti ${trovati.size} giocatori, nulla da cambiare.`, 'ok'); return;
+    }
+    msg('msg-importa', `${esito.nuovi} giocatori aggiunti, ${esito.cambi} prezzi corretti. ` +
+      `Chi resta a zero va completato a mano nella tabella.`, 'ok');
     $('json-rosa').value = ''; disegnaRosa();
   }catch(e){
     const t = e.message || String(e);
@@ -1438,6 +1633,7 @@ $('banda').addEventListener('change', disegnaRosa);
 $('metrica').addEventListener('change', disegnaRosa);
 $('budget').addEventListener('change', disegnaSostituzioni);
 $('soglia').addEventListener('change', disegnaSostituzioni);
+$('solo-pacchetto').addEventListener('change', disegnaSostituzioni);
 $('btn-svuota').addEventListener('click', () => { SCELTI.clear(); disegnaRosa(); });
 $('btn-importa').addEventListener('click', importaRosa);
 $('btn-invita').addEventListener('click', invita);
