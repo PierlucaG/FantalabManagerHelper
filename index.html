@@ -279,6 +279,19 @@
     padding:2px 4px;min-height:26px;font-family:var(--body);text-transform:none}
   .inv button:hover{color:var(--ko);filter:none}
 
+  /* ---------- token FantaLab ---------- */
+  .riga-token{display:flex;gap:8px;margin-top:11px}
+  .riga-token input{font-family:var(--mono);font-size:12px;min-width:0}
+  .riga-token button{flex:0 0 auto;padding:8px 12px;font-size:13px;min-height:0;letter-spacing:.04em}
+  .nota-token{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--muted);margin-top:7px}
+  .nota-token b{color:var(--ink);font-weight:600}
+  .nota-token .buono{color:var(--ok)}
+  .nota-token .manca{color:var(--warn)}
+  .nota-token .scaduto{color:var(--ko)}
+  .oppure{display:flex;align-items:center;gap:10px;margin:20px 0 0;
+    font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .oppure::before,.oppure::after{content:'';flex:1 1 auto;height:1px;background:var(--line)}
+
   /* ---------- accesso ---------- */
   .accesso{max-width:520px}
   .accesso .corpo-acc{padding:24px 30px 30px}
@@ -437,14 +450,29 @@
           <div class="rubrica"><span class="sx">Importa da FantaLab
             <button class="info" data-spiega="sp-import" aria-label="Spiegazione">i</button></span></div>
           <div class="spiega nascosto" id="sp-import">
-            Su FantaLab apri gli strumenti sviluppatore, scheda Network, filtra su Fetch/XHR,
-            vai nella sezione Mercato e trova la chiamata <code>/v2/market</code>: copiane il
-            corpo della risposta e incollalo qui.
-            <p>Un solo incolla aggiorna <b>tre cose</b>: la rosa con i prezzi pagati davvero,
-            i giocatori usciti nel tuo pacchetto e i crediti che hai in cassa.</p>
+            Un solo aggiornamento sistema <b>tre cose</b>: la rosa con i prezzi pagati davvero,
+            i giocatori usciti nel tuo pacchetto e i crediti che hai in cassa.
+            <p><b>Col pulsante.</b> Serve il tuo token FantaLab, una volta sola per browser.
+            Su FantaLab, già collegato, apri gli strumenti sviluppatore, scheda Network,
+            filtra su Fetch/XHR, vai nella sezione Mercato e clicca la chiamata
+            <code>/v2/market</code>: sotto Headers cerca <code>authorization: Bearer …</code>
+            e copia tutta la stringa. Incollala qui: la parola <code>Bearer</code> la tolgo io.</p>
+            <p><b>A mano.</b> Dalla stessa chiamata copia il corpo della risposta e incollalo
+            nel riquadro più in basso. Funziona sempre, anche senza token.</p>
             <p>Nessuno viene mai tolto dalla rosa in automatico: se un giocatore non compare
             più su FantaLab te lo segnalo e decidi tu.</p>
           </div>
+
+          <div class="riga-token">
+            <input id="token-rosa" type="text" autocomplete="off" autocapitalize="off"
+                   autocorrect="off" spellcheck="false" placeholder="Incolla qui il token FantaLab…">
+            <button id="scorda-rosa" class="vuota">Scorda</button>
+          </div>
+          <div id="stato-token-rosa" class="nota-token"></div>
+          <button id="btn-scarica-mercato" class="piena">Scarica da FantaLab</button>
+          <div id="msg-mercato" class="avviso"></div>
+
+          <div class="oppure">oppure incolla il json</div>
           <textarea id="json-rosa" placeholder='{"user_season_id": "…", "roster": { … } }'
                     style="margin-top:10px"></textarea>
           <button id="btn-importa" class="piena">Importa</button>
@@ -612,12 +640,26 @@
         <div class="rubrica rossa"><span class="sx">Prezzi Manager
           <button class="info" data-spiega="sp-prezzi" aria-label="Spiegazione">i</button></span></div>
         <div class="spiega nascosto" id="sp-prezzi">
-          Questi prezzi vivono solo dentro FantaLab e richiedono l'accesso, quindi vanno
-          incollati a mano. Su FantaLab apri Network, ricarica, trova <code>/v2/prices</code>
-          e copiane la risposta.
+          Questi prezzi vivono solo dentro FantaLab e richiedono l'accesso: col pulsante li
+          scarico io usando il tuo token, altrimenti copiane la risposta da Network e incollala
+          nel riquadro. È lo stesso token del pannello Importa: se l'hai già messo lì, qui
+          compare da solo.
           <p>Finiscono nello storico solo i prezzi <b>cambiati</b>: premendo due volte di fila
           la seconda non duplica nulla.</p>
+          <p>I prezzi sono l'unico dato condiviso da tutti: quando li aggiorni tu, li vedono
+          anche i tuoi amici.</p>
         </div>
+
+        <div class="riga-token">
+          <input id="token-prezzi" type="text" autocomplete="off" autocapitalize="off"
+                 autocorrect="off" spellcheck="false" placeholder="Incolla qui il token FantaLab…">
+          <button id="scorda-prezzi" class="vuota">Scorda</button>
+        </div>
+        <div id="stato-token-prezzi" class="nota-token"></div>
+        <button id="btn-scarica-prezzi" class="piena">Scarica prezzi da FantaLab</button>
+        <div id="msg-scarica-prezzi" class="avviso"></div>
+
+        <div class="oppure">oppure incolla il json</div>
         <textarea id="json-prezzi" placeholder='{"season_id": 17, "prices": { ... } }'
                   style="margin-top:11px"></textarea>
         <button id="btn-prezzi" class="piena">Registra prezzi</button>
@@ -670,6 +712,12 @@ const API_ANAGRAFICA =
   '&mv_fmv_season_fallback=true&sort_stat=fmv&sort_order=desc' +
   '&stats=' + STATISTICHE.join(',');
 
+/* Endpoint FantaLab che richiedono l'accesso: rispondono al browser
+   con l'header authorization, quindi non serve alcun intermediario. */
+const API_PREZZI   = 'https://manager.fantalab.it/v2/prices';
+const API_MERCATO  = 'https://manager.fantalab.it/v2/market';
+const CHIAVE_TOKEN = 'fantalab-token';
+
 const $ = id => document.getElementById(id);
 let sb = null, sonoAdmin = false, UTENTE = null;
 let GIOCATORI = new Map(), ROSA_ID = null, ROSA = new Map();
@@ -700,6 +748,132 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g,
 const seg = v => v > 0 ? '+' : '';
 const iniziali = n => (n || '?').replace(/[^A-Za-zÀ-ÿ ]/g,'').split(/\s+/)
   .filter(Boolean).slice(0,2).map(p => p[0].toUpperCase()).join('');
+
+/* ================= token FantaLab =================
+   Il token resta nel browser di chi lo incolla: non viene mai scritto
+   nel database, quindi nessun altro utente può leggerlo. Vale come una
+   password su FantaLab, perciò non va condiviso.
+   ================================================== */
+
+const CAMPI_TOKEN = [];
+
+function leggiToken(){
+  try{ return localStorage.getItem(CHIAVE_TOKEN) || ''; }catch(e){ return ''; }
+}
+
+/* Ripulisce quel che si incolla: virgolette, "Bearer", a capo, spazi. */
+function ripuliscToken(grezzo){
+  return String(grezzo || '').trim()
+    .replace(/^["']|["']$/g, '')
+    .replace(/^authorization\s*:\s*/i, '')
+    .replace(/^bearer\s+/i, '')
+    .replace(/\s+/g, '')
+    .trim();
+}
+
+function salvaToken(grezzo){
+  const t = ripuliscToken(grezzo);
+  if (!t){ try{ localStorage.removeItem(CHIAVE_TOKEN); }catch(e){} return { ok:true, vuoto:true }; }
+  if (t.split('.').length !== 3) return { ok:false, perché:'Non sembra un token: dovrebbe essere una stringa lunghissima con due punti dentro.' };
+  try{ localStorage.setItem(CHIAVE_TOKEN, t); }
+  catch(e){ return { ok:false, perché:'Il browser non mi lascia salvare nulla in locale: controlla di non essere in navigazione privata.' }; }
+  return { ok:true };
+}
+
+/* Legge la parte centrale del token, dove FantaLab scrive la scadenza. */
+function dentroToken(t){
+  try{
+    const p = t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+    const b = atob(p.padEnd(Math.ceil(p.length / 4) * 4, '='));
+    return JSON.parse(new TextDecoder().decode(Uint8Array.from(b, c => c.charCodeAt(0))));
+  }catch(e){ return null; }
+}
+
+function scadenzaToken(t){
+  const d = t ? dentroToken(t) : null;
+  return (d && d.exp) ? new Date(d.exp * 1000) : null;
+}
+
+const oraBreve = d => d.toLocaleString('it-IT', { dateStyle:'short', timeStyle:'short' });
+
+function mostraToken(){
+  const t = leggiToken(), sc = scadenzaToken(t), adesso = new Date();
+  let html;
+  if (!t){
+    html = '<span class="manca">Nessun token: i pulsanti di scarico non funzionano, ' +
+           'ma l\'incolla del JSON sì.</span>';
+  } else if (sc && sc <= adesso){
+    html = '<span class="scaduto">Token scaduto il ' + esc(oraBreve(sc)) +
+           '.</span> Riprendilo da FantaLab e reincollalo qui.';
+  } else if (sc){
+    html = '<span class="buono">Token salvato</span>, valido fino al <b>' +
+           esc(oraBreve(sc)) + '</b>. Resta solo in questo browser.';
+  } else {
+    html = '<span class="buono">Token salvato</span> in questo browser. ' +
+           'Non riesco a leggerne la scadenza: se il pulsante dà errore, riprendilo.';
+  }
+  CAMPI_TOKEN.forEach(([idInput, idStato]) => {
+    const el = $(idStato); if (el) el.innerHTML = html;
+    const inp = $(idInput);
+    if (inp && document.activeElement !== inp){
+      inp.value = '';
+      inp.placeholder = t ? 'Token presente — incolla qui per sostituirlo'
+                          : 'Incolla qui il token FantaLab…';
+    }
+  });
+}
+
+/* Collega una coppia campo+riga di stato. Tutti i campi scrivono
+   nello stesso posto, così il token si inserisce una volta sola. */
+function collegaToken(idInput, idStato, idScorda){
+  const inp = $(idInput); if (!inp) return;
+  CAMPI_TOKEN.push([idInput, idStato]);
+  const accetta = () => {
+    const grezzo = inp.value;
+    if (!grezzo.trim()){ mostraToken(); return; }
+    const esito = salvaToken(grezzo);
+    if (!esito.ok){
+      const el = $(idStato);
+      if (el) el.innerHTML = '<span class="scaduto">' + esc(esito.perché) + '</span>';
+      return;
+    }
+    inp.value = ''; mostraToken();
+  };
+  inp.addEventListener('change', accetta);
+  inp.addEventListener('blur', accetta);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); inp.blur(); } });
+  const scorda = $(idScorda);
+  if (scorda) scorda.addEventListener('click', () => {
+    try{ localStorage.removeItem(CHIAVE_TOKEN); }catch(e){}
+    inp.value = ''; mostraToken();
+  });
+}
+
+/* Chiamata autenticata a FantaLab. Ogni errore torna in italiano
+   e con il rimedio, perché chi lo legge non è detto sia tu. */
+/* Errore già scritto per essere letto: non va rimaneggiato dopo. */
+function guaio(testo){ const e = new Error(testo); e.pronto = true; return e; }
+
+async function chiamaFantaLab(url){
+  const t = leggiToken();
+  if (!t) throw guaio('Manca il token: incollalo nel campo qui sopra, oppure usa il riquadro dell\'incolla.');
+  const sc = scadenzaToken(t);
+  if (sc && sc <= new Date())
+    throw guaio('Il token è scaduto il ' + oraBreve(sc) + '. Riprendilo da FantaLab e reincollalo.');
+  let r;
+  try{
+    r = await fetch(url, { headers:{ authorization:'Bearer ' + t } });
+  }catch(e){
+    throw guaio('Non sono riuscito a raggiungere FantaLab dal browser. ' +
+                'Controlla la connessione, oppure usa il riquadro dell\'incolla.');
+  }
+  if (r.status === 401 || r.status === 403)
+    throw guaio('FantaLab ha rifiutato il token (' + r.status + '). ' +
+                'Quasi sempre è scaduto: riprendilo e reincollalo.');
+  if (!r.ok) throw guaio('FantaLab ha risposto ' + r.status + '. Riprova fra poco.');
+  try{ return await r.json(); }
+  catch(e){ throw guaio('FantaLab ha risposto qualcosa di illeggibile. Riprova fra poco.'); }
+}
 
 /* ---------------- tema ---------------- */
 function applicaTema(t){
@@ -1393,6 +1567,22 @@ async function importaMercato(d){
   return t;
 }
 
+/* Stessa strada dell'incolla, ma i dati arrivano dalla rete. */
+async function scaricaMercato(){
+  const btn = $('btn-scarica-mercato');
+  btn.disabled = true; msg('msg-mercato','Chiedo il mercato a FantaLab…');
+  try{
+    const d = await chiamaFantaLab(API_MERCATO);
+    if (!èMercato(d))
+      throw guaio('FantaLab ha risposto, ma non con la tua rosa. Riprova, oppure usa il riquadro dell\'incolla.');
+    msg('msg-mercato','Aggiorno rosa, pacchetto e crediti…');
+    const t = await importaMercato(d);
+    msg('msg-mercato', t, 'ok');
+    disegnaRosa(); mostraToken();
+  }catch(e){ msg('msg-mercato', erroreLeggibile(e), 'err'); }
+  finally{ btn.disabled = false; }
+}
+
 async function importaRosa(){
   const testo = $('json-rosa').value.trim();
   if (!testo) return msg('msg-importa','Incolla prima il JSON.','err');
@@ -1548,8 +1738,9 @@ async function aggiornaAnagrafica(){
   finally{ btn.disabled = false; }
 }
 
-function estraiPrezzi(testo){
-  const d = JSON.parse(testo);
+/* Riconosce la forma di /v2/prices, comunque sia arrivata:
+   scaricata dal pulsante o incollata a mano. */
+function leggiPrezzi(d){
   if (d && d.prices && !Array.isArray(d.prices)){
     return Object.entries(d.prices).map(([id, v]) => ({ id, prezzo: Number(v && v.price) }))
       .filter(p => Number.isFinite(p.prezzo));
@@ -1561,43 +1752,67 @@ function estraiPrezzi(testo){
   throw new Error('Formato non riconosciuto. Serve la risposta di /v2/prices per intero.');
 }
 
+function estraiPrezzi(testo){ return leggiPrezzi(JSON.parse(testo)); }
+
+/* Registra nello storico solo i prezzi cambiati. Unico punto di scrittura:
+   lo usano sia il pulsante sia l'incolla, così si comportano identici. */
+async function scriviPrezzi(prezzi, dove){
+  if (!prezzi.length) throw new Error('Nessun prezzo trovato.');
+  const { data: gio, error: e1 } = await sb.from('giocatori').select('id');
+  if (e1) throw e1;
+  const noti = new Set((gio || []).map(g => g.id));
+  const { data: correnti, error: e2 } = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
+  if (e2) throw e2;
+  const attuale = new Map((correnti || []).map(r => [r.giocatore_id, Number(r.prezzo)]));
+  const ignorati  = prezzi.filter(p => !noti.has(p.id)).length;
+  const candidati = prezzi.filter(p =>  noti.has(p.id));
+  const nuovi     = candidati.filter(p => attuale.get(p.id) !== p.prezzo);
+  if (!nuovi.length){
+    return `Nessuna variazione: i ${candidati.length} prezzi coincidono con l'ultimo rilevamento.`;
+  }
+  const righe = nuovi.map(p => ({ giocatore_id: p.id, prezzo: p.prezzo })), blocco = 200;
+  for (let i = 0; i < righe.length; i += blocco){
+    const { error } = await sb.from('prezzi_manager').insert(righe.slice(i, i + blocco));
+    if (error) throw error;
+    msg(dove, `Salvataggio… ${Math.min(i + blocco, righe.length)} di ${righe.length}`);
+  }
+  let esito = `${righe.length} prezzi registrati, ${candidati.length - righe.length} invariati.`;
+  if (ignorati) esito += ` ${ignorati} ignorati perché fuori listone.`;
+  await caricaArchivio(); disegnaRosa(); aggiornaStato();
+  return esito;
+}
+
+function erroreLeggibile(e){
+  if (e && e.pronto) return e.message;
+  const t = e.message || String(e);
+  return t.toLowerCase().includes('json')
+    ? 'Il testo incollato non è JSON valido. Copia di nuovo la risposta per intero.'
+    : 'Non riuscito: ' + t;
+}
+
 async function registraPrezzi(){
   const btn = $('btn-prezzi'), testo = $('json-prezzi').value.trim();
   if (!testo) return msg('msg-prezzi','Incolla prima il JSON dei prezzi.','err');
   btn.disabled = true; msg('msg-prezzi','Leggo il JSON…');
   try{
-    const prezzi = estraiPrezzi(testo);
-    if (!prezzi.length) throw new Error('Nessun prezzo trovato nel testo incollato.');
-    const { data: gio, error: e1 } = await sb.from('giocatori').select('id');
-    if (e1) throw e1;
-    const noti = new Set((gio || []).map(g => g.id));
-    const { data: correnti, error: e2 } = await sb.from('prezzi_correnti').select('giocatore_id, prezzo');
-    if (e2) throw e2;
-    const attuale = new Map((correnti || []).map(r => [r.giocatore_id, Number(r.prezzo)]));
-    const ignorati  = prezzi.filter(p => !noti.has(p.id)).length;
-    const candidati = prezzi.filter(p =>  noti.has(p.id));
-    const nuovi     = candidati.filter(p => attuale.get(p.id) !== p.prezzo);
-    if (!nuovi.length){
-      msg('msg-prezzi', `Nessuna variazione: i ${candidati.length} prezzi coincidono con l'ultimo rilevamento.`,'ok');
-      return;
-    }
-    const righe = nuovi.map(p => ({ giocatore_id: p.id, prezzo: p.prezzo })), blocco = 200;
-    for (let i = 0; i < righe.length; i += blocco){
-      const { error } = await sb.from('prezzi_manager').insert(righe.slice(i, i + blocco));
-      if (error) throw error;
-      msg('msg-prezzi', `Salvataggio… ${Math.min(i + blocco, righe.length)} di ${righe.length}`);
-    }
-    let esito = `${righe.length} prezzi registrati, ${candidati.length - righe.length} invariati.`;
-    if (ignorati) esito += ` ${ignorati} ignorati perché fuori listone.`;
+    const esito = await scriviPrezzi(estraiPrezzi(testo), 'msg-prezzi');
     msg('msg-prezzi', esito, 'ok');
     $('json-prezzi').value = '';
-    await caricaArchivio(); disegnaRosa(); aggiornaStato();
-  }catch(e){
-    const t = e.message || String(e);
-    msg('msg-prezzi', t.toLowerCase().includes('json')
-      ? 'Il testo incollato non è JSON valido. Copia di nuovo la risposta per intero.'
-      : 'Non riuscito: ' + t, 'err');
-  }finally{ btn.disabled = false; }
+  }catch(e){ msg('msg-prezzi', erroreLeggibile(e), 'err'); }
+  finally{ btn.disabled = false; }
+}
+
+async function scaricaPrezzi(){
+  const btn = $('btn-scarica-prezzi');
+  btn.disabled = true; msg('msg-scarica-prezzi','Chiedo i prezzi a FantaLab…');
+  try{
+    const d = await chiamaFantaLab(API_PREZZI);
+    msg('msg-scarica-prezzi','Confronto con lo storico…');
+    const esito = await scriviPrezzi(leggiPrezzi(d), 'msg-scarica-prezzi');
+    msg('msg-scarica-prezzi', esito, 'ok');
+    mostraToken();
+  }catch(e){ msg('msg-scarica-prezzi', erroreLeggibile(e), 'err'); }
+  finally{ btn.disabled = false; }
 }
 
 /* ---------------- collegamenti ---------------- */
@@ -1660,6 +1875,13 @@ $('tab-admin').addEventListener('click', () => {
 $('btn-anagrafica').addEventListener('click', aggiornaAnagrafica);
 $('btn-prezzi').addEventListener('click', registraPrezzi);
 $('btn-esci').addEventListener('click', async () => { await sb.auth.signOut(); });
+
+/* token: due campi, un solo valore salvato */
+collegaToken('token-rosa',   'stato-token-rosa',   'scorda-rosa');
+collegaToken('token-prezzi', 'stato-token-prezzi', 'scorda-prezzi');
+mostraToken();
+$('btn-scarica-mercato').addEventListener('click', scaricaMercato);
+$('btn-scarica-prezzi').addEventListener('click', scaricaPrezzi);
 
 avvia();
 </script>
